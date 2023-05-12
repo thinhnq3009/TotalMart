@@ -15,9 +15,8 @@ import java.util.Set;
 @Table(name = "CategoryGroup", schema = "dbo")
 public class CategoryGroup {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
 
     @Nationalized
     @Column(name = "name", nullable = false, length = 100)

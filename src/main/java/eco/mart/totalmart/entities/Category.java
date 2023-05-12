@@ -13,9 +13,8 @@ import org.hibernate.annotations.Nationalized;
 @Table(name = "Category", schema = "dbo")
 public class Category {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private String id;
 
     @ManyToOne
     @JoinColumn(name = "categoryGroupId", nullable = false)
