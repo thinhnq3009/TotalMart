@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- navigation -->
+<header th:fragment="large-header">
+<!-- Mini Header-->
+    <div class="bg-light py-1">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-12 text-center text-md-start">
+                    <span> Super Value Deals - Save more with coupons</span>
+                </div>
+                <div class="col-6 text-end d-none d-md-block">
+                    <div class="dropdown">
+                        <a class="dropdown-toggle text-decoration-none  text-muted" href="#" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                               <span class="me-1">
+                                   <span th:replace="~{/user/fragments/flags  :: english}"></span>
+                               </span>
+                            English
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item " href="#">
+                                    <span class="me-2">
+                                        <span th:replace="~{/user/fragments/flags :: vietnamese}"></span>
+                                    </span>
+                                    Vietnamese
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="navbar navbar-light py-lg-4 pt-3 px-0 pb-0">
+        <div class="container">
+            <div class="row w-100 align-items-center g-lg-2 g-0">
+                <div class="col-xxl-2 col-lg-3">
+                    <a class="navbar-brand d-none d-lg-block" href="/static">
+                        <img src="/public/user/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template">
+                    </a>
+                    <div class="d-flex justify-content-between w-100 d-lg-none">
+                        <a class="navbar-brand" href="/static">
+                            <img src="/public/user/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template">
+                        </a>
+                        <div class="d-flex align-items-center lh-1">
+                            <div class="list-inline me-2">
+                                <div class="list-inline-item">
+                                    <a href="#!" class="text-muted" data-bs-toggle="modal"
+                                       data-bs-target="#userModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-user">
+                                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                            <circle cx="12" cy="7" r="4"></circle>
+                                        </svg>
+                                    </a>
+                                </div>
+                                <div class="list-inline-item">
+                                    <a class="text-muted position-relative " data-bs-toggle="offcanvas"
+                                       data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button"
+                                       aria-controls="offcanvasRight">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-shopping-bag">
+                                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                        </svg>
+                                        <span
+                                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                                1
+                                                <span class="visually-hidden">unread messages</span>
+                                            </span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- Button -->
+                            <button class="navbar-toggler collapsed" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#navbar-default" aria-controls="navbar-default"
+                                    aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="icon-bar top-bar mt-0"></span>
+                                <span class="icon-bar middle-bar"></span>
+                                <span class="icon-bar bottom-bar"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xxl-6 col-lg-5 d-none d-lg-block">
+                    <form action="#">
+                        <div class="input-group ">
+                            <input class="form-control rounded-3" type="search" value="Search for products"
+                                   id="searchInput">
+                            <span class="input-group-append">
+                                    <button class="btn bg-white border border-start-0 ms-n10" type="button">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                             stroke-linecap="round" stroke-linejoin="round"
+                                             class="feather feather-search">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                    </button>
+                                </span>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-md-2 col-xxl-3 d-none d-lg-block">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn  btn-outline-gray-400 text-muted" data-bs-toggle="modal"
+                            data-bs-target="#locationModal">
+                        <i class="feather-icon icon-map-pin me-2"></i>
+                        Location
+                    </button>
+                </div>
+                <div class="col-md-2 col-xxl-1 text-end d-none d-lg-block">
+                    <div class="list-inline">
+                        <div class="list-inline-item">
+                            <a href="./pages/shop-wishlist.html" class="text-muted position-relative">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="feather feather-heart">
+                                    <path
+                                            d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                                    </path>
+                                </svg>
+                                <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        5
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                            </a>
+                        </div>
+                        <div class="list-inline-item">
+                            <a href="#!" class="text-muted" data-bs-toggle="modal" data-bs-target="#userModal">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="feather feather-user">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </a>
+                        </div>
+                        <div class="list-inline-item">
+                            <a class="text-muted position-relative " data-bs-toggle="offcanvas"
+                               data-bs-target="#offcanvasRight" href="#offcanvasExample" role="button"
+                               aria-controls="offcanvasRight">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                     stroke-linejoin="round" class="feather feather-shopping-bag">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                </svg>
+                                <span
+                                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success">
+                                        1
+                                        <span class="visually-hidden">unread messages</span>
+                                    </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+</body>
+</html>
