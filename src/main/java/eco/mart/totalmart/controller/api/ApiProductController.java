@@ -5,13 +5,12 @@ import eco.mart.totalmart.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/products")
-public class ProductController {
+public class ApiProductController {
 
     @Autowired
     ProductService productService;
@@ -24,7 +23,7 @@ public class ProductController {
                         .message("Get product success")
                         .data(productService.findAll())
                         .build()
-                
+
         );
     }
 

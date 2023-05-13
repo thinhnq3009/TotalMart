@@ -36,8 +36,7 @@ public class Category {
     private String url;
 
     public String getUrl() {
-        return "%s/%s".formatted(getCategoryGroup().getUrl(), getName().replaceAll("\\p{InCombiningDiacriticalMarks}+", "")
-                .replaceAll("\\s+", "-"));
+        return "%s/%s".formatted(getCategoryGroup().getId(),getId());
     }
 
     @Override

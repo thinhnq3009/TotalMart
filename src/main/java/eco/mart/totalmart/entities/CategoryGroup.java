@@ -33,7 +33,6 @@ public class CategoryGroup {
     private String url;
 
     public String getUrl() {
-        return "/" + getName().replaceAll("\\p{InCOMBINING_DIACRITICAL_MARKS}+", "")
-                .replaceAll("\\s+", "-").toLowerCase();
+        return "/%s".formatted(getId());
     }
 }

@@ -28,6 +28,9 @@ public class ProductProperty {
     @JoinColumn(name = "propertiesId", nullable = false)
     private Property properties;
 
+    @Transient
+    private String name;
+
     @Nationalized
     @Column(name = "\"value\"", nullable = false, length = 1000)
     private String value;
@@ -37,14 +40,7 @@ public class ProductProperty {
         this.properties = properties;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("ProductProperty{");
-        sb.append("id=").append(id);
-        sb.append(", product=").append(product);
-        sb.append(", properties=").append(properties);
-        sb.append(", value='").append(value).append('\'');
-        sb.append('}');
-        return sb.toString();
+    public String getName() {
+        return getProperties().getName();
     }
 }

@@ -49,6 +49,9 @@ public class Product {
     private Long sellPrice;
 
     @Transient
+    private Integer discountPercent;
+
+    @Transient
     private int inventory;
 
     @Column(name = "initialQuantity", nullable = false)
@@ -89,6 +92,9 @@ public class Product {
         return sellPrice - importPrice;
     }
 
+    public Integer getDiscountPercent() {
+        return (int) ((1 - (double) sellPrice / basePrice) * 100);
+    }
 
     @Override
     public String toString() {
