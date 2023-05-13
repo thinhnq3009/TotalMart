@@ -35,6 +35,7 @@ public class WebSecurityConfig {
                                 "detail/**",
                                 "/account/register"
                         ).permitAll()
+                        .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority(ADMIN_READONLY.getValue())
                         .anyRequest().authenticated()
                 )

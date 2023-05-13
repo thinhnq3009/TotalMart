@@ -10,12 +10,16 @@ import java.util.List;
 
 @Service
 public class NotificationService {
-    final List<Notificer> notificers = new ArrayList<>();
+    final List<Noticer> noticers = new ArrayList<>();
 
     String json;
 
+    private void add(MessageType type, String message, long duration) {
+        noticers.add(new Noticer(type, message, duration));
+    }
+
     private void add(MessageType type, String message) {
-        notificers.add(new Notificer(type, message));
+        add(type, message, 3000);
     }
 
     public void addSuccess(String message) {
@@ -38,12 +42,33 @@ public class NotificationService {
         add(MessageType.ERROR, message);
     }
 
-    public List<Notificer> getNotificers() {
-        return notificers;
+    public void addSuccess(String message, long duration) {
+        add(MessageType.ERROR, message, duration);
+    }
+
+    public void addInfo(String message, long duration) {
+        add(MessageType.INFO, message, duration);
+    }
+
+    public void addWarning(String message, long duration) {
+        add(MessageType.WARNING, message, duration);
+    }
+
+    public void addPrimary(String message, long duration) {
+        add(MessageType.PRIMARY, message, duration);
+    }
+
+    public void addError(String message, long duration) {
+        add(MessageType.ERROR, message, duration);
+    }
+
+
+    public List<Noticer> getNotificers() {
+        return noticers;
     }
 
     public void clear() {
-        notificers.clear();
+        noticers.clear();
     }
 
 
@@ -51,7 +76,7 @@ public class NotificationService {
         // Convert list to json
         try {
             ObjectMapper mapper = new ObjectMapper();
-            return mapper.writeValueAsString(notificers);
+            return mapper.writeValueAsString(noticers);
         } catch (JsonProcessingException e) {
             return "[]";
         }
@@ -60,18 +85,15 @@ public class NotificationService {
     }
 
     public void render(Model model) {
-        model.addAttribute("notifier", this.getJson());
+        model.addAttribute("noticer", this.getJson());
         clear();
     }
 
-    private record Notificer(MessageType type, String message) {
+    private record Noticer(MessageType type, String message, long duration) {
     }
 
     public enum MessageType {
-        SUCCESS("success"),
-        INFO("info"),
-        WARNING("warning"),
-        ERROR("error"),
+        SUCCESS("success"), INFO("info"), WARNING("warning"), ERROR("error"),
 
         PRIMARY("primary");
 

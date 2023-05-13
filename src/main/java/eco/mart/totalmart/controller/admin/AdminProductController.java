@@ -1,12 +1,9 @@
 package eco.mart.totalmart.controller.admin;
 
-import eco.mart.totalmart.dto.ProductDto;
 import eco.mart.totalmart.entities.*;
-import eco.mart.totalmart.handler.UploadHandler;
 import eco.mart.totalmart.repositories.*;
 import eco.mart.totalmart.services.NotificationService;
 import eco.mart.totalmart.services.ProductService;
-import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,18 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/product")
-public class ProductController {
+public class AdminProductController {
 
-    private final Logger logger = LoggerFactory.getLogger(ProductController.class);
+    private final Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
-    @Autowired
-    ServletContext servletContext;
+
     @Autowired
     BrandRepository brandRepository;
 

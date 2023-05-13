@@ -2,13 +2,10 @@ package eco.mart.totalmart.handler;
 
 import jakarta.servlet.ServletContext;
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.query.sqm.mutation.internal.UpdateHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,11 +19,8 @@ import java.nio.file.Paths;
 @AllArgsConstructor
 public class UploadHandler {
 
-
-    ServletContext servletContext;
-
-
     private final Logger logger = LoggerFactory.getLogger(UploadHandler.class);
+    private final String ROOT = "/public/upload";
 
     MultipartFile multipartFile;
 
@@ -35,7 +29,7 @@ public class UploadHandler {
 
     String filename;
 
-    boolean isSave;
+    boolean isSaved;
 
 
     public UploadHandler(MultipartFile multipartFile) {
@@ -63,19 +57,19 @@ public class UploadHandler {
             }
 
             // Folder = realPath +  root + subfolder
-            Path folder = Paths.get(servletContext.getRealPath(subFolder));
+            Path folder = Paths.get(servletContext.getRealPath(ROOT + subFolder));
 
 
             if (!Files.exists(folder)) {
                 Files.createDirectories(folder);
-                logger.warn("Created new directory(s): " + folder.toString());
+                logger.warn("Created new directory(s): " + folder);
             }
 
-            File file = new File(folder.toString() + "/" + getFilename());
+            File file = new File(folder + "/" + getFilename());
 
             multipartFile.transferTo(file);
 
-            setSave(true);
+            setSaved(true);
 
         }
     }
@@ -96,7 +90,7 @@ public class UploadHandler {
     }
 
     public String getRelativePath() {
-        return isSave ? subFolder + "/" + filename : null;
+        return isSaved ? ROOT + subFolder + "/" + filename : null;
     }
 
 

@@ -3,18 +3,16 @@ package eco.mart.totalmart.services;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.entities.ProductProperty;
 import eco.mart.totalmart.entities.Property;
-import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.repositories.ProductPropertyRepository;
 import eco.mart.totalmart.repositories.ProductRepository;
+import eco.mart.totalmart.repositories.PropertyRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class ProductPropertyService {
@@ -26,28 +24,55 @@ public class ProductPropertyService {
 
 
     private Logger logger = LoggerFactory.getLogger(ProductPropertyService.class);
+    @Autowired
+    private PropertyRepository propertyRepository;
 
+    /**
+     * Kiểm tra product đã có property đó hay chưa.
+     * Nếu chưa thì add vào, có rồi thì kiểm tra có cho classify không.
+     * Có thì add tiếp không có thì update
+     *
+     * @param productId
+     * @param property
+     * @param value
+     * @return product added property
+     */
     public Optional<Product> upsertPropertyToProduct(Long productId, Property property, String value) {
         Optional<Product> productOptional = productRepository.findById(productId);
 
         // Handel if found product
         if (productOptional.isPresent()) {
+            List<ProductProperty> properties
+                    = productPropertyRepository
+                    .findByProductIdAndPropertiesId(
+                            productOptional.get().getId(),
+                            property.getId()
+                    );
+            //if product property exists
+            if (!properties.isEmpty()) {
+                if (property.getCanClassify()) {
+                    addNewProperty(productOptional.get(), property, value);
+                } else {
+                    ProductProperty productProperty = properties.get(0);
+                    productProperty.setValue(value);
+                    productPropertyRepository.save(productProperty);
+                }
+            } else {
+                addNewProperty(productOptional.get(), property, value);
+            }
 
-            Optional<ProductProperty> productPropertyOptional = productPropertyRepository.findByProductIdAndPropertiesId(productId, property.getId());
-
-            ProductProperty productProperty = productPropertyOptional
-                    .orElseGet(() -> new ProductProperty(productOptional.get(), property)
-            );
-
-            productProperty.setValue(value);
-
-            productPropertyRepository.save(productProperty);
 
         }
         return productOptional;
-
-
     }
+
+    private void addNewProperty(Product product, Property property, String value) {
+        ProductProperty productProperty = new ProductProperty(product, property);
+        productProperty.setValue(value);
+        productPropertyRepository.save(productProperty);
+    }
+
+//    public Optional<Product> add
 
     public Optional<ProductProperty> removeProperty(Long id) {
         Optional<ProductProperty> productPropertyOptional = productPropertyRepository.findById(id);
@@ -64,10 +89,11 @@ public class ProductPropertyService {
         return productProperty;
     }
 
-    public Optional<ProductProperty> removeProperty(Product product, Property property) {
-        Optional<ProductProperty> productPropertyOptional = productPropertyRepository.findByProductIdAndPropertiesId(product.getId(), property.getId());
-        productPropertyOptional.ifPresent(productProperty -> productPropertyRepository.delete(productProperty));
-        return productPropertyOptional;
+    public void removeProperties(Product product, Property property) {
+        List<ProductProperty> productProperties = productPropertyRepository.findByProductIdAndPropertiesId(product.getId(), property.getId());
+
+        productPropertyRepository.deleteAll(productProperties);
+
 
     }
 

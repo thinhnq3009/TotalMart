@@ -24,7 +24,7 @@ import java.util.Optional;
 public class ProductService {
     private final Logger logger = LoggerFactory.getLogger(ProductService.class);
     @Autowired
-     ProductRepository productRepository;
+    ProductRepository productRepository;
 
     @Autowired
     ServletContext servletContext;
@@ -39,13 +39,15 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product upsert(Product product, MultipartFile imgPosterMF, MultipartFile[] previewImageMF) {
+    public Optional<Product> findById(long id) {
+        return productRepository.findById(id);
+    }
 
+    public Product upsert(Product product, MultipartFile imgPosterMF, MultipartFile[] previewImageMF) {
 
 
         // Save product to get product's id
         Product newProduct = productRepository.saveAndFlush(product);
-
 
 
         String folderName = "/image/products/product-%s".formatted(newProduct.getId() + "");

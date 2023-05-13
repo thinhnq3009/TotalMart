@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 @Builder
 public class ResponseObject {
     String message;
-    String status;
+    String status = "success";
 
     String action = "none";
     Object data;
