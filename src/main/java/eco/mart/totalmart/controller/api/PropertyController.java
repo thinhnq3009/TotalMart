@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/properties")
+@RequestMapping("/api/v1/properties")
 public class PropertyController {
 
 
@@ -51,10 +51,9 @@ public class PropertyController {
 //    }
 //
     @PostMapping("/add")
-    @Transactional
-    ResponseEntity<ResponseObject> addPropertyToProduct(Property property,
-                                                        @RequestParam("productId") Long productId,
-                                                        @RequestParam("value") String value
+    public ResponseEntity<ResponseObject> addPropertyToProduct(Property property,
+                                                               @RequestParam("productId") Long productId,
+                                                               @RequestParam("value") String value
     ) {
 
         String message;

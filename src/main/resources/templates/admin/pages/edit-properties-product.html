@@ -95,25 +95,37 @@
                                             </div>
                                         </td>
                                     </tr>
-                                    <tr th:each="row : ${product.productProperties}">
-                                        <td th:text="${row.properties.name}"></td>
-                                        <td class="property-value" th:text="${row.value}"></td>
-                                        <td>
+                                    <tr th:each="row : ${product.properties}">
+                                        <td th:text="${row.name}"></td>
+                                        <td class="property-value" >
+                                            <span class="badge bg-light-secondary rounded-3 py-2 text-secondary fs-2 d-inline-flex align-items-center me-3"
+                                                  th:if=" ${row.info.canClassify}"
+                                                  th:each="value : ${row.propertiesValue}"
+                                            >
+                                                <span th:text="${value.value}"></span>
+                                                <i class="ti ti-square-rounded-minus fs-4 ms-3"></i>
+                                            </span>
+                                            <span th:if="${!row.info.canClassify}"
+                                                  th:text="${row.propertiesValue[0].value}"></span>
+                                        </td>
+                                        <td class="fit-content">
                                              <span
-                                                     th:if="${row.properties.canFilter}"
-                                                     class="badge bg-primary fs-2 rounded-3 mx-2">Can filter</span>
+                                                     th:if="${row.info.canFilter}"
+                                                     class="badge bg-primary fs-2 rounded-3 mx-2">Filter</span>
                                             <span
-                                                    th:if="${row.properties.canClassify}"
-                                                    class="badge bg-secondary fs-2 rounded-3 mx-2">Can classify</span>
+                                                    th:if="${row.info.canClassify}"
+                                                    class="badge bg-secondary fs-2 rounded-3 mx-2">Classify</span>
                                             <span
-                                                    th:if="${row.properties.isImportant}"
+                                                    th:if="${row.info.isImportant}"
                                                     class="badge bg-danger fs-2 rounded-3 mx-2">Important</span>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-warning rounded-pill " th:attr="product-property-update=${row.properties.name}">
+                                            <button type="button" class="btn btn-warning rounded-pill "
+                                                    th:attr="product-property-update=${row.name}">
                                                 <i class="ti ti-pencil fs-4"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger rounded-pill ms-3" th:attr="product-property-id=${row.id}" >
+                                            <button type="button" class="btn btn-danger rounded-pill ms-3"
+                                                    th:attr="product-property-id=${row.name}">
                                                 <i class="ti ti-trash fs-4"></i>
                                             </button>
                                         </td>

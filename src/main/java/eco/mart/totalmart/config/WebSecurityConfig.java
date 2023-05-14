@@ -37,7 +37,7 @@ public class WebSecurityConfig {
                         ).permitAll()
                         .requestMatchers("/api/v1/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority(ADMIN_READONLY.getValue())
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .formLogin(form -> form
                         .loginPage("/account/login")

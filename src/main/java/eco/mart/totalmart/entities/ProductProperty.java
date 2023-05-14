@@ -26,10 +26,9 @@ public class ProductProperty {
 
     @ManyToOne
     @JoinColumn(name = "propertiesId", nullable = false)
+    @JsonIgnore
     private Property properties;
 
-    @Transient
-    private String name;
 
     @Nationalized
     @Column(name = "\"value\"", nullable = false, length = 1000)
@@ -40,7 +39,4 @@ public class ProductProperty {
         this.properties = properties;
     }
 
-    public String getName() {
-        return getProperties().getName();
-    }
 }

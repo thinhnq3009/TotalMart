@@ -1,30 +1,38 @@
 $(document).ready(function () {
 
-    function updateTable({productProperties}) {
+    function updateTable({ properties}) {
         const tableBody = $("#tableBody");
         const isEmptyProperties = $("#isEmptyProperties").innerHTML;
         console.log(isEmptyProperties)
         tableBody.html("");
 
-        if (productProperties.length === 0) {
+        if (properties.length === 0) {
             tableBody.html(isEmptyProperties);
             return;
         }
 
-        const newTableBody = isEmptyProperties + productProperties.reduce((innerHtml, property) => innerHtml + `
+        const newTableBody = isEmptyProperties + properties.reduce((innerHtml, property) => innerHtml + `
             <tr>
-                <td>${property.properties.name}</td>
-                <td  class="property-value" >${property.value}</td>
+                <td>${property.name}</td>
+               <td class="property-value" >
+                   ${property.propertiesValue.map( item => 
+                            ` <span 
+                                class="badge bg-light-secondary rounded-3 py-2 text-secondary fs-2 d-inline-flex align-items-center me-3">
+                        <span>${item.value}</span>
+                        <i class="ti ti-square-rounded-minus fs-4 ms-3"></i>
+                    </span>`
+                       ).join("")}
+                </td>
                 <td>
-                    ${property.properties.canFilter ?  `<span class="badge bg-primary fs-2 rounded-3 mx-2">Can filter</span>` : ""}
-                    ${property.properties.canClassify ?`  <span class="badge bg-secondary fs-2 rounded-3 mx-2">Can classify</span>` : ""}
-                    ${property.properties.isImportant ? `<span class="badge bg-danger fs-2 rounded-3 mx-2">Important</span>` : ""}
+                    ${property.info.canFilter ? `<span class="badge bg-primary fs-2 rounded-3 mx-2">Filter</span>` : ""}
+                    ${property.info.canClassify ? `  <span class="badge bg-secondary fs-2 rounded-3 mx-2">Classify</span>` : ""}
+                    ${property.info.isImportant ? `<span class="badge bg-danger fs-2 rounded-3 mx-2">Important</span>` : ""}
                 </td>
             <td>
-                <button type="button" class="btn btn-warning rounded-pill" product-property-update="${property.value}">
+                <button type="button" class="btn btn-warning rounded-pill" product-property-update="${property.name}">
                     <i class="ti ti-pencil fs-4"></i>
                 </button>
-                <button type="button" class="btn btn-danger rounded-pill ms-3" product-property-id="${property.id}">
+                <button type="button" class="btn btn-danger rounded-pill ms-3" product-property-id="${property.info.id}">
                     <i class="ti ti-trash fs-4 "></i>
                 </button>
             </td>
@@ -44,7 +52,7 @@ $(document).ready(function () {
         const data = {name, productId, value, ...types};
 
         $.ajax({
-            url: "/api/properties/add",
+            url: "/api/v1/properties/add",
             method: "POST",
             data,
             dataType: "json",
@@ -99,10 +107,10 @@ $(document).ready(function () {
             }
         })
     }).on("click", "button[product-property-update]", function () {
-        const propertyName = $(this).attr("product-property-update");
-        const propertyValue = $(this).parent().parent().find(".property-value").text();
-        $("#propertyName").val(propertyName).trigger("change");
-        $("#propertyValue").val(propertyValue)
+        // const propertyName = $(this).attr("product-property-update");
+        // const propertyValue = $(this).parent().parent().find(".property-value").text();
+        // $("#propertyName").val(propertyName).trigger("change");
+        // $("#propertyValue").val(propertyValue)
 
 
     })

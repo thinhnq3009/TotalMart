@@ -81,7 +81,7 @@ public class Product {
     private List<ProductProperty> productProperties = new ArrayList<>();
 
     @Transient
-    private List<Map<String, Object>> properties = new ArrayList<>();
+    private List<GroupProperty> properties = new ArrayList<>();
 
     @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
@@ -99,40 +99,22 @@ public class Product {
         return (int) ((1 - (double) sellPrice / basePrice) * 100);
     }
 
-    public List<Map<String, Object>> getProperties() {
+    public List<GroupProperty> getProperties() {
 
         Map<String, List<ProductProperty>> propertyMap = getProductProperties()
                 .stream()
                 .collect(Collectors.groupingBy(productProperty -> productProperty.getProperties().getName()));
 
-//       return propertyMap.entrySet()
-//               .stream()
-//               .map(entry -> {
-//                   Map<String, Object> map = new HashMap<>();
-//                   map.put("name", entry.getKey());
-//                   map.put("values", entry.getValue().stream().map(ProductProperty::getValue).collect(Collectors.toList()));
-//                   return map;
-//               })
-//               .collect(Collectors.toList());
-
         return propertyMap.keySet()
                 .stream()
-                .map(name -> {
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("name", name);
-                    map.put("info", propertyMap.get(name)
-                            .get(0)
-                            .getProperties());
-                    map.put("properties", propertyMap.get(name)
-                            .stream()
-                            .map(productProperty -> Map.of(
-                                    "productPropertyId",
-                                    productProperty.getId(),
-                                    "value",
-                                    productProperty.getValue()))
-                            .collect(Collectors.toList()));
-                    return map;
-                }).collect(Collectors.toList());
+                .map(name -> GroupProperty.builder()
+                        .name(name)
+                        .info(propertyMap.get(name)
+                                .get(0)
+                                .getProperties())
+                        .propertiesValue(propertyMap.get(name))
+                        .build())
+                .collect(Collectors.toList());
 
 
     }
