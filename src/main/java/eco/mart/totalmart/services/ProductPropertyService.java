@@ -74,28 +74,21 @@ public class ProductPropertyService {
 
 //    public Optional<Product> add
 
-    public Optional<ProductProperty> removeProperty(Long id) {
-        Optional<ProductProperty> productPropertyOptional = productPropertyRepository.findById(id);
-        if (productPropertyOptional.isPresent()) {
-            productPropertyRepository.delete(productPropertyOptional.get());
-        } else {
-            logger.error("Not found product property have id is " + id);
-        }
-        return productPropertyOptional;
+    public void remove(Long productPropertyId) {
+            productPropertyRepository.deleteById(productPropertyId);
     }
 
-    public ProductProperty removeProperty(ProductProperty productProperty) {
-        productPropertyRepository.delete(productProperty);
-        return productProperty;
-    }
-
-    public void removeProperties(Product product, Property property) {
-        List<ProductProperty> productProperties = productPropertyRepository.findByProductIdAndPropertiesId(product.getId(), property.getId());
-
+    public void removeAllProductProperty(Long productId, Long propertyId) {
+        List<ProductProperty> productProperties = productPropertyRepository.findByProductIdAndPropertiesId(productId, propertyId);
         productPropertyRepository.deleteAll(productProperties);
-
-
     }
 
+    public Optional<ProductProperty> findById(Long productPropertyId) {
+        return productPropertyRepository.findById(productPropertyId);
+    }
 
+//    findByProductIdAndPropertyId
+    public List<ProductProperty> findByProductIdAndPropertyId(Long productId, Long propertyId) {
+        return productPropertyRepository.findByProductIdAndPropertiesId(productId, propertyId);
+    }
 }

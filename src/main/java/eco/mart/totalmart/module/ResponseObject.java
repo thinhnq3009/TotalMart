@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 @Data
 @AllArgsConstructor
@@ -21,6 +22,10 @@ public class ResponseObject {
         this.message = message;
         this.status = status;
         this.data = data;
+    }
+
+    public ResponseEntity<ResponseObject> toResponseEntity(HttpStatus httpStatus) {
+        return ResponseEntity.status(httpStatus).body(this);
     }
 
 

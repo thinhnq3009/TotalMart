@@ -7,6 +7,7 @@ import eco.mart.totalmart.entities.Property;
 import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.repositories.PropertyRepository;
 import eco.mart.totalmart.services.ProductPropertyService;
+import eco.mart.totalmart.services.ProductService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,29 +28,12 @@ public class PropertyController {
     PropertyRepository propertyRepository;
 
     @Autowired
+    ProductService productService;
+
+    @Autowired
     private ProductPropertyService productPropertyService;
 
-    // Create new Property
-//    @PostMapping("/create")
-//    ResponseEntity<ResponseObject> createProperty(Property property) {
-//        ResponseObject responseObject = new ResponseObject();
-//        Property newProperty;
-//        if (propertyRepository.existsPropertyByName(property.getName())) {
-//            newProperty = propertyRepository.findByName(property.getName());
-//            responseObject.setMessage("Property is exists");
-//        } else if (property.getName().isBlank()) {
-//            responseObject.setMessage("Property name is empty.");
-//            newProperty = null;
-//        } else {
-//            newProperty = propertyRepository.saveAndFlush(property);
-//            responseObject.setMessage("Create successful");
-//        }
-//        responseObject.setData(newProperty);
-//
-//
-//        return ResponseEntity.status(HttpStatus.OK).body(responseObject);
-//    }
-//
+
     @PostMapping("/add")
     public ResponseEntity<ResponseObject> addPropertyToProduct(Property property,
                                                                @RequestParam("productId") Long productId,
@@ -57,7 +41,7 @@ public class PropertyController {
     ) {
 
         String message;
-        String action ;
+        String action;
         Optional<Product> productOptional;
 
         // Check is empty
@@ -84,20 +68,21 @@ public class PropertyController {
             // Handel create property if not exists
         } else {
 
-            Property newProperty = propertyRepository.saveAndFlush(property);
+            Property newProperty = propertyRepository.save(property);
 
-           productOptional = productPropertyService.upsertPropertyToProduct(productId, newProperty, value);
+            productOptional = productPropertyService.upsertPropertyToProduct(productId, newProperty, value);
 
-              message = "Create property [%s] successful with value [%s] ".formatted(
-                      property.getName(),
-                      value
-                );
+            message = "Create property [%s] successful with value [%s] ".formatted(
+                    property.getName(),
+                    value
+            );
 
-              action = "create";
+            action = "create";
 
         }
 
-        return productOptional.map(product -> ResponseEntity.ok()
+        return productOptional
+                .map(product -> ResponseEntity.ok()
                         .body(new ResponseObject(
                                 message,
                                 "success",
@@ -115,21 +100,48 @@ public class PropertyController {
 
     @DeleteMapping("/delete")
     ResponseEntity<ResponseObject> removeProductProperty(
-            @RequestParam("productPropertyId") Long productPropertyId
+            @RequestParam(required = false) Long productPropertyId,
+            @RequestParam(required = false) Long productId,
+            @RequestParam(required = false) Long propertyId
     ) {
 
-        Optional<ProductProperty> productPropertyOptional = productPropertyService.removeProperty(productPropertyId);
-        return productPropertyOptional.map(productProperty -> ResponseEntity.ok()
-                        .body(new ResponseObject(
-                                "Remove property successful",
-                                "success",
-                                productProperty.getProduct())))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(new ResponseObject(
-                                "Property not found",
-                                "error",
-                                null
-                        )));
+        if (productPropertyId == null && (propertyId == null || productId == null)) {
+            return ResponseObject.builder()
+                    .message("Product property id or property id and product id is required")
+                    .build()
+                    .toResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+
+        Optional<ProductProperty> productPropertyOptional;
+
+        if (productPropertyId != null) {
+            productPropertyOptional = productPropertyService.findById(productPropertyId);
+            productPropertyService.remove(productPropertyId);
+        } else {
+            productPropertyOptional = Optional.of(
+                    productPropertyService
+                            .findByProductIdAndPropertyId(productId, propertyId)
+                            .get(0));
+            productPropertyService.removeAllProductProperty(productId, propertyId);
+        }
+
+        return productPropertyOptional.map(productProperty -> ResponseObject
+                        .builder()
+                        .message("Remove property successful")
+                        .action("remove")
+                        .data(productProperty.getProduct())
+                        .build()
+                        .toResponseEntity(HttpStatus.OK)
+                )
+                .orElseGet(
+                        () -> ResponseObject
+                                .builder()
+                                .message("Product property not found")
+                                .status("error")
+                                .build()
+                                .toResponseEntity(HttpStatus.NOT_FOUND)
+                );
 
 
     }
