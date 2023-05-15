@@ -46,11 +46,12 @@ public class PropertyController {
 
         // Check is empty
         if (property.getName().isBlank() || value.isBlank()) {
-            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED)
-                    .body(new ResponseObject(
-                            "Property name or value is empty",
-                            "error",
-                            null));
+            return ResponseObject
+                    .builder()
+                    .message("Property name or value is empty")
+                    .status("error")
+                    .build()
+                    .toResponseEntity(HttpStatus.NOT_IMPLEMENTED);
             // Handel update if property is exists
         } else if (propertyRepository.existsPropertyByName(property.getName().trim())) {
 

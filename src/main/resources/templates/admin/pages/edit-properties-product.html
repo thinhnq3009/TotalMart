@@ -27,10 +27,6 @@
 <div class="preloader">
     <img src="/public/admin/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid"/>
 </div>
-<!-- Preloader -->
-<div class="preloader">
-    <img src="/public/admin/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid"/>
-</div>
 <!-- Body Wrapper -->
 <div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full" data-sidebar-position="fixed"
      data-header-position="fixed">
@@ -98,12 +94,14 @@
                                     <tr th:each="row : ${product.properties}">
                                         <td th:text="${row.name}"></td>
                                         <td class="property-value" >
-                                            <span class="badge bg-light-secondary rounded-3 py-2 text-secondary fs-2 d-inline-flex align-items-center me-3"
+                                            <span class="badge bg-light-secondary rounded-3 py-2 text-secondary mb-2 mb-md-0 fs-2 d-inline-flex align-items-center me-3"
                                                   th:if=" ${row.info.canClassify}"
                                                   th:each="value : ${row.propertiesValue}"
                                             >
                                                 <span th:text="${value.value}"></span>
-                                                <i class="ti ti-square-rounded-minus fs-4 ms-3"></i>
+                                                <i class="ti ti-square-rounded-minus fs-4 ms-1 cursor-pointer hover-dd"
+                                                   th:attr="product-property-id=${value.id}"
+                                                ></i>
                                             </span>
                                             <span th:if="${!row.info.canClassify}"
                                                   th:text="${row.propertiesValue[0].value}"></span>
@@ -111,21 +109,21 @@
                                         <td class="fit-content">
                                              <span
                                                      th:if="${row.info.canFilter}"
-                                                     class="badge bg-primary fs-2 rounded-3 mx-2">Filter</span>
+                                                     class="badge bg-primary fs-2 rounded-3 mx-2 mb-2 mb-md-0">Filter</span>
                                             <span
                                                     th:if="${row.info.canClassify}"
-                                                    class="badge bg-secondary fs-2 rounded-3 mx-2">Classify</span>
+                                                    class="badge bg-secondary fs-2 rounded-3 mx-2 mb-2 mb-md-0">Classify</span>
                                             <span
                                                     th:if="${row.info.isImportant}"
-                                                    class="badge bg-danger fs-2 rounded-3 mx-2">Important</span>
+                                                    class="badge bg-danger fs-2 rounded-3 mx-2 mb-2 mb-md-0">Important</span>
                                         </td>
                                         <td>
-                                            <button type="button" class="btn btn-warning rounded-pill "
+                                            <button type="button" class="btn btn-warning rounded-pill mb-2 mb-md-0"
                                                     th:attr="product-property-update=${row.name}">
                                                 <i class="ti ti-pencil fs-4"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger rounded-pill ms-3"
-                                                    th:attr="product-property-id=${row.name}">
+                                            <button type="button" class="btn btn-danger rounded-pill ms-3 mb-2 mb-md-0"
+                                                    th:attr="property-id=${row.info.id}">
                                                 <i class="ti ti-trash fs-4"></i>
                                             </button>
                                         </td>
