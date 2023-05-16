@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
-import org.springframework.validation.ObjectError;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +30,10 @@ public class Product {
     @JoinColumn(name = "categoryId", nullable = false)
     private Category category;
 
+    // Get all category as table same categoryGroup
+    @Transient
+    private List<Category> categories = new ArrayList<>();
+
     @Nationalized
     @Column(name = "name", nullable = false, length = 1000)
     private String name;
@@ -45,8 +48,8 @@ public class Product {
     @Column(name = "basePrice", nullable = false)
     private Long basePrice;
 
-    @Column(name = "sellPrice", nullable = false)
-    private Long sellPrice;
+    @Column(name = "salePrice", nullable = false)
+    private Long salePrice;
 
     @Transient
     private Integer discountPercent;
@@ -72,6 +75,11 @@ public class Product {
     @Column(name = "length", nullable = false)
     private int length;
 
+    @Column(name = "weight", nullable = false)
+    private int weight;
+
+    @Column(name = "description")
+    private String description;
 
     @OneToMany(mappedBy = "product")
     @JsonIgnore
@@ -92,11 +100,11 @@ public class Product {
     }
 
     public Long getIncome() {
-        return sellPrice - importPrice;
+        return salePrice - importPrice;
     }
 
     public Integer getDiscountPercent() {
-        return (int) ((1 - (double) sellPrice / basePrice) * 100);
+        return (int) ((1 - (double) salePrice / basePrice) * 100);
     }
 
     public List<GroupProperty> getProperties() {
@@ -119,5 +127,10 @@ public class Product {
 
     }
 
+    public List<Category> getCategories() {
+        return (category != null && category.getCategoryGroup() != null)
+                ? category.getCategoryGroup().getCategories()
+                : categories;
 
+    }
 }

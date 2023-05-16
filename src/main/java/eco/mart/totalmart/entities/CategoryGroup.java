@@ -5,8 +5,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 @Getter
@@ -27,12 +30,21 @@ public class CategoryGroup {
     private String poster;
 
     @OneToMany(mappedBy = "categoryGroup")
-    private Set<Category> categories = new LinkedHashSet<>();
+    private List<Category> categories = new ArrayList<>();
 
     @Transient
     private String url;
 
+    @Transient
+    private List<Product> allProduct = new ArrayList<>();
+
     public String getUrl() {
         return "/%s".formatted(getId());
+    }
+
+    public List<Product> getAllProduct() {
+        return categories.stream()
+                .flatMap(category -> category.getProducts().stream())
+                .collect(Collectors.toList());
     }
 }

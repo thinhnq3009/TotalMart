@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Getter
 @Setter
@@ -25,22 +28,22 @@ public class Category {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+
     @Nationalized
     @Column(name = "poster", length = 1000)
     private String poster;
 
-//    @OneToMany(mappedBy = "category")
-//    private Set<Product> products = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "category")
+    @JsonIgnore
+    private List<Product> products = new ArrayList<>();
 
     @Transient
     private String url;
+
 
     public String getUrl() {
         return "%s/%s".formatted(getCategoryGroup().getId(),getId());
     }
 
-    @Override
-    public String toString() {
-        return "%s [%s]".formatted( getName(),getCategoryGroup().getName());
-    }
+
 }

@@ -2,14 +2,16 @@ package eco.mart.totalmart.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.Nationalized;
 
 @Getter
 @Setter
 @Entity
+@Builder
 @Table(name = "Image", schema = "dbo")
+@NoArgsConstructor
+@AllArgsConstructor
 public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,4 +32,14 @@ public class Image {
     @Column(name = "url", nullable = false, length = 1000)
     private String url;
 
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Image{");
+        sb.append("id=").append(id);
+        sb.append(", product=").append(product);
+        sb.append(", feedback=").append(feedback);
+        sb.append(", url='").append(url).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }
