@@ -8,7 +8,7 @@ import java.util.List;
  */
 public record ProductDto(Long id,
                          BrandDto brand,
-                         CategoryDto category,
+                         String category,
                          String name,
                          String poster,
                          Long importPrice,

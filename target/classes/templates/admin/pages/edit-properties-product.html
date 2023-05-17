@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!--  Title -->
+    <title>Mordenize</title>
+    <!--  Required Meta Tag -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta name="handheldfriendly" content="true"/>
+    <meta name="MobileOptimized" content="width"/>
+    <meta name="description" content="Mordenize"/>
+    <meta name="author" content=""/>
+    <meta name="keywords" content="Mordenize"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <!--  Favicon -->
+    <link rel="shortcut icon" type="image/png" href="/public/admin/images/logos/favicon.png"/>
+    <!-- Owl Carousel -->
+    <link rel="stylesheet" href="/public/admin/libs/owl.carousel/dist/owl.carousel.min.css">
+    <!-- Core Css -->
+    <link rel="stylesheet" href="/public/admin/libs/select2/dist/css/select2.min.css">
+    <link id="themeColors" rel="stylesheet" href="/public/admin/css/style.min.css"/>
+    <link rel="stylesheet" href="/public/admin/css/notification.css"/>
+</head>
+<body>
+<input type="hidden" th:value="${product.id}" id="productId">
+<!-- Preloader -->
+<div class="preloader">
+    <img src="/public/admin/images/logos/favicon.png" alt="loader" class="lds-ripple img-fluid"/>
+</div>
+<!-- Body Wrapper -->
+<div class="page-wrapper" id="main-wrapper" data-layout="vertical" data-sidebartype="full" data-sidebar-position="fixed"
+     data-header-position="fixed">
+    <!-- Sidebar Start -->
+    <div th:replace="~{/admin/fragments/aside :: aside}"></div>
+    <!-- Sidebar End -->
+    <!-- Main wrapper -->
+    <div class="body-wrapper">
+        <!-- Header Start -->
+        <div th:replace="~{/admin/fragments/header :: header}"></div>
+        <!-- Header End -->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                        <div class="card-body">
+                            <h5 class="title w-100">Properties</h5>
+                            <div class="row mb-5">
+                                <div class="col-md-4">
+                                    <label for="propertyName">Name</label>
+                                    <select id="propertyName" class="form-control select2">
+                                        <option th:each="item : ${properties}" th:text="${item.name}"
+                                                th:value="${item.name}"></option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="propertyValue">Value</label>
+                                    <input id="propertyValue" class="form-control">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" id="addProperty"
+                                            class="btn btn-success rounded-pill w-100 mt-3">
+                                        <i class="ti ti-device-floppy fs-4 me-2"></i>
+                                        Add
+                                    </button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-primary rounded-pill w-100 mt-3"
+                                            data-bs-toggle="modal" data-bs-target="#newProperty">
+                                        <i class="ti ti-square-rounded-plus fs-4 me-2"></i>
+                                        New
+                                    </button>
+                                </div>
+                            </div>
+                            <h5 class="title w-100">Table properties</h5>
+                            <div class="row mb-3">
+                                <table class="table table-info table-hover mb-0" id="tableProperties">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Value</th>
+                                        <th scope="col">Type</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="tableBody">
+                                    <tr id="isEmptyProperties" th:hidden="${!product.productProperties.isEmpty()}">
+                                        <td colspan="4">
+                                            <div class="p-5 d-flex justify-content-center align-items-center flex-column">
+                                                <i class="ti ti-device-ipad-plus mb-3 h1"></i>
+                                                <span>This product does not have any properties yet.</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr th:each="row : ${product.properties}">
+                                        <td th:text="${row.name}"></td>
+                                        <td class="property-value" >
+                                            <span class="badge bg-light-secondary rounded-3 py-2 text-secondary mb-2 mb-md-0 fs-2 d-inline-flex align-items-center me-3"
+                                                  th:if=" ${row.info.canClassify}"
+                                                  th:each="value : ${row.propertiesValue}"
+                                            >
+                                                <span th:text="${value.value}"></span>
+                                                <i class="ti ti-square-rounded-minus fs-4 ms-1 cursor-pointer hover-dd"
+                                                   th:attr="product-property-id=${value.id}"
+                                                ></i>
+                                            </span>
+                                            <span th:if="${!row.info.canClassify}"
+                                                  th:text="${row.propertiesValue[0].value}"></span>
+                                        </td>
+                                        <td class="fit-content">
+                                             <span
+                                                     th:if="${row.info.canFilter}"
+                                                     class="badge bg-primary fs-2 rounded-3 mx-2 mb-2 mb-md-0">Filter</span>
+                                            <span
+                                                    th:if="${row.info.canClassify}"
+                                                    class="badge bg-secondary fs-2 rounded-3 mx-2 mb-2 mb-md-0">Classify</span>
+                                            <span
+                                                    th:if="${row.info.isImportant}"
+                                                    class="badge bg-danger fs-2 rounded-3 mx-2 mb-2 mb-md-0">Important</span>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-warning rounded-pill mb-2 mb-md-0"
+                                                    th:attr="product-property-update=${row.name}">
+                                                <i class="ti ti-pencil fs-4"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-danger rounded-pill ms-3 mb-2 mb-md-0"
+                                                    th:attr="property-id=${row.info.id}">
+                                                <i class="ti ti-trash fs-4"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- container-fluid over -->
+    </div>
+</div>
+<!-- Modal new properties -->
+<div class="modal fade" id="newProperty" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new property</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" id="newPropertyName" placeholder="Name property">
+                        <label for="newPropertyName">Name property</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" id="newPropertyValue" placeholder="Value">
+                        <label for="newPropertyValue">
+                            Value</label>
+                    </div>
+                    <div class="py-2">
+                        <label class="mb-2 px-3">Property type</label>
+                        <div class="px-4">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="canClassify" value="true" name="canClassify">
+                                <label class="form-check-label" for="canClassify">Classify</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="canFilter" value="true" name="canFilter">
+                                <label class="form-check-label" for="canFilter">Filter</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="isImportance" value="true" name="isImportance">
+                                <label class="form-check-label" for="isImportance">Importance</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="ti ti-square-rounded-x"></i>
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary" id="newPropertySave">
+                        <i class="ti ti-device-floppy fs-4 me-2"></i>
+                        Save
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Import Js Files -->
+<script src="/public/admin/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/admin/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/public/admin/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/admin/js/handler/notification.js"></script>
+<!-- core files -->
+<script src="/public/admin/js/app.min.js"></script>
+<script src="/public/admin/js/app.init.js"></script>
+<script src="/public/admin/js/app-style-switcher.js"></script>
+<script src="/public/admin/js/sidebarmenu.js"></script>
+<script src="/public/admin/js/custom.js"></script>
+<!-- current page js files -->
+<script src="/public/admin/libs/select2/dist/js/select2.min.js"></script>
+<script src="/public/admin/js/forms/select2.init.js"></script>
+<script src="/public/admin/js/forms/newPropertyHandel.js"></script>
+</body>
+</html>

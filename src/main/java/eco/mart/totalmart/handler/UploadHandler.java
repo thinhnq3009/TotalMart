@@ -1,5 +1,6 @@
 package eco.mart.totalmart.handler;
 
+import eco.mart.totalmart.entities.Image;
 import jakarta.servlet.ServletContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -93,6 +95,17 @@ public class UploadHandler {
         return isSaved ? ROOT + subFolder + "/" + filename : null;
     }
 
+    public Image getImage() {
+        return Image.builder()
+                .url(getRelativePath())
+                .build();
+    }
 
+    public void initFilename() {
+        if (getFilename() == null || getFilename().isEmpty()) {
+            String randomName= UUID.randomUUID().toString();
+            setFilename(randomName + getExtension(multipartFile.getOriginalFilename()));
+        }
+    }
 
 }

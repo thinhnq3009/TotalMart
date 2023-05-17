@@ -26,6 +26,8 @@ public class ResponseObject {
 
     public ResponseEntity<ResponseObject> toResponseEntity(HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(this);
+    }public ResponseEntity<ResponseObject> toResponseEntity() {
+        return ResponseEntity.status(HttpStatus.OK).body(this);
     }
 
 

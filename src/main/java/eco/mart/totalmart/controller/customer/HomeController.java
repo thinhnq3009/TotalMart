@@ -5,6 +5,7 @@ import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.repositories.CategoryGroupRepository;
 import eco.mart.totalmart.repositories.CategoryRepository;
+import eco.mart.totalmart.services.CategoryGroupService;
 import eco.mart.totalmart.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +22,7 @@ public class HomeController {
 
 
     @Autowired
-    CategoryGroupRepository categoryGroupRepository;
+    CategoryGroupService groupService;
 
     @Autowired
     ProductService productService;
@@ -32,16 +33,16 @@ public class HomeController {
     @RequestMapping({"/", "/home"})
     String home(Model model) {
 
-        model.addAttribute("products", productService.findAll());
+        model.addAttribute("groups", groupService.getTop3PublicGroups());
 
 
-        return "user/pages/index";
+        return "user/pages/index-2";
     }
 
 
     @ModelAttribute("categoryGroups")
     List<CategoryGroup> getCategoryGroups() {
-        return categoryGroupRepository.findAll();
+        return groupService.findAll();
     }
 
 }

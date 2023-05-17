@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!--/*@thymesVar id="noticer" type="java.lang.String"*/-->
+<div th:fragment="container" id="notifier-json-wrapper" th:hidden="true" th:text="${noticer}"></div>
+<script th:fragment="js" src="/public/user/js/custom/notification.js"></script>
+</body>
+</html>

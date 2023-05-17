@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashboardController {
     @RequestMapping("/admin/dashboard")
     String home() {
-        return "admin/pages/index";
+        return "user/dashboard/index";
     }
 
 }

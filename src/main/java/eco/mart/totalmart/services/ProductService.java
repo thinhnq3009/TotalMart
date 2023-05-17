@@ -1,5 +1,7 @@
 package eco.mart.totalmart.services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eco.mart.totalmart.dto.ProductDto;
 import eco.mart.totalmart.entities.Image;
 import eco.mart.totalmart.entities.Product;
@@ -17,7 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -43,26 +47,54 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product upsert(Product product, MultipartFile imgPosterMF, MultipartFile[] previewImageMF) {
+    public Product upsert(Product product, MultipartFile imgPosterMF, String imageNames) {
 
+
+        logger.info(product.getPoster() + "___");
 
         // Save product to get product's id
         Product newProduct = productRepository.saveAndFlush(product);
 
+        String folderName = "/images/products/product-%s".formatted(String.valueOf(newProduct.getId()));
 
-        String folderName = "/image/products/product-%s".formatted(newProduct.getId() + "");
 
         // Save poster image
-        Optional<Image> posterImage = imageService.saveLocal(imgPosterMF, folderName, "poster");
-        newProduct.setPoster(posterImage.orElseGet(Image::new).getUrl());
+        if (imgPosterMF != null && !imgPosterMF.isEmpty()) {
+            Optional<Image> posterImage = imageService.saveLocal(imgPosterMF, folderName, "poster");
+            newProduct.setPoster(posterImage.orElseGet(Image::new).getUrl());
+        } else {
+            newProduct.setPoster(product.getPoster());
+        }
 
+
+        // Save Preview Image
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String[] links = mapper.readValue(imageNames == null ? "[]" : imageNames, String[].class);
+
+            Arrays.stream(links).forEach(
+                    link -> {
+                        Image image = new Image();
+                        image.setUrl(link);
+                        image.setProduct(newProduct);
+                        imageRepository.save(image);
+                    }
+            );
+
+
+        } catch (JsonProcessingException e) {
+            logger.error(e.getMessage());
+        }
+
+
+        productRepository.saveAndFlush(newProduct);
         // Save preview images
-        imageService.save(previewImageMF, folderName, "preview-").forEach(
-                image -> {
-                    image.setProduct(newProduct);
-                    imageRepository.save(image);
-                }
-        );
+//        imageService.save(previewImageMF, folderName, "preview-").forEach(
+//                image -> {
+//                    image.setProduct(newProduct);
+//                    imageRepository.save(image);
+//                }
+//        );
 
         return newProduct;
 

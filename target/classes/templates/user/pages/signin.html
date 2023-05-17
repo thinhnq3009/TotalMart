@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>FreshCart - eCommerce HTML Template</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="FreshCart is a beautiful eCommerce HTML template specially designed for multipurpose shops & online stores selling products. Most Loved by Developers to build a store website easily.">
+    <meta content="Codescandy" name="author"/>
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+    <!-- Libs CSS -->
+    <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet"/>
+    <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/nouislider/dist/nouislider.min.css" rel="stylesheet">
+    <link href="/public/user/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
+    <link href="/public/user/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/prismjs/themes/prism-okaidia.min.css" rel="stylesheet">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/public/user/css/theme.min.css">
+</head>
+<body>
+<!-- navigation -->
+<div class="border-bottom shadow-sm">
+    <nav class="navbar navbar-light py-2">
+        <div class="container justify-content-center justify-content-lg-between">
+            <a class="navbar-brand" href="../index.html">
+                <img src="/public/user/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
+            </a>
+            <span class="navbar-text">
+        Already have an account? <a href="/signin.html">Sign in</a>
+      </span>
+        </div>
+    </nav>
+</div>
+<main>
+    <!-- section -->
+    <section class="my-lg-14 my-8">
+        <div class="container">
+            <!-- row -->
+            <div class="row justify-content-center align-items-center">
+                <div class="col-12 col-md-6 col-lg-4 order-lg-1 order-2">
+                    <!-- img -->
+                    <img src="/public/user/images/svg-graphics/signin-g.svg" alt="" class="img-fluid">
+                </div>
+                <!-- col -->
+                <div class="col-12 col-md-6 offset-lg-1 col-lg-4 order-lg-2 order-1">
+                    <div class="mb-lg-9 mb-5">
+                        <h1 class="mb-1 h2 fw-bold">Sign in to FreshCart
+                            <span th:text="${error}"></span>
+                        </h1>
+                        <p>Welcome back to FreshCart! Enter your email to get started.</p>
+                    </div>
+                    <form method="post" th:action="@{/account/login}">
+                        <div class="row g-3">
+                            <!-- row -->
+                            <div class="col-12 form-floating">
+                                <!-- input -->
+                                <input type="text" name="username" class="form-control" id="loginUsername"
+                                       placeholder="Email" required>
+                                <label for="loginUsername">Username</label>
+                            </div>
+                            <div class="col-12 form-floating">
+                                <!-- input -->
+                                <input type="password" name="password" class="form-control" id="loginPassword"
+                                       placeholder="Password" required>
+                                <label for="loginPassword">Password</label>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <!-- form check -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <!-- label --> <label class="form-check-label" for="flexCheckDefault">
+                                    Remember me
+                                </label>
+                                </div>
+                                <div> Forgot password?
+                                    <a href="assword.html">Reset It</a>
+                                </div>
+                            </div>
+                            <!-- btn -->
+                            <div class="col-12 d-grid">
+                                <button type="submit" class="btn btn-primary">Sign In</button>
+                            </div>
+                            <!-- link -->
+                            <div>Don’t have an account?
+                                <a th:href="@{/account/register}"> Sign Up</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+<footer th:replace="~{/user/fragments/footer :: footer}"></footer>
+<div th:replace="~{/admin/fragments/notification :: container}"></div>
+<!-- Javascript-->
+<!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="/public/user/libs/slick-carousel/slick/slick.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/public/user/libs/nouislider/dist/nouislider.min.js"></script>
+<script src="/public/user/libs/wnumb/wNumb.min.js"></script>
+<script src="/public/user/libs/rater-js/index.js"></script>
+<script src="/public/user/libs/prismjs/prism.js"></script>
+<script src="/public/user/libs/prismjs/components/prism-scss.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="/public/user/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
+<div th:replace="~{/admin/fragments/notification :: js}"></div>
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+<!-- choose one -->
+</body>
+</html>
