@@ -1,4 +1,4 @@
-package eco.mart.totalmart.controller.admin;
+package eco.mart.totalmart.controller.dashboard;
 
 import eco.mart.totalmart.entities.*;
 import eco.mart.totalmart.repositories.*;
@@ -76,6 +76,7 @@ public class ProductAdminController {
     String getForm(Model model) {
 
         model.addAttribute("product", new Product());
+        model.addAttribute("action", "Create");
 
         return "user/dashboard/add-product";
     }
@@ -89,7 +90,7 @@ public class ProductAdminController {
             @RequestParam(value = "imageNames", required = false) String imageNames,
             Product product) {
 
-
+        model.addAttribute("action", "Create");
 
         Product productNew = productService.upsert(product, imgPosterMF, imageNames);
 
@@ -108,13 +109,15 @@ public class ProductAdminController {
     @GetMapping("/edit/{id}")
     String doEdit(@PathVariable Long id, Model model) {
 
+        model.addAttribute("action", "Update");
+
         Optional<Product> productOptional = productRepository.findById(id);
 
         if (productOptional.isPresent()) {
             model.addAttribute("product", productOptional.get());
             return "user/dashboard/add-product";
         } else {
-            return "redirect:/admin/product/create";
+            return "redirect:/admin/product/all";
         }
 
     }

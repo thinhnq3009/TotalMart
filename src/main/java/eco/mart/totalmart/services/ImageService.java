@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,10 +19,21 @@ import java.util.stream.IntStream;
 public class ImageService {
 
     private final Logger logger = LoggerFactory.getLogger(ImageService.class);
+
     @Autowired
     ServletContext servletContext;
+
     @Autowired
     private ImageRepository imageRepository;
+
+    public List<Image> findAll() {
+        return imageRepository.findAll();
+    }
+
+    public boolean deleteByUrl(String url) {
+        imageRepository.deleteByUrl(url);
+        return imageRepository.findByUrl(url).isEmpty();
+    }
 
     private Optional<Image> save(MultipartFile multipartFile, String subFolder, String filename, boolean upToDatabase) {
         try {
@@ -76,4 +86,19 @@ public class ImageService {
         ).collect(Collectors.toList());
     }
 
+    public List<Image>  findByProductId(Long productId) {
+        return imageRepository.findByProductId(productId);
+    }
+
+    public Optional<Image> findById(Long id) {
+        return imageRepository.findById(id);
+    }
+
+    public Optional<Image> findByUrl(String url) {
+        return imageRepository.findByUrl(url);
+    }
+
+    public void delete(Image image) {
+        imageRepository.delete(image);
+    }
 }

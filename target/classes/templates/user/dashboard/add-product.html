@@ -73,7 +73,12 @@
                     </div>
                 </div>
                 <!-- row -->
-                <form th:action="@{/admin/product/create}" th:object="${product}" method="post" enctype="multipart/form-data">
+                <form
+                        id="formProduct"
+                        th:action="@{/admin/product/create}"
+                        th:object="${product}"
+                        method="post"
+                        enctype="multipart/form-data">
                     <input type="hidden" th:field="*{id}">
                     <div class="row">
                         <div class="col-lg-8 col-12">
@@ -211,7 +216,7 @@
                                         <div class="mb-3 col-lg-12 mt-5">
                                             <h4 class="mb-3 h5">Product Descriptions</h4>
                                             <input type="hidden" th:field="*{description}">
-                                            <div class="py-8" id="editor" th:text="${product.description}">
+                                            <div class="py-8 " id="editor" th:utext="${product.description}">
                                             </div>
                                         </div>
                                     </div>
@@ -286,7 +291,7 @@
                             <!-- button -->
                             <div class="d-grid">
                                 <button class="btn btn-primary">
-                                    Create Product
+                                    <span th:text="${action}"></span> Product
                                 </button>
                             </div>
                         </div>

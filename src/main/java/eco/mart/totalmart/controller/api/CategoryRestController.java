@@ -4,29 +4,59 @@ import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.services.CategoryGroupService;
+import eco.mart.totalmart.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryRestController {
 
+
     @Autowired
-    CategoryGroupService groupService;
+    CategoryService categoryService;
 
-    @GetMapping("/group/{id}")
-    ResponseEntity<ResponseObject> getCategories(@PathVariable("id") String id) {
 
-        return ResponseObject
+
+
+
+
+    @GetMapping("/get")
+    ResponseEntity<ResponseObject> findCategoriesByIdOrName(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String slug
+    ) {
+        ResponseObject responseObject = ResponseObject
                 .builder()
-                .data(groupService.findById(id).orElseGet(CategoryGroup::new).getCategories())
+                .status("error")
+                .build();
+
+
+        if (slug == null && name == null) {
+            return responseObject.toResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+        List<Category> categories;
+
+        if (slug != null && name != null) {
+            categories = categoryService.findByIdOrName(slug, name);
+        } else if (slug != null) {
+            categories = categoryService.findById(slug)
+                    .map(List::of)
+                    .orElse(Collections.emptyList());
+        } else {
+            categories = categoryService.findByName(name)
+                    .map(List::of)
+                    .orElse(Collections.emptyList());
+        }
+
+        return responseObject.toBuilder()
+                .data(categories)
                 .status("success")
                 .build()
                 .toResponseEntity();
@@ -34,4 +64,24 @@ public class CategoryRestController {
     }
 
 
+    @DeleteMapping("/delete")
+    ResponseEntity<ResponseObject> deleteGroup(@RequestParam("id") String id) {
+        return categoryService.delete(id)
+                .map(category -> ResponseObject
+                        .builder()
+                        .data(category)
+                        .status("success")
+                        .action("delete")
+                        .message("Category deleted")
+                        .build()
+                        .toResponseEntity())
+                .orElse(
+                        ResponseObject
+                                .builder()
+                                .message("Category not found")
+                                .status("error")
+                                .build()
+                                .toResponseEntity(HttpStatus.NOT_FOUND)
+                );
+    }
 }

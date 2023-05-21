@@ -4,10 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.Nationalized;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 @Getter
@@ -33,17 +35,35 @@ public class Category {
     @Column(name = "poster", length = 1000)
     private String poster;
 
+    @Column(name = "isNonActive", nullable = false)
+    private boolean isNonActive = false;
+
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "category")
     @JsonIgnore
     private List<Product> products = new ArrayList<>();
 
+
     @Transient
     private String url;
 
+    @Transient
+    private int productCount;
+
+
+
+    public Optional<Category> toOptional() {
+        return Optional.of(this);
+    }
 
     public String getUrl() {
         return "%s/%s".formatted(getCategoryGroup().getId(),getId());
     }
 
+    public int getProductCount() {
+        return products.size();
+    }
 
 }

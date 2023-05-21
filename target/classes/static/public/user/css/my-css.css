@@ -37,3 +37,7 @@
     transform: translateY(0);
 
 }
+
+.modal-backdrop.fade.show {
+    z-index: 9999 !important;
+}

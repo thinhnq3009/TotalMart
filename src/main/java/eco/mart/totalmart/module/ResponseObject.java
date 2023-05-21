@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
 public class ResponseObject {
-    String message;
+    String message = "Successfully !!!!";
     String status = "success";
 
     String action = "none";

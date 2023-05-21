@@ -1,7 +1,10 @@
 package eco.mart.totalmart.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 
@@ -15,6 +18,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "CategoryGroup", schema = "dbo")
 public class CategoryGroup {
     @Id
@@ -29,14 +33,28 @@ public class CategoryGroup {
     @Column(name = "poster", length = 1000)
     private String poster;
 
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "categoryGroup")
+    @JsonIgnore
     private List<Category> categories = new ArrayList<>();
 
     @Transient
     private String url;
 
     @Transient
+    @JsonIgnore
     private List<Product> allProduct = new ArrayList<>();
+
+
+    /*
+     ||||||| Methods |||||||
+     */
+    public CategoryGroup(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public String getUrl() {
         return "/%s".formatted(getId());

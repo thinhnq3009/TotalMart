@@ -196,9 +196,9 @@
 </nav>
 
 <nav th:fragment="sidebar" class="navbar-vertical-nav d-none d-xl-block ">
-    <div class="navbar-vertical">
+    <div class="navbar-vertical" style="z-index: 1000">
         <div class="px-4 py-5">
-            <a href="../index.html" class="navbar-brand">
+            <a href="/" class="navbar-brand">
                 <img src="/public/user/images/logo/freshcart-logo.svg" alt="">
             </a>
         </div>
@@ -244,7 +244,7 @@
                     </div>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link " th:href="@{/admin/categories-brands}">
+                    <a class="nav-link " th:href="@{/admin/categories/show}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-list-task"></i></span>
                             <span class="nav-link-text">Categories</span>

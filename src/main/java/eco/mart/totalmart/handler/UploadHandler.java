@@ -4,6 +4,7 @@ import eco.mart.totalmart.entities.Image;
 import jakarta.servlet.ServletContext;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 public class UploadHandler {
 
     private final Logger logger = LoggerFactory.getLogger(UploadHandler.class);

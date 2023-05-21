@@ -6,7 +6,10 @@
 </head>
 <body>
 <!--/*@thymesVar id="noticer" type="java.lang.String"*/-->
-<div th:fragment="container" id="notifier-json-wrapper" th:hidden="true" th:text="${noticer}"></div>
-<script th:fragment="js" src="/public/user/js/custom/notification.js"></script>
+<div th:fragment="full-container">
+    <link rel="stylesheet" href="/public/user/css/notification.css">
+    <div th:fragment="container" id="notifier-json-wrapper" th:hidden="true" th:text="${noticer}"></div>
+    <script th:fragment="js" src="/public/user/js/custom/notification.js"></script>
+</div>
 </body>
 </html>

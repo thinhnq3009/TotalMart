@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CategoryGroupRepository extends JpaRepository<CategoryGroup, String> {
 
@@ -19,4 +20,7 @@ public interface CategoryGroupRepository extends JpaRepository<CategoryGroup, St
     List<Object[]> findTopThreeCategoriesByTotalSold();
 
 
+    List<CategoryGroup> findByIdOrName(String slug, String name);
+
+    Optional<CategoryGroup> findByName(String name);
 }
