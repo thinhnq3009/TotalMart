@@ -290,7 +290,7 @@
                     </a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link " href="../dashboard/customers.html">
+                    <a class="nav-link " th:href="@{/user-manager}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-people"></i></span>
                             <span class="nav-link-text">Customers</span>
@@ -302,6 +302,14 @@
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-star"></i></span>
                             <span class="nav-link-text">Reviews</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link " href="/trash">
+                        <div class="d-flex align-items-center">
+                            <span class="nav-link-icon"> <i class="bi bi-trash3"></i></span>
+                            <span class="nav-link-text">Recycle</span>
                         </div>
                     </a>
                 </li>

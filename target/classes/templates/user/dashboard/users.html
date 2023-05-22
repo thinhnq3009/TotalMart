@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+  <!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta content="Codescandy" name="author">
+
+<!-- Favicon icon-->
+<link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+
+
+<!-- Libs CSS -->
+<link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+<link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
+<link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+
+
+<!-- Theme CSS -->
+<link rel="stylesheet" href="/public/user/css/theme.min.css">
+
+
+  <title>Dashboard</title>
+</head>
+
+<body>
+
+<nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
+
+    <div class="main-wrapper">
+      <!-- navbar vertical -->
+
+        <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
+        <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
+
+      <main class="main-content-wrapper">
+        <div class="container">
+          <div class="row mb-8">
+            <div class="col-md-12">
+              <div class="d-md-flex justify-content-between align-items-center">
+                <div>
+                  <h2>Customers</h2>
+                    <!-- breacrumb -->
+                    <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                      <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                      <li class="breadcrumb-item active" aria-current="page">Customers</li>
+                    </ol>
+                  </nav>
+                </div>
+                <div>
+                  <a href="#!" class="btn btn-primary">Add New Customer</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col-xl-12 col-12 mb-5">
+              <div class="card h-100 card-lg">
+
+                <div class="p-6">
+                  <div class="row justify-content-between">
+                    <div class="col-md-4 col-12">
+                      <form class="d-flex" role="search">
+                        <input class="form-control" type="search" placeholder="Search Customers" aria-label="Search">
+
+                      </form>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="card-body p-0 ">
+
+                  <div>
+                    <table
+                      class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap">
+                      <thead class="bg-light">
+                        <tr>
+                          <th>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                              <label class="form-check-label" for="checkAll">
+
+                              </label>
+                            </div>
+                          </th>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Purchase Date</th>
+                          <th>Phone</th>
+                          <th>Spent</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr th:each="user : ${users}">
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="customerOne">
+                              <label class="form-check-label" for="customerOne">
+                              </label>
+                            </div>
+                          </td>
+
+                          <td>
+                            <div class="d-flex align-items-center">
+                              <img th:src="${user.avatar}" alt=""
+                                class="avatar avatar-md rounded-circle">
+                              <div class="ms-2 d-flex flex-column align-items-start justify-content-start">
+                                <a class="text-inherit" th:text="${user.fullname}">FULLNAME</a>
+                                <span class="badge rounded-pill text-capitalize"
+                                      th:classappend="${user.role == T(eco.mart.totalmart.auth.Role).ADMIN ? 'bg-danger' : ' '}
+                                      + ${user.role == T(eco.mart.totalmart.auth.Role).CUSTOMER ? 'bg-primary' : ' '} "
+
+                                      th:text="${(user.role.toString().toLowerCase())}"></span>
+                              </div>
+                            </div>
+                          </td>
+                          <td th:text="${user.email}">EMAIL</td>
+
+                          <td>
+                            17 May, 2023 at 3:18pm
+                          </td>
+                          <td th:text="${user.phone == null ? '-' : user.phone}">-</td>
+                          <td th:text="${#numbers.formatDecimal(user.spent, 3, 'POINT', 0, 'COMMA') + ' VND'}">
+                            SPENT
+                          </td>
+
+                          <td>
+                            <div class="dropdown">
+                              <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                              </a>
+                              <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Delete</a></li>
+                                <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square me-3 "></i>Edit</a>
+                                </li>
+                              </ul>
+                            </div>
+                          </td>
+                        </tr>
+
+
+                      </tbody>
+                    </table>
+
+                  </div>
+
+                  <div class="border-top d-md-flex justify-content-between align-items-center p-6">
+                    <span>Showing 1 to 8 of 12 entries</span>
+                    <nav class="mt-2 mt-md-0">
+                      <ul class="pagination mb-0 ">
+                        <li class="page-item disabled"><a class="page-link " href="#!">Previous</a></li>
+                        <li class="page-item"><a class="page-link active" href="#!">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#!">Next</a></li>
+                      </ul>
+                    </nav>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          </div>
+      </main>
+
+    </div>
+
+
+  <!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+
+</body>
+
+</html>

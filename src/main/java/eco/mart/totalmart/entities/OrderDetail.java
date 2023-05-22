@@ -35,7 +35,15 @@ public class OrderDetail {
     @Nationalized
     @Column(name = "note", length = 1000)
     private String note;
-//
+
+    @Transient
+    private int amount;
+
+    public int getAmount() {
+        return (int) (quantity * sellPrice);
+    }
+
+    //
 //    @OneToMany(mappedBy = "orderDetail")
 //    private Set<Feedback> feedbacks = new LinkedHashSet<>();
 

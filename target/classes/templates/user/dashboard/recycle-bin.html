@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta content="Codescandy" name="author">
+
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+
+
+  <!-- Libs CSS -->
+  <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
+  <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="/public/user/css/theme.min.css">
+
+
+  <title>Dashboard</title>
+</head>
+
+<body>
+
+<nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
+
+<div class="main-wrapper">
+  <!-- navbar vertical -->
+
+  <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
+  <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
+
+  <main class="main-content-wrapper">
+    <div class="container">
+      <div class="row mb-8">
+        <div class="col-md-12">
+          <div class="d-md-flex justify-content-between align-items-center">
+            <div>
+              <h2>Recycle Bin</h2>
+              <!-- breacrumb -->
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                  <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Recycle Bin</li>
+                </ol>
+              </nav>
+            </div>
+            <div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+
+<!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+
+</body>
+
+</html>

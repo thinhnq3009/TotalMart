@@ -126,7 +126,7 @@
                                                 <img
                                                         th:src="${item.poster == null ?  '/public/user/images/icons/snacks.svg' : item.poster}"
                                                         alt=""
-                                                        class="icon-shape icon-sm">
+                                                        class="icon-shape icon-sm rounded-2">
                                             </a>
                                         </td>
                                         <td><a href="#" class="text-reset" th:text="${item.name}"></a></td>
@@ -177,9 +177,9 @@
     </main>
 </div>
 
-<div class="modal fade" id="confirmDeleteCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade " id="confirmDeleteCategory" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="staticBackdropLabel">Do you want delete this category ?</h5>

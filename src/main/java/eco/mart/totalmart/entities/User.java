@@ -11,7 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 
 @Getter
@@ -61,16 +63,34 @@ public class User implements UserDetails {
     @CurrentTimestamp(timing = GenerationTiming.INSERT)
     private Timestamp createdDate;
 
+    @Transient
+    private int spent;
+
+
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
     private Role role = Role.CUSTOMER;
 
-//    @OneToMany(mappedBy = "customer")
-//    private Set<Order> orders = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "user")
 //    private Set<Address> addresses = new LinkedHashSet<>();
 
+    /*
+    |||||| Method ||||||||
+     */
+
+    public Integer getSpent() {
+        System.out.println("------------------------------------------------------");
+        Integer a =  orders.stream().map(Order::getTotalBill).reduce(0, Integer::sum);
+        System.out.println("------------------------------------------------------");
+        return  a;
+    }
+
+    public String getAvatar() {
+        return avatar == null ? "/public/user/images/avatar/default-avatar.png" : avatar;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

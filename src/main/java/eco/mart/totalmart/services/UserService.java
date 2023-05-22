@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,6 +26,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
 
     public Optional<User> register(User user) throws ConstraintViolationException {
 
@@ -52,10 +56,8 @@ public class UserService implements UserDetailsService {
     public User login(User user) throws EntityNotFoundException {
 
         User userFound = userRepository.findByUsername(user.getUsername())
-                .orElseGet(() -> {
-                    return userRepository.findByEmail(user.getEmail())
-                            .orElseThrow(() -> new EntityNotFoundException("Username or email not found"));
-                });
+                .orElseGet(() -> userRepository.findByEmail(user.getEmail())
+                        .orElseThrow(() -> new EntityNotFoundException("Username or email not found")));
 
 
         if (passwordEncoder.matches(user.getPassword(), userFound.getPassword())) {

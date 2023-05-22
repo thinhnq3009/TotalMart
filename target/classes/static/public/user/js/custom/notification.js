@@ -28,15 +28,15 @@ class NotificationManager {
             // ti Icon
             switch (type) {
                 case "primary":
-                    return "bi bi-info-square";
+                    return "bi bi-info-circle-fill";
                 case "danger":
-                    return "bi bi-exclamation-triangle";
+                    return "bi bi-exclamation-triangle-fill";
                 case "warning":
-                    return "bi bi-exclamation-circle";
+                    return "bi bi-exclamation-circle-fill";
                 case "success":
-                    return "bi bi-check-circle";
+                    return "bi bi-check-circle-fill";
                 case "secondary":
-                    return "bi bi-info-circle";
+                    return "bi bi-info-circle-fill";
                 default:
                     throw new Error("Invalid notification type");
             }

@@ -4,7 +4,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Getter
@@ -34,18 +37,22 @@ public class Order {
     private Voucher voucher;
 
     @Column(name = "timeCreated", nullable = false)
-    private Instant timeCreated;
+    private Timestamp timeCreated;
 
     @Column(name = "timeConfirmed")
-    private Instant timeConfirmed;
+    private Timestamp timeConfirmed;
 
     @Column(name = "timeComplete")
-    private Instant timeComplete;
+    private Timestamp timeComplete;
 
     @Column(name = "shippingFee", nullable = false)
     private Integer shippingFee;
 
-//    @OneToMany(mappedBy = "order")
-//    private Set<OrderDetail> orderDetails = new LinkedHashSet<>();
+    public Integer getTotalBill() {
+        return orderDetails.stream().map(OrderDetail::getAmount).reduce(0, Integer::sum);
+    }
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails = new ArrayList<>();
 
 }
