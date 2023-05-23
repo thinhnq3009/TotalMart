@@ -81,6 +81,9 @@ public class Product {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "isDeleted", nullable = false)
+    private boolean isDeleted = false;
+
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private List<OrderDetail> orderDetails = new ArrayList<>();

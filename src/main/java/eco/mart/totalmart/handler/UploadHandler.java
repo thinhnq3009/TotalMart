@@ -57,7 +57,6 @@ public class UploadHandler {
                         logger.warn("File upload have an extension is \"%s\" but has been changed to \"%s\"".formatted(uploadExtension, newExtension));
                     }
                 }
-
             }
 
             // Folder = realPath +  root + subfolder

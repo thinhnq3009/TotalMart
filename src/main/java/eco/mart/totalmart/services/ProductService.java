@@ -43,12 +43,19 @@ public class ProductService {
         return productRepository.findAll();
     }
 
+    public List<Product> findByIsDeletedTrue() {
+        return productRepository.findByIsDeletedTrue();
+    }
+
+    public List<Product> findByIsDeletedFalse() {
+        return productRepository.findByIsDeletedFalse();
+    }
+
     public Optional<Product> findById(long id) {
         return productRepository.findById(id);
     }
 
     public Product upsert(Product product, MultipartFile imgPosterMF, String imageNames) {
-
 
         logger.info(product.getPoster() + "___");
 
@@ -101,4 +108,12 @@ public class ProductService {
     }
 
 
+    public Optional<Product> restore(long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            product.get().setDeleted(false);
+            productRepository.saveAndFlush(product.get());
+        }
+        return product;
+    }
 }

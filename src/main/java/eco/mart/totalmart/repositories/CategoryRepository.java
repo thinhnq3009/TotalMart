@@ -12,6 +12,9 @@ public interface CategoryRepository extends JpaRepository<Category, String> {
 
     List<Category> findByIdOrName(String id, String name);
 
+    @Query("select c from Category c where c.isDeleted = true")
+    List<Category> findByIsDeletedTrue();
+
     @Query("select c from Category c where c.isDeleted = false")
     List<Category> findByIsDeletedFalse();
 

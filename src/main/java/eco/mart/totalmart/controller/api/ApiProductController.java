@@ -4,11 +4,10 @@ import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
@@ -30,7 +29,7 @@ public class ApiProductController {
     }
 
     @GetMapping("/{id}")
-    ResponseObject getProductById( @PathVariable long id) {
+    ResponseObject getProductById(@PathVariable long id) {
         Optional<Product> productOptional = productService.findById(id);
 
         if (productOptional.isPresent()) {
@@ -47,5 +46,27 @@ public class ApiProductController {
         }
     }
 
+    @PutMapping("/restore")
+    ResponseEntity<ResponseObject> restoreProduct(@RequestParam("id") long id) {
+        return productService.restore(id)
+                .map(product ->
+                        ResponseObject.builder()
+                                .action("restore")
+                                .message("Restore product success")
+                                .status("success")
+                                .data(product.getName())
+                                .build()
+                                .toResponseEntity()
+                )
+                .orElse(
+                        ResponseObject.builder()
+                                .action("restore")
+                                .message("Restore product failed")
+                                .status("error")
+                                .build()
+                                .toResponseEntity(HttpStatus.BAD_REQUEST)
+                )
+                ;
+    }
 
 }

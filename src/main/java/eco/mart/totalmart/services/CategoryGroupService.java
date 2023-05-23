@@ -2,9 +2,11 @@ package eco.mart.totalmart.services;
 
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.handler.UploadHandler;
+import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.repositories.CategoryGroupRepository;
 import jakarta.servlet.ServletContext;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +39,10 @@ public class CategoryGroupService {
         return groupRepository.findAll();
     }
 
+    public List<CategoryGroup> findByIsDeletedTrue() {
+        return groupRepository.findByIsDeletedTrue();
+    }
+
     public List<CategoryGroup> findByIdOrName(String slug, String name) {
         return groupRepository.findByIdOrName(slug, name);
     }
@@ -51,4 +57,13 @@ public class CategoryGroupService {
     }
 
 
+    public Optional<CategoryGroup> restore(String id) {
+        Optional<CategoryGroup> group = groupRepository.findById(id);
+        if (group.isPresent()) {
+            group.get().setDeleted(false);
+            return Optional.of(groupRepository.save(group.get()));
+        }
+        return Optional.empty();
+
+    }
 }

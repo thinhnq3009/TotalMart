@@ -17,7 +17,7 @@ public class CategoryGroupRestController {
     @Autowired
     CategoryGroupService groupService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     ResponseEntity<ResponseObject> getCategories(@PathVariable("id") String id) {
         return ResponseObject
                 .builder()
@@ -42,17 +42,16 @@ public class CategoryGroupRestController {
         if (slug == null && name == null) {
             return responseObject.toResponseEntity(HttpStatus.BAD_REQUEST);
         }
-        Object groups ;
+        Object groups;
 
         if (slug != null && name != null) {
-            groups =  groupService.findByIdOrName(slug, name);
+            groups = groupService.findByIdOrName(slug, name);
         } else if (slug != null) {
             groups = List.of(groupService.findById(slug).orElseGet(CategoryGroup::new));
 
         } else {
             groups = List.of(groupService.findByName(name).orElseGet(CategoryGroup::new));
         }
-
 
 
         return responseObject.toBuilder()
@@ -84,6 +83,27 @@ public class CategoryGroupRestController {
                 .build()
                 .toResponseEntity(HttpStatus.NOT_IMPLEMENTED);
 
+    }
+
+    @PutMapping("/restore")
+    ResponseEntity<ResponseObject> restoreGroups(@RequestParam("id") String id) {
+
+        return groupService.restore(id).map(
+                categoryGroup -> ResponseObject
+                        .builder()
+                        .data(categoryGroup)
+                        .message("Category group restored")
+                        .status("success")
+                        .build()
+                        .toResponseEntity()
+        ).orElseGet(
+                () -> ResponseObject
+                        .builder()
+                        .message("Category group not found")
+                        .status("error")
+                        .build()
+                        .toResponseEntity(HttpStatus.NOT_IMPLEMENTED)
+        );
     }
 
 }

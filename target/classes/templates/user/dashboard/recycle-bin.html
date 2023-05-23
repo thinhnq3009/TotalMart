@@ -1,28 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta content="Codescandy" name="author">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta content="Codescandy" name="author">
 
-  <!-- Favicon icon-->
-  <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
-
-
-  <!-- Libs CSS -->
-  <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
-  <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
 
 
-  <!-- Theme CSS -->
-  <link rel="stylesheet" href="/public/user/css/theme.min.css">
+    <!-- Libs CSS -->
+    <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
+    <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
 
 
-  <title>Dashboard</title>
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/public/user/css/theme.min.css">
+
+
+    <title>Dashboard</title>
 </head>
 
 <body>
@@ -30,33 +30,318 @@
 <nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
 
 <div class="main-wrapper">
-  <!-- navbar vertical -->
+    <!-- navbar vertical -->
 
-  <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
-  <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
+    <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
+    <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
 
-  <main class="main-content-wrapper">
-    <div class="container">
-      <div class="row mb-8">
-        <div class="col-md-12">
-          <div class="d-md-flex justify-content-between align-items-center">
-            <div>
-              <h2>Recycle Bin</h2>
-              <!-- breacrumb -->
-              <nav aria-label="breadcrumb">
-                <ol class="breadcrumb mb-0">
-                  <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Recycle Bin</li>
-                </ol>
-              </nav>
+    <main class="main-content-wrapper">
+        <div class="container">
+            <div class="row mb-8">
+                <div class="col-md-12">
+                    <div class="d-md-flex justify-content-between align-items-center">
+                        <div>
+                            <h2>Recycle Bin</h2>
+                            <!-- breacrumb -->
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Recycle Bin</li>
+                                </ol>
+                            </nav>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div>
+            <div class="row">
+                <div>
+                    <div class="col-xl-12 col-12 mb-5">
+
+                        <ul class="nav nav-pills mb-3 my-5" id="pills-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="pills-summary-tab" data-bs-toggle="pill"
+                                   href="#pills-summary" role="tab" aria-controls="pills-summary"
+                                   aria-selected="true">Summary</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-products-tab" data-bs-toggle="pill"
+                                   href="#pills-products" role="tab" aria-controls="pills-profile"
+                                   aria-selected="false">Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-categories-tab" data-bs-toggle="pill"
+                                   href="#pills-category" role="tab" aria-controls="pills-category"
+                                   aria-selected="false">Categories </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-groups-tab" data-bs-toggle="pill"
+                                   href="#pills-groups" role="tab" aria-controls="pills-groups"
+                                   aria-selected="false">Groups category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-brands-tab" data-bs-toggle="pill"
+                                   href="#pills-brands" role="tab" aria-controls="pills-brands"
+                                   aria-selected="false">Brands</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="pills-images-tab" data-bs-toggle="pill"
+                                   href="#pills-images" role="tab" aria-controls="pills-images"
+                                   aria-selected="false">Images</a>
+                            </li>
+                        </ul>
+
+                        <div class="card h-100 card-lg">
+                            <!-- javascript behavior pills -->
+
+                            <div class="tab-content" id="pills-tabContent">
+                                <!-- Tab Content for Summary-->
+                                <div class="tab-pane fade show active" id="pills-summary" role="tabpanel"
+                                     aria-labelledby="pills-summary-tab">
+                                </div>
+
+                                <!-- Tab Content for Products-->
+                                <div class="tab-pane fade" id="pills-products" role="tabpanel"
+                                     aria-labelledby="pills-products-tab">
+                                    <th:block th:if="${productsDeleted.isEmpty()}">
+                                        <div
+                                                th:replace="~{/user/fragments/empty-box :: empty-box}"
+                                        ></div>
+                                    </th:block>
+                                    <div th:unless="${productsDeleted.isEmpty()}" class="card-body px-0 py-3">
+                                        <!-- table -->
+                                        <div class="">
+                                            <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Image</th>
+                                                    <th>Product Name</th>
+                                                    <th>Category</th>
+                                                    <th>In Stock</th>
+                                                    <th>Price</th>
+                                                    <th>Create at</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="product : ${productsDeleted}">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value=""
+                                                                   id="productOne">
+                                                            <label class="form-check-label" for="productOne">
+
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!"> <img th:src="${product.poster}" alt=""
+                                                                           class="icon-shape icon-md"></a>
+                                                    </td>
+                                                    <td><a href="#" class="text-reset" th:text="${product.name}"></a>
+                                                    </td>
+                                                    <td th:text="${product.category.name}">Snack & Munchies</td>
+
+                                                    <td>
+                                                        <span th:text="${product.inventory}"></span>
+                                                        (Sold <span th:text="${product.sold}"></span>)
+                                                    </td>
+                                                    <td
+                                                            th:text="${#numbers.formatDecimal(product.getSalePrice, 3, 'POINT', 0, 'COMMA') + 'đ'}"
+                                                    ></td>
+                                                    <td>24 Nov 2022</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" class="text-reset" data-bs-toggle="dropdown"
+                                                               aria-expanded="false">
+                                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li><button
+                                                                        th:attr="restore-product-id=${product.id}"
+                                                                        type="button"
+                                                                        class="dropdown-item"><i
+                                                                        class="bi bi-arrow-repeat me-3"></i>Restore</button>
+                                                                </li>
+                                                                <li><a class="dropdown-item"
+                                                                       th:href="@{|/admin/product/edit/${product.id}|}"><i
+                                                                        class="bi bi-pencil-square me-3 "></i>Edit</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content for Categories-->
+                                <div class="tab-pane fade" id="pills-category" role="tabpanel"
+                                     aria-labelledby="pills-category-tab">
+                                    <th:block th:if="${categoriesDeleted.isEmpty()}">
+                                        <div
+                                                th:replace="~{/user/fragments/empty-box :: empty-box}"
+                                        ></div>
+                                    </th:block>
+                                    <div th:unless="${categoriesDeleted.isEmpty()}" class="card-body px-0 py-3">
+                                        <!-- table -->
+                                        <div class=" ">
+                                            <table class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Icon</th>
+                                                    <th>Name</th>
+                                                    <th>Products</th>
+                                                    <th>Status</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:id="${item.id}" th:each="item : ${categoriesDeleted}">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value=""
+                                                                   th:id="${item.id}">
+                                                            <label class="form-check-label" th:for="${item.id}">
+
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#!">
+                                                            <img
+                                                                    th:src="${item.poster == null ?  '/public/user/images/icons/snacks.svg' : item.poster}"
+                                                                    alt=""
+                                                                    class="icon-shape icon-sm rounded-2">
+                                                        </a>
+                                                    </td>
+                                                    <td><a href="#" class="text-reset" th:text="${item.name}"></a></td>
+                                                    <td th:text="${item.productCount}">Product Count</td>
+
+                                                    <td>
+                                                        <span class="badge bg-light-primary text-dark-primary">Published</span>
+                                                    </td>
+
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" class="text-reset" data-bs-toggle="dropdown"
+                                                               aria-expanded="false">
+                                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <button class="dropdown-item"
+                                                                            th:attr="restore-category-id=${item.id}">
+                                                                        <i class="bi bi-arrow-repeat me-3"></i>Restore
+                                                                    </button>
+                                                                </li>
+                                                                <li><a class="dropdown-item"
+                                                                       th:href="@{'/admin/categories/edit/' + ${item.id}}"><i
+                                                                        class="bi bi-pencil-square me-3 "></i>Edit</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content for Group category-->
+                                <div class="tab-pane fade" id="pills-groups" role="tabpanel"
+                                     aria-labelledby="pills-groups-tab">
+                                    <th:block th:if="${groupsDeleted.isEmpty()}">
+                                        <div
+                                                th:replace="~{/user/fragments/empty-box :: empty-box}"
+                                        ></div>
+                                    </th:block>
+                                    <div th:unless="${groupsDeleted.isEmpty()}" class="card-body px-0 py-3">
+                                        <!-- table -->
+                                        <div class=" ">
+                                            <table class="table table-centered table-hover mb-0 text-nowrap table-borderless table-with-checkbox">
+                                                <thead class="bg-light">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Name</th>
+                                                    <th>Categories</th>
+                                                    <th>Products</th>
+                                                    <th></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:id="${item.id}" th:each="item : ${groupsDeleted}">
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox" value=""
+                                                                   th:id="${item.id}">
+                                                            <label class="form-check-label" th:for="${item.id}">
+
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td th:text="${item.name}"></td>
+                                                    <td th:text="${item.categories.size()}">Category Count</td>
+                                                    <td th:text="${item.allProduct.size()}">Product Count</td>
+                                                    <td>
+                                                        <div class="dropdown">
+                                                            <a href="#" class="text-reset" data-bs-toggle="dropdown"
+                                                               aria-expanded="false">
+                                                                <i class="feather-icon icon-more-vertical fs-5"></i>
+                                                            </a>
+                                                            <ul class="dropdown-menu">
+                                                                <li>
+                                                                    <button class="dropdown-item"
+                                                                            th:attr="restore-group-id=${item.id}">
+                                                                        <i class="bi bi-arrow-repeat me-3"></i>Restore
+                                                                    </button>
+                                                                </li>
+                                                                <li><a class="dropdown-item"
+                                                                       th:href="@{'/admin/categories/edit/' + ${item.id}}"><i
+                                                                        class="bi bi-pencil-square me-3 "></i>Edit</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Content for Brands-->
+                                <div class="tab-pane fade" id="pills-brands" role="tabpanel"
+                                     aria-labelledby="pills-brands-tab">
+                                    <th:block th:if="${categoriesDeleted.isEmpty()}">
+                                        <div
+                                                th:replace="~{/user/fragments/empty-box :: empty-box}"
+                                        ></div>
+                                    </th:block>
+                                </div>
+
+                                <!-- Tab Content for Images-->
+                                <div class="tab-pane fade" id="pills-images" role="tabpanel"
+                                     aria-labelledby="pills-brands-tab">
+                                    <th:block th:if="${categoriesDeleted.isEmpty()}">
+                                        <div
+                                                th:replace="~{/user/fragments/empty-box :: empty-box}"
+                                        ></div>
+                                    </th:block>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  </main>
+    </main>
 
 </div>
 
@@ -68,7 +353,9 @@
 
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
+<script src="/public/user/js/custom/recycle-bin.js"></script>
 
+<div th:replace="~{/user/fragments/notification :: full-container}"></div>
 </body>
 
 </html>

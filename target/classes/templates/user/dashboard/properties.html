@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta content="Codescandy" name="author">
+
+
+  <!-- Favicon icon-->
+  <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+
+
+  <!-- Libs CSS -->
+  <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
+  <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+
+
+  <!-- Theme CSS -->
+  <link rel="stylesheet" href="/public/user/css/theme.min.css">
+
+
+  <title>Dashboard</title>
+</head>
+
+<body>
+<!-- main -->
+<div>
+  <nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
+
+  <div class="main-wrapper">
+    <!-- navbar vertical -->
+
+    <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
+    <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
+
+    <!-- main -->
+    <main class="main-content-wrapper">
+      <div class="container">
+        <div class="row mb-8">
+          <div class="col-md-12">
+            <!-- page header -->
+            <div class="d-md-flex justify-content-between align-items-center">
+              <div>
+                <h2>Products</h2>
+                <!-- breacrumb -->
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Products</li>
+                  </ol>
+                </nav>
+              </div>
+              <!-- button -->
+              <div>
+                <a th:href="@{/admin/product/create}" class="btn btn-primary">Add Product</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- row -->
+        <div class="row ">
+          <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+              <div class="px-6 py-6 ">
+                <div class="row justify-content-between">
+                  <!-- form -->
+                  <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
+                    <form class="d-flex" role="search">
+                      <input class="form-control" type="search" placeholder="Search Products" aria-label="Search">
+                    </form>
+                  </div>
+                  <!-- select option -->
+                  <div class="col-lg-2 col-md-4 col-12">
+                    <select class="form-select">
+                      <option selected>Status</option>
+                      <option value="1">Active</option>
+                      <option value="2">Deactive</option>
+                      <option value="3">Draft</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <!-- card body -->
+              <div class="card-body p-0">
+                <!-- table -->
+                <div class="table-responsive">
+                  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
+                    <thead class="bg-light">
+                    <tr>
+                      <th>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="checkAll">
+                          <label class="form-check-label" for="checkAll">
+
+                          </label>
+                        </div>
+                      </th>
+                      <th>Image</th>
+                      <th>Proudct Name</th>
+                      <th>Category</th>
+                      <th>Status</th>
+                      <th>Price</th>
+                      <th>Create at</th>
+                      <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="product : ${products}">
+                      <td>
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" value="" id="productOne">
+                          <label class="form-check-label" for="productOne">
+
+                          </label>
+                        </div>
+                      </td>
+                      <td>
+                        <a href="#!"> <img th:src="${product.poster}" alt=""
+                                           class="icon-shape icon-md"></a>
+                      </td>
+                      <td><a href="#" class="text-reset" th:text="${product.name}"></a></td>
+                      <td th:text="${product.category.name}">Snack & Munchies</td>
+
+                      <td>
+                        <span class="badge bg-light-primary text-dark-primary">Active</span>
+                      </td>
+                      <td
+                              th:text="${#numbers.formatDecimal(product.getSalePrice, 3, 'POINT', 0, 'COMMA') + 'đ'}"
+                      ></td>
+                      <td>24 Nov 2022</td>
+                      <td>
+                        <div class="dropdown">
+                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="feather-icon icon-more-vertical fs-5"></i>
+                          </a>
+                          <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Delete</a></li>
+                            <li><a class="dropdown-item" th:href="@{|/admin/product/edit/${product.id}|}"><i class="bi bi-pencil-square me-3 "></i>Edit</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </td>
+                    </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+  </div>
+</div>
+
+<!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+<script src="/public/user/libs/apexcharts/dist/apexcharts.min.js"></script>
+<script src="/public/user/js/vendors/chart.js"></script>
+
+</body>
+
+</html>

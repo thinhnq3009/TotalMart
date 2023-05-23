@@ -24,9 +24,16 @@ public class ResponseObject {
         this.data = data;
     }
 
+    public ResponseObject message(String message) {
+        this.setMessage(message);
+        return this;
+    }
+
     public ResponseEntity<ResponseObject> toResponseEntity(HttpStatus httpStatus) {
         return ResponseEntity.status(httpStatus).body(this);
-    }public ResponseEntity<ResponseObject> toResponseEntity() {
+    }
+
+    public ResponseEntity<ResponseObject> toResponseEntity() {
         return ResponseEntity.status(HttpStatus.OK).body(this);
     }
 
