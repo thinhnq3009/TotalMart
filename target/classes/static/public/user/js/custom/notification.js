@@ -27,6 +27,7 @@ class NotificationManager {
         const getIcon = (type) => {
             // ti Icon
             switch (type) {
+                case "info":
                 case "primary":
                     return "bi bi-info-circle-fill";
                 case "danger":
@@ -73,7 +74,6 @@ class NotificationManager {
 
 
     removeNotification(id) {
-        console.log("removeNotification" + this.notifications[id].message)
         this.notifications[id].removeClass("bounceInRight");
         this.notifications[id].addClass("backOutRight");
         setTimeout(() => {
@@ -117,3 +117,7 @@ $(document).ready(function () {
         }, 500
     )
 })
+
+console.log('%cĐã khởi tạo thành công NotificationManager',
+    'color: #539165; font-size: 18px; font-weight: bold;');
+

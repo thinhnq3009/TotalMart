@@ -18,7 +18,7 @@ $(document).ready(function () {
                 ;
             },
             type: "GET",
-            url: `/api/v1/categories/group/${categoryId}`
+            url: `/api/v1/categories/group/get/${categoryId}`
         })
     })
 

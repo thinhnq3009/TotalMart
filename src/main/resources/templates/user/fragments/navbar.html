@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -23,6 +26,7 @@
                     All Departments
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <!--/*@thymesVar id="categoryGroups" type=""*/-->
                     <li th:each="item : ${categoryGroups}">
                         <a class="dropdown-item" th:href="@{|${item.url}|}" th:text="${item.name}"></a>
                     </li>

@@ -32,15 +32,13 @@ public class AccountController {
     ServletContext servletContext;
 
     @GetMapping("/login")
-    String login() {
+    String login(Model model) {
+        System.out.println("I'am LoginController");
+        notificationService.render(model);
         return "user/pages/signin";
     }
 
-    @GetMapping("/account/login")
-    String loginError(@RequestParam("error") String error, Model model) {
-        notificationService.addError(error);
-        return "user/pages/signin";
-    }
+
 
 
     @GetMapping("/register")
@@ -51,25 +49,22 @@ public class AccountController {
 
     @PostMapping("/login")
     String login(User user, Model model, HttpServletRequest request) {
-//
-//        logger.warn("user: " + user);
-//
-//
-//        try {
-//            User userLogin = userService.login(user);
-//            notificationService.addInfo("Đăng nhập thành công");
+
+        logger.warn("user: " + user.getUsername());
+
+
+        try {
+            User userLogin = userService.login(user);
+            notificationService.addInfo("Đăng nhập thành công");
 //            request.getSession().setAttribute("userLogin", userLogin);
-//
-//        } catch ( EntityNotFoundException e) {
-//            logger.error(e.getMessage());
-//            notificationService.addError(e.getMessage());
-//            notificationService.render(model);
-//            return "user/pages/signin";
-//        } catch (Exception e) {
-//            logger.error(e.getMessage());
-//            return "user/pages/signin";
-//        }
-//
+            notificationService.render(model);
+        } catch ( Exception e) {
+            logger.error(e.getMessage());
+            notificationService.addError(e.getMessage());
+            notificationService.render(model);
+            return "user/pages/signin";
+        }
+
         return "direct:/";
     }
 
@@ -86,7 +81,7 @@ public class AccountController {
             return "user/pages/signup";
         }
 
-        notificationService.render(model);
+//        notificationService.render(model);
 
         return "redirect:/account/login";
     }

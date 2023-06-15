@@ -110,7 +110,8 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="product : ${products}">
+                                        <tr th:each="product : ${pageContent.content}">
+                                            <!--/*@thymesVar id="product" type="eco.mart.totalmart.entities.Product"*/-->
                                             <td>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="productOne">
@@ -139,8 +140,24 @@
                                                         <i class="feather-icon icon-more-vertical fs-5"></i>
                                                     </a>
                                                     <ul class="dropdown-menu">
-                                                        <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Delete</a></li>
-                                                        <li><a class="dropdown-item" th:href="@{|/admin/product/edit/${product.id}|}"><i class="bi bi-pencil-square me-3 "></i>Edit</a>
+                                                        <li>
+                                                            <a class="dropdown-item" th:href="@{|/admin/properties/${product.id}|}">
+                                                                <i class="bi bi-card-list me-3 "></i>
+                                                                Properties
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a class="dropdown-item"
+                                                               th:href="@{|/admin/product/edit/${product.id}|}">
+                                                                <i class="bi bi-pencil-square me-3 "></i>
+                                                                Edit
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                           <a class="dropdown-item">
+                                                               <i class="bi bi-trash me-3"></i>
+                                                               Delete
+                                                           </a>
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -151,18 +168,7 @@
 
                                 </div>
                             </div>
-                            <div class=" border-top d-md-flex justify-content-between align-items-center px-6 py-6">
-                                <span>Showing 1 to 8 of 12 entries</span>
-                                <nav class="mt-2 mt-md-0">
-                                    <ul class="pagination mb-0 ">
-                                        <li class="page-item disabled"><a class="page-link " href="#!">Previous</a></li>
-                                        <li class="page-item"><a class="page-link active" href="#!">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">3</a></li>
-                                        <li class="page-item"><a class="page-link" href="#!">Next</a></li>
-                                    </ul>
-                                </nav>
-                            </div>
+                            <div th:replace="~{/user/fragments/dashboard/footer-table :: pagination}"></div>
                         </div>
 
                     </div>
@@ -183,6 +189,7 @@
 <script src="/public/user/js/theme.min.js"></script>
 <script src="/public/user/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="/public/user/js/vendors/chart.js"></script>
+<script src="/public/user/js/custom/pagination.js"></script>
 
 </body>
 

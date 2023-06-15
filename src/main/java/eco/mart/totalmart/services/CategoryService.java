@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
@@ -48,15 +49,15 @@ public class CategoryService {
 
         try {
 
-           if (imgPoster != null) {
-               UploadHandler handler = new UploadHandler(imgPoster);
-               handler.setSubFolder("categories");
-               handler.setFilename(category.getId());
-               handler.save(servletContext);
-               category.setPoster(handler.getRelativePath());
-           } else {
-               category.setPoster(null);
-           }
+            if (imgPoster != null) {
+                UploadHandler handler = new UploadHandler(imgPoster);
+                handler.setSubFolder("categories");
+                handler.setFilename(category.getId());
+                handler.save(servletContext);
+                category.setPoster(handler.getRelativePath());
+            } else {
+                category.setPoster(null);
+            }
 
             return Optional.of(categoryRepository.save(category));
 
@@ -69,10 +70,19 @@ public class CategoryService {
     }
 
     public List<Category> findAllNotDeleted() {
-        return categoryRepository.findByIsDeletedFalse();
+        return categoryRepository
+                .findByIsDeletedFalse();
     }
 
-    public  Optional<Category> delete(String id) {
+    public List<Category> findAllHaveProduct() {
+        return categoryRepository
+                .findByIsDeletedFalse()
+                .stream()
+                .filter(c -> !c.getProducts().isEmpty())
+                .collect(Collectors.toList());
+    }
+
+    public Optional<Category> delete(String id) {
         Optional<Category> categoryOptional = categoryRepository.findById(id);
         if (categoryOptional.isPresent()) {
             Category category = categoryOptional.get();

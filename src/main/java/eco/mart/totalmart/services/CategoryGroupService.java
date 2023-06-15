@@ -66,4 +66,8 @@ public class CategoryGroupService {
         return Optional.empty();
 
     }
+
+    public List<CategoryGroup> findAllNotDeleted() {
+        return groupRepository.findAllByIsDeletedFalse();
+    }
 }

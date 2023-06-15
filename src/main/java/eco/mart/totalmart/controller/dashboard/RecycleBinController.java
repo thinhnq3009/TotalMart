@@ -1,6 +1,5 @@
 package eco.mart.totalmart.controller.dashboard;
 
-import eco.mart.totalmart.dto.ProductDto;
 import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.entities.Product;

@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -67,10 +68,16 @@ public class UserService implements UserDetailsService {
         }
     }
 
+    public String getUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
+    }
+
+    public User getUser() {
+        return userRepository.findByUsername(getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        logger.info("loadUserByUsername: " + username);
-
         return userRepository
                 .findByUsername(username)
                 .orElseGet(() ->
@@ -81,4 +88,7 @@ public class UserService implements UserDetailsService {
                                 )
                 );
     }
+
+
+
 }

@@ -2,15 +2,23 @@ package eco.mart.totalmart.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.context.annotation.SessionScope;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@SessionScope
 public class NotificationService {
-    final List<Noticer> noticers = new ArrayList<>();
+
+
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+    private final List<Noticer> noticers = new ArrayList<>();
 
     String json;
 
@@ -68,6 +76,7 @@ public class NotificationService {
     }
 
     public void clear() {
+//        logger.warn("clear noticers");
         noticers.clear();
     }
 

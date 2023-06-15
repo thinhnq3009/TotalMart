@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- Shop Cart -->
+<div th:fragment="cart-modal" class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+     aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header border-bottom">
+        <div class="text-start">
+            <h5 id="offcanvasRightLabel" class="mb-0 fs-4">
+                <i class="bi bi-cart-check-fill fs-3 me-4 text-primary"></i>
+                Your Cart</h5>
+        </div>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <div class="d-flex flex-column h-100 ">
+            <div class="flex-grow-1">
+                <ul class="list-group list-group-flush ">
+                    <!-- list group -->
+                    <!--/*@thymesVar id="cartItems" type="java.util.List<eco.mart.totalmart.entities.Cart>"*/-->
+                    <li
+                            th:each="cartItem : ${cartItems}"
+                            class="list-group-item py-3 ps-0">
+                        <!-- row -->
+                        <div class="row align-items-center">
+                            <div class="col-3 col-md-2">
+                                <!-- img -->
+                                <img
+
+                                        th:src="${cartItem.product.poster}"
+                                        alt="Ecommerce"
+                                        class="img-fluid">
+                            </div>
+                            <div class="col-4 col-md-6 col-lg-5">
+                                <!-- title -->
+                                <a href="../pages/shop-single.html" class="text-inherit">
+                                    <h6 class="mb-0" th:text="${cartItem.product.name}"></h6>
+                                </a>
+                                <!--                            <span><small class="text-muted">250g</small></span>-->
+                                <!-- text -->
+                                <div class="mt-2 small lh-1">
+                                    <a href="#!" class="text-decoration-none text-inherit">
+                                      <span
+                                              class="me-1 align-text-bottom">
+                                            <i class="bi bi-trash"></i>
+                                      </span>
+                                        <span class="text-muted">Remove</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- input group -->
+                            <div class="col-3 col-md-3 col-lg-3">
+                                <!-- input -->
+                                <!-- input -->
+                                <div class="input-group input-spinner  ">
+                                    <input type="button" value="-" class="button-minus  btn  btn-sm "
+                                           data-field="quantity">
+                                    <input
+                                            th:max="${cartItem.product.inventory}"
+                                            th:value="${cartItem.quantity}"
+                                            type="number"
+                                            step="1"
+                                            name="quantity"
+                                            class="quantity-field form-control-sm form-input   ">
+                                    <input type="button" value="+" class="button-plus btn btn-sm "
+                                           data-field="quantity">
+                                </div>
+                            </div>
+                            <!-- price -->
+                            <div class="col-2 text-lg-end text-start text-md-end col-md-2">
+                                <span class="fw-bold"
+                                      th:text="${#numbers.formatDecimal(cartItem.product.salePrice, 3 , 'POINT', 0, 'COMMA') + ' đ'}"></span>
+                                <div class="text-decoration-line-through text-muted small"
+                                     th:text="${#numbers.formatDecimal(cartItem.product.basePrice, 3 , 'POINT', 0, 'COMMA') + ' đ'}"
+                                >$20.00
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+            <!-- btn -->
+            <div class="d-flex justify-content-between mt-4 pb-4">
+                <span>  </span>
+                <a th:href="@{/cart}" class="btn btn-dark">Show More</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

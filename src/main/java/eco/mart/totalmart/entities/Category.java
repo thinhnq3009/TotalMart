@@ -1,6 +1,7 @@
 package eco.mart.totalmart.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import eco.mart.totalmart.enums.DefaultData;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -66,4 +67,9 @@ public class Category {
         return products.size();
     }
 
+    public String getPoster() {
+
+        return (poster == null || poster.isBlank()) ? DefaultData.CATEGORY_IMAGE.getValue() : poster;
+
+    }
 }

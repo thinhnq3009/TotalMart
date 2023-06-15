@@ -26,4 +26,7 @@ public interface CategoryGroupRepository extends JpaRepository<CategoryGroup, St
 
     @Query("select c from CategoryGroup c where c.isDeleted = true")
     List<CategoryGroup> findByIsDeletedTrue();
+
+    @Query("select c from CategoryGroup c where c.isDeleted = false")
+    List<CategoryGroup> findAllByIsDeletedFalse();
 }

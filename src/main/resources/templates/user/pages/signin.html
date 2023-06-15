@@ -98,7 +98,6 @@
     </section>
 </main>
 <footer th:replace="~{/user/fragments/footer :: footer}"></footer>
-<div th:replace="~{/admin/fragments/notification :: container}"></div>
 <!-- Javascript-->
 <!-- Libs JS -->
 <script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
@@ -117,7 +116,8 @@
 <script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
-<div th:replace="~{/admin/fragments/notification :: js}"></div>
+<footer th:replace="~{/user/fragments/notification :: full-container}"></footer>
+
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 <!-- choose one -->

@@ -1,5 +1,6 @@
 package eco.mart.totalmart.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "orderId", nullable = false)
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
@@ -31,10 +33,6 @@ public class OrderDetail {
 
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
-
-    @Nationalized
-    @Column(name = "note", length = 1000)
-    private String note;
 
     @Transient
     private int amount;

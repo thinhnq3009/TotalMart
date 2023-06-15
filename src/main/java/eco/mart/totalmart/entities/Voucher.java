@@ -1,5 +1,8 @@
 package eco.mart.totalmart.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import eco.mart.totalmart.enums.DiscountType;
+import eco.mart.totalmart.exceptions.VoucherException;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,6 +20,7 @@ public class Voucher {
 
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
+    @JsonIgnore
     private User userId;
 
     @Nationalized
@@ -39,9 +43,18 @@ public class Voucher {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    @Column(name = "isPercentDiscount", nullable = false)
-    private Boolean isPercentDiscount = false;
 
+    @Column(name = "type", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private DiscountType type;
+
+    public void use() throws VoucherException {
+        if (quantity > 0) {
+            quantity--;
+        } else {
+            throw new VoucherException("Voucher is out of stock");
+        }
+    }
 
 
 //    @OneToMany(mappedBy = "voucher")

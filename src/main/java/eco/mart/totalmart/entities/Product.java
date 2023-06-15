@@ -97,6 +97,13 @@ public class Product {
     @OneToMany(mappedBy = "product")
     private List<Image> images = new ArrayList<>();
 
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Wishlist> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "product")
+    @JsonIgnore
+    private List<Cart> ratings = new ArrayList<>();
 
     public int getInventory() {
         return initialQuantity - sold;

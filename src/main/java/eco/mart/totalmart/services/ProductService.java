@@ -2,10 +2,10 @@ package eco.mart.totalmart.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import eco.mart.totalmart.dto.ProductDto;
 import eco.mart.totalmart.entities.Image;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.handler.UploadHandler;
+import eco.mart.totalmart.module.MyPage;
 import eco.mart.totalmart.repositories.ImageRepository;
 import eco.mart.totalmart.repositories.ProductRepository;
 import jakarta.servlet.ServletContext;
@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -116,4 +118,16 @@ public class ProductService {
         }
         return product;
     }
+
+    public MyPage<Product> findAll(Pageable pageable) {
+        Page<Product> page = productRepository.findAll(pageable);
+        return MyPage.of(page);
+
+    }
+
+    public MyPage<Product> findByCategory(String categoryId, Pageable pageable) {
+        Page<Product> page = productRepository.findAllByCategory(categoryId, pageable);
+        return MyPage.of(page);
+    }
+
 }

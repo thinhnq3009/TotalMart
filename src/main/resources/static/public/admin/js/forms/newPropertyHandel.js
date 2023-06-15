@@ -1,45 +1,14 @@
 $(document).ready(function () {
 
     function updateTable({properties}) {
-        const tableBody = $("#tableBody");
-        const isEmptyProperties = $("#isEmptyProperties").innerHTML;
-        console.log(isEmptyProperties)
-        tableBody.html("");
-
-        if (properties.length === 0) {
-            tableBody.html(isEmptyProperties);
-            return;
-        }
-
-        const newTableBody = isEmptyProperties + properties.reduce((innerHtml, property) => innerHtml + `
-            <tr>
-                <td>${property.name}</td>
-               <td class="property-value" >
-                   ${property.propertiesValue.map(item =>
-            `<span 
-                            class="badge bg-light-secondary rounded-3 py-2 text-secondary fs-2 d-inline-flex align-items-center me-3 mb-2 mb-md-0">
-                            <span>${item.value}</span>
-                            <i class="ti ti-square-rounded-minus fs-4 ms-3 cursor-pointer"
-                                 product-property-id="${item.id}"></i> 
-                        </span>`
-        ).join("")}
-                </td>
-                <td>
-                    ${property.info.canFilter ? `<span class="badge bg-primary fs-2 rounded-3 mx-2  mb-2 mb-md-0">Filter</span>` : ""}
-                    ${property.info.canClassify ? `  <span class="badge bg-secondary fs-2 rounded-3 mx-2  mb-2 mb-md-0">Classify</span>` : ""}
-                    ${property.info.isImportant ? `<span class="badge bg-danger fs-2 rounded-3 mx-2 mb-2 mb-md-0">Important</span>` : ""}
-                </td>
-            <td>
-                <button type="button" class="btn btn-warning rounded-pill mb-2 mb-md-0" product-property-update="${property.name}">
-                    <i class="ti ti-pencil fs-4"></i>
-                </button>
-                <button type="button" class="btn btn-danger rounded-pill ms-3 mb-2 mb-md-0" property-id="${property.info.id}">
-                    <i class="ti ti-trash fs-4 "></i>
-                </button>
-            </td>
-         </tr>
-        `, "")
-        tableBody.html(newTableBody)
+        $.ajax({
+            url: location.pathname,
+            method: "GET",
+            success: function (resp) {
+                $("#tableBody").empty();
+                $(resp).find("#tableBody").children().appendTo("#tableBody")
+            }
+        })
     }
 
     function addProperty({name, value, types = {}}) {
@@ -142,3 +111,4 @@ $(document).ready(function () {
         removeProperty({productPropertyId})
     })
 })
+

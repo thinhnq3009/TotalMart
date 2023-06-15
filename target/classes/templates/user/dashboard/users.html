@@ -117,8 +117,8 @@
                           </td>
                           <td th:text="${user.email}">EMAIL</td>
 
-                          <td>
-                            17 May, 2023 at 3:18pm
+                          <td th:text="${user.username}">
+
                           </td>
                           <td th:text="${user.phone == null ? '-' : user.phone}">-</td>
                           <td th:text="${#numbers.formatDecimal(user.spent, 3, 'POINT', 0, 'COMMA') + ' VND'}">

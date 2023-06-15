@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>FreshCart - eCommerce HTML Template</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="FreshCart is a beautiful eCommerce HTML template specially designed for multipurpose shops & online stores selling products. Most Loved by Developers to build a store website easily.">
+    <meta content="Codescandy" name="author"/>
+
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+
+
+    <!-- Libs CSS -->
+    <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet"/>
+    <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/nouislider/dist/nouislider.min.css" rel="stylesheet">
+    <link href="/public/user/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
+    <link href="/public/user/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/prismjs/themes/prism-okaidia.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/public/user/css/theme.min.css">
+</head>
+
+<body>
+
+<!-- navigation -->
+<header th:replace="~{/user/fragments/header :: large-header}"></header>
+<!-- End Header -->
+<nav th:replace="~{/user/fragments/navbar :: navbar}"></nav>
+<!-- End Navigation -->
+
+<!-- container -->
+<div class="container mt-6">
+    <!-- row -->
+    <div class="row mb-8">
+        <div class="col-md-12">
+            <div class="d-md-flex justify-content-between align-items-center">
+                <div>
+                    <!-- page header -->
+                    <h2>Order Single</h2>
+                    <!-- breacrumb -->
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Order Single</li>
+                        </ol>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row ">
+        <div class="col-xl-12 col-12 mb-5">
+            <!-- card -->
+            <div class="card h-100 card-lg">
+                <div class="card-body p-6">
+                    <div class="d-md-flex justify-content-between">
+                        <div class="d-flex align-items-center mb-2 mb-md-0">
+                            <h2 class="mb-0 me-3">Order ID: #<span th:text="${order.id}"></span></h2>
+                            <span th:if="${order.status == 'Pending'}" class="badge fs-6 bg-light-warning text-dark-warning"
+                                  th:text="${order.status}"></span>
+                            <span th:if="${order.status == 'Confirmed'}" class="badge fs-6 bg-light-info text-dark-info"
+                                  th:text="${order.status}"></span>
+                            <span th:if="${order.status == 'Cancelled'}" class="badge fs-6 bg-light-danger text-dark-danger"
+                                  th:text="${order.status}"></span>
+                            <span th:if="${order.status == 'Completed'}"
+                                  class="badge fs-6 bg-light-primary text-dark-primary" th:text="${order.status}"></span>
+                        </div>
+                        <!-- select option -->
+                        <div class="d-md-flex">
+                            <!-- button -->
+                            <a href="#" class="btn btn-secondary">Download Invoice</a>
+                        </div>
+                    </div>
+                    <div class="mt-8">
+                        <div class="row">
+                            <!-- address -->
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                    <h6>Customer Details</h6>
+                                    <p class="mb-1 lh-lg">
+                                        <span th:text="${order.user.username}"></span><br>
+                                        <span th:text="${order.user.email}"></span> <br>
+                                        <span th:text="${order.user.phone}"></span></p>
+                                    <!--                    <a href="#">View Profile</a>-->
+                                </div>
+                            </div>
+                            <!-- address -->
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                    <h6>Shipping Address</h6>
+                                    <p class="mb-1 lh-lg">
+                                        <span th:text="${order.address.receiverName}"></span> <br>
+                                        <span th:text="${order.address.receiverPhone}"></span> <br>
+                                        <span th:text="${order.address.fullAddress}"></span> <br>
+
+                                </div>
+                            </div>
+                            <!-- address -->
+                            <div class="col-lg-4 col-md-4 col-12">
+                                <div class="mb-6">
+                                    <h6>Order Details</h6>
+                                    <p class="mb-1 lh-lg">Order ID: <span class="ms-2 text-dark"
+                                                                          th:text="${order.id}"></span><br>
+                                        Order Date: <span class="ms-2 text-dark"
+                                                          th:text="${#dates.format(order.timeCreated, 'dd-MM-yyyy')}"></span><br>
+                                        Order Total: <span class="ms-2 text-dark"
+                                                           th:attr="data-money=${order.totalBill}"></span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-responsive">
+                            <!-- Table -->
+                            <table class="table mb-0 text-nowrap table-centered">
+                                <!-- Table Head -->
+                                <thead class="bg-light">
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                                </thead>
+                                <!-- tbody -->
+                                <tbody>
+                                <tr th:each="orderItem : ${order.orderDetails}">
+                                    <td>
+                                        <a href="#" class="text-inherit">
+                                            <div class="d-flex align-items-center">
+                                                <div>
+                                                    <img th:src="${orderItem.product.poster                 }" alt=""
+                                                         class="icon-shape icon-lg">
+                                                </div>
+                                                <div class="ms-lg-4 mt-2 mt-lg-0">
+                                                    <h5 class="mb-0 h6" th:text="${orderItem.product.name}">
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </td>
+                                    <td><span class="text-body" th:attr="data-money=${orderItem.sellPrice}"></span></td>
+                                    <td th:text="${orderItem.quantity}"></td>
+                                    <td th:attr="data-money=${orderItem.amount}"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td colspan="1" class="fw-medium text-dark ">
+                                        <!-- text -->
+                                        Sub Total :
+                                    </td>
+                                    <td class="fw-medium text-dark" th:attr="data-money=${order.totalBill}">
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td colspan="1" class="fw-medium text-dark ">
+                                        <!-- text -->
+                                        Discount
+                                    </td>
+                                    <td class="fw-medium text-dark ">
+                                        -
+                                        <span th:attr="data-money=${order.discount}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td class="border-bottom-0 pb-0"></td>
+                                    <td colspan="1" class="fw-medium text-dark ">
+                                        <!-- text -->
+                                        Shipping Cost
+                                    </td>
+                                    <td class="fw-medium text-dark " th:attr="data-money=${order.shippingFee}">
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td colspan="1" class="fw-semi-bold text-dark ">
+                                        <!-- text -->
+                                        Grand Total
+                                    </td>
+                                    <td class="fw-semi-bold text-dark " th:attr="data-money=${order.grandTotal}">
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-6">
+                    <div class="row">
+                        <div class="col-md-6 mb-4 mb-lg-0">
+                            <h6>Payment Info</h6>
+                            <span>Cash on Delivery</span>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Notes</h5>
+                            <textarea class="form-control mb-3" rows="3" placeholder="Write note for order"
+                                      th:text="${order.note}"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Footer -->
+<footer th:replace="~{/user/fragments/footer :: footer}"></footer>
+<!-- Javascript-->
+<!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="/public/user/libs/slick-carousel/slick/slick.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/public/user/libs/nouislider/dist/nouislider.min.js"></script>
+<script src="/public/user/libs/wnumb/wNumb.min.js"></script>
+<script src="/public/user/libs/rater-js/index.js"></script>
+<script src="/public/user/libs/prismjs/prism.js"></script>
+<script src="/public/user/libs/prismjs/components/prism-scss.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="/public/user/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+<script src="/public/user/js/custom/required.js"></script>
+<script src="/public/user/js/custom/clickHandler.js"></script>
+<script src="/public/user/js/custom/money-formatter.js"></script>
+<script src="/public/user/js/custom/address.js"></script>
+
+<!-- choose one -->
+<div th:replace="~{/user/fragments/notification :: full-container}"></div>
+
+</body>
+
+</html>

@@ -2,175 +2,251 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta content="Codescandy" name="author">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta content="Codescandy" name="author">
 
 
-  <!-- Favicon icon-->
-  <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
 
 
-  <!-- Libs CSS -->
-  <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
-  <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+    <!-- Libs CSS -->
+    <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet">
+    <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet">
+    <link href="/public/user/libs/select2/select2.min.css" rel="stylesheet">
+    <link href="/public/user/libs/select2/select2-bootstrap-5-theme.min.css" rel="stylesheet">
 
 
-  <!-- Theme CSS -->
-  <link rel="stylesheet" href="/public/user/css/theme.min.css">
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/public/user/css/theme.min.css">
 
 
-  <title>Dashboard</title>
+    <title>Dashboard</title>
 </head>
 
 <body>
+<input type="hidden" th:value="${product.id}" id="productId">
 <!-- main -->
 <div>
-  <nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
+    <nav th:replace="~{/user/fragments/dashboard/navigation :: navbar}"></nav>
 
-  <div class="main-wrapper">
-    <!-- navbar vertical -->
+    <div class="main-wrapper">
+        <!-- navbar vertical -->
 
-    <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
-    <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
+        <nav th:replace="~{/user/fragments/dashboard/navigation :: sidebar}"></nav>
+        <nav th:replace="~{/user/fragments/dashboard/navigation :: hide-sidebar}"></nav>
 
-    <!-- main -->
-    <main class="main-content-wrapper">
-      <div class="container">
-        <div class="row mb-8">
-          <div class="col-md-12">
-            <!-- page header -->
-            <div class="d-md-flex justify-content-between align-items-center">
-              <div>
-                <h2>Products</h2>
-                <!-- breacrumb -->
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Products</li>
-                  </ol>
-                </nav>
-              </div>
-              <!-- button -->
-              <div>
-                <a th:href="@{/admin/product/create}" class="btn btn-primary">Add Product</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- row -->
-        <div class="row ">
-          <div class="col-xl-12 col-12 mb-5">
-            <!-- card -->
-            <div class="card h-100 card-lg">
-              <div class="px-6 py-6 ">
-                <div class="row justify-content-between">
-                  <!-- form -->
-                  <div class="col-lg-4 col-md-6 col-12 mb-2 mb-lg-0">
-                    <form class="d-flex" role="search">
-                      <input class="form-control" type="search" placeholder="Search Products" aria-label="Search">
-                    </form>
-                  </div>
-                  <!-- select option -->
-                  <div class="col-lg-2 col-md-4 col-12">
-                    <select class="form-select">
-                      <option selected>Status</option>
-                      <option value="1">Active</option>
-                      <option value="2">Deactive</option>
-                      <option value="3">Draft</option>
-                    </select>
-                  </div>
+        <!-- main -->
+        <main class="main-content-wrapper">
+            <div class="container">
+                <div class="row mb-8">
+                    <div class="col-md-12">
+                        <!-- page header -->
+                        <div class="d-md-flex justify-content-between align-items-center">
+                            <div>
+                                <h2>Edit properties</h2>
+                                <!-- breacrumb -->
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb mb-0">
+                                        <li class="breadcrumb-item"><a href="#" class="text-inherit">Dashboard</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="text-inherit">Products</a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="text-inherit" th:text="${product.category.categoryGroup.name}"></a></li>
+                                        <li class="breadcrumb-item"><a href="#" class="text-inherit" th:text="${product.category.name}"></a></li>
+                                        <li class="breadcrumb-item active" aria-current="page" th:text="${product.name}">Products</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                            <!-- button -->
+                            <div>
+                                <a th:href="@{/admin/product/all}" class="btn btn-primary">All products</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </div>
-              <!-- card body -->
-              <div class="card-body p-0">
-                <!-- table -->
-                <div class="table-responsive">
-                  <table class="table table-centered table-hover text-nowrap table-borderless mb-0 table-with-checkbox">
-                    <thead class="bg-light">
-                    <tr>
-                      <th>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="checkAll">
-                          <label class="form-check-label" for="checkAll">
-
-                          </label>
+                <!-- row -->
+                <div class="row ">
+                    <div class="col-xl-12 col-12 mb-5">
+                        <!-- card -->
+                        <div class="card h-100 card-lg">
+                            <!-- card body -->
+                            <div class="card-body">
+                                <div class="row mb-5">
+                                    <div class="col-md-4">
+                                        <label for="propertyName">Name</label>
+                                        <select id="propertyName" class="form-control select2">
+                                            <option th:each="item : ${properties}" th:text="${item.name}"
+                                                    th:value="${item.name}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="propertyValue">Value</label>
+                                        <input id="propertyValue" class="form-control">
+                                    </div>
+                                    <div class="col-md-4 d-flex align-items-end justify-content-around">
+                                        <button type="button" id="addProperty"
+                                                class="btn btn-primary">
+                                            <i class="bi bi-save me-2"></i>
+                                            Add
+                                        </button>
+                                        <button type="button" class="btn btn-primary"
+                                                data-bs-toggle="modal" data-bs-target="#newProperty">
+                                            <i class="bi bi-plus me-2"></i>
+                                            New
+                                        </button>
+                                    </div>
+                                </div>
+                                <h5 class="title w-100">Table properties</h5>
+                                <div class="row mb-3">
+                                    <table class="table table-centered table-hover table-borderless mb-0 table-with-checkbox text-nowrap"
+                                           id="tableProperties">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Value</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="tableBody">
+                                        <tr id="isEmptyProperties" th:hidden="${!product.productProperties.isEmpty()}">
+                                            <td colspan="4">
+                                                <div class="p-5 d-flex justify-content-center align-items-center flex-column">
+                                                    <i class="ti ti-device-ipad-plus mb-3 h1"></i>
+                                                    <span>This product does not have any properties yet.</span>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr th:each="row : ${product.properties}">
+                                            <td class="pe-4" th:text="${row.name}"></td>
+                                            <td class="property-value">
+                                            <span class="badge bg-light-primary rounded-3 py-2 text-dark-primary mb-2 mb-md-0  d-inline-flex align-items-center me-3"
+                                                  th:each="value : ${row.propertiesValue}">
+                                                <span th:text="${value.value}"></span>
+                                                <i
+                                                        class="bi bi-dash-circle  ms-1 cursor-pointer hover-dd"
+                                                        th:attr="product-property-id=${value.id}"></i>
+                                            </span>
+                                            </td>
+                                            <td class="fit-content">
+                                             <span
+                                                     th:if="${row.info.canFilter}"
+                                                     class="badge bg-primary  rounded-3 mx-2 mb-2 mb-md-0">Filter</span>
+                                                <span
+                                                        th:if="${row.info.canClassify}"
+                                                        class="badge bg-secondary  rounded-3 mx-2 mb-2 mb-md-0">Classify</span>
+                                                <span
+                                                        th:if="${row.info.isImportant}"
+                                                        class="badge bg-danger  rounded-3 mx-2 mb-2 mb-md-0">Important</span>
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-soft-warning btn-sm rounded-pill mb-2 mb-md-0"
+                                                        th:attr="product-property-update=${row.name}">
+                                                    <i class="bi bi-pencil "></i>
+                                                </button>
+                                                <button type="button"
+                                                        class="btn btn-soft-danger btn-sm rounded-pill ms-3 mb-2 mb-md-0"
+                                                        th:attr="property-id=${row.info.id}">
+                                                    <i class="bi bi-trash"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                      </th>
-                      <th>Image</th>
-                      <th>Proudct Name</th>
-                      <th>Category</th>
-                      <th>Status</th>
-                      <th>Price</th>
-                      <th>Create at</th>
-                      <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="product : ${products}">
-                      <td>
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" value="" id="productOne">
-                          <label class="form-check-label" for="productOne">
 
-                          </label>
-                        </div>
-                      </td>
-                      <td>
-                        <a href="#!"> <img th:src="${product.poster}" alt=""
-                                           class="icon-shape icon-md"></a>
-                      </td>
-                      <td><a href="#" class="text-reset" th:text="${product.name}"></a></td>
-                      <td th:text="${product.category.name}">Snack & Munchies</td>
-
-                      <td>
-                        <span class="badge bg-light-primary text-dark-primary">Active</span>
-                      </td>
-                      <td
-                              th:text="${#numbers.formatDecimal(product.getSalePrice, 3, 'POINT', 0, 'COMMA') + 'đ'}"
-                      ></td>
-                      <td>24 Nov 2022</td>
-                      <td>
-                        <div class="dropdown">
-                          <a href="#" class="text-reset" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="feather-icon icon-more-vertical fs-5"></i>
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#"><i class="bi bi-trash me-3"></i>Delete</a></li>
-                            <li><a class="dropdown-item" th:href="@{|/admin/product/edit/${product.id}|}"><i class="bi bi-pencil-square me-3 "></i>Edit</a>
-                            </li>
-                          </ul>
-                        </div>
-                      </td>
-                    </tr>
-                    </tbody>
-                  </table>
+                    </div>
 
                 </div>
-              </div>
             </div>
+        </main>
 
-          </div>
+    </div>
+</div>
 
+<!-- Modal new properties -->
+<div class="modal fade" id="newProperty" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create new property</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" id="newPropertyName" placeholder="Name property">
+                        <label for="newPropertyName">Name property</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" id="newPropertyValue" placeholder="Value">
+                        <label for="newPropertyValue">
+                            Value</label>
+                    </div>
+                    <div class="py-2">
+                        <label class="mb-2 px-3">Property type</label>
+                        <div class="px-4">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="canClassify" value="true" name="canClassify">
+                                <label class="form-check-label" for="canClassify">Classify</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="canFilter" value="true" name="canFilter">
+                                <label class="form-check-label" for="canFilter">Filter</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input success check-outline outline-success" type="checkbox"
+                                       id="isImportance" value="true" name="isImportance">
+                                <label class="form-check-label" for="isImportance">Importance</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary" id="newPropertySave" data-bs-dismiss="modal">
+                        <i class="bi bi-save2 me-2"></i>
+                        Save
+                    </button>
+                </div>
+            </form>
         </div>
-      </div>
-    </main>
-
-  </div>
+    </div>
 </div>
 
 <!-- Libs JS -->
 <script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
 <script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/public/user/libs/select2/select2.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            style: "primary"
+        });
+    });
+
+</script>
 
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 <script src="/public/user/libs/apexcharts/dist/apexcharts.min.js"></script>
 <script src="/public/user/js/vendors/chart.js"></script>
+<script src="/public/admin/js/forms/newPropertyHandel.js"></script>
+
 
 </body>
 

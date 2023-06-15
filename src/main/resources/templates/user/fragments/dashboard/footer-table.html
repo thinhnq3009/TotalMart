@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--/*@thymesVar id="pageContent" type="eco.mart.totalmart.module.MyPage"*/-->
+<div th:fragment="pagination" class="border-top d-md-flex justify-content-between align-items-center p-6">
+    <span>Showing
+        <span th:text="${pageContent.firstIndex + 1}"></span>
+        to
+        <span th:text="${pageContent.lastIndex + 1}"></span>
+        of
+        <span th:text="${pageContent.totalElements}"></span>
+        entries</span>
+
+    <div class="input-group w-auto">
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="paginationSize">Show</label>
+            <select class="form-select" id="paginationSize">
+                <option th:selected="${pageContent.size == 5}" value="5">5</option>
+                <option th:selected="${pageContent.size == 10}" value="10">10</option>
+                <option th:selected="${pageContent.size == 20}" value="20">20</option>
+                <option th:selected="${pageContent.size == 50}" value="50">50</option>
+                <option th:selected="${pageContent.size == 100}" value="100">100</option>
+            </select>
+        </div>
+    </div>
+
+    <nav class="mt-2 mt-md-0">
+        <ul class="pagination mb-0">
+            <li class="page-item"><a class="page-link" page-first="0">First</a></li>
+            <li class="page-item"><a class="page-link" th:attr="page-index=${pageContent.prev}">2</a></li>
+            <li class="page-item"><a class="page-link active" th:attr="page-index=${pageContent.number}">2</a></li>
+            <li class="page-item"><a class="page-link" th:attr="page-index=${pageContent.next}">2</a></li>
+            <li class="page-item"><a class="page-link" th:attr="page-last=${pageContent.totalPages - 1}">Last</a></li>
+        </ul>
+    </nav>
+
+</div>
+
+</body>
+</html>

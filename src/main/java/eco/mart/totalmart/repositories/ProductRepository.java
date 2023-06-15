@@ -1,6 +1,8 @@
 package eco.mart.totalmart.repositories;
 
 import eco.mart.totalmart.entities.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,4 +14,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("select p from Product p where p.isDeleted = false")
     List<Product> findByIsDeletedFalse();
+
+    @Query("select p from Product p where p.category.id = ?1")
+    Page<Product> findAllByCategory(String categoryId, Pageable pageable);
 }

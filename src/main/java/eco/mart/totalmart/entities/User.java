@@ -1,5 +1,6 @@
 package eco.mart.totalmart.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import eco.mart.totalmart.auth.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -73,19 +74,36 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "user")
-//    private Set<Address> addresses = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Wishlist> wishlists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<Cart> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses = new ArrayList<>();
 
     /*
     |||||| Method ||||||||
      */
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+
+        User user = (User) o;
+
+        if (!id.equals(user.id)) return false;
+        if (!username.equals(user.username)) return false;
+        return email.equals(user.email);
+    }
+
+
     public Integer getSpent() {
-        System.out.println("------------------------------------------------------");
-        Integer a =  orders.stream().map(Order::getTotalBill).reduce(0, Integer::sum);
-        System.out.println("------------------------------------------------------");
-        return  a;
+        return orders.stream().map(Order::getTotalBill).reduce(0, Integer::sum);
     }
 
     public String getAvatar() {
