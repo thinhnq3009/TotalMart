@@ -138,7 +138,7 @@
                     </li>
                     <li class="dropdown ms-4">
                         <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <img src="/public/user/images/avatar/avatar-1.jpg" alt=""
+                            <img th:src="${user.avatar}" alt=""
                                  class="avatar avatar-md rounded-circle">
                         </a>
 
@@ -146,13 +146,12 @@
 
 
                             <div class="lh-1 px-5 py-4 border-bottom">
-                                <h5 class="mb-1 h6">FreshCart Admin</h5>
-                                <small>admindemo@email.com</small>
+                                <h5 class="mb-1 h6" th:text="${user.fullname}"></h5>
+                                <small th:text="${user.email}"></small>
                             </div>
 
 
                             <ul class="list-unstyled px-2 py-3">
-
                                 <li>
                                     <a class="dropdown-item" href="#!">
                                         Home
@@ -162,25 +161,22 @@
                                     <a class="dropdown-item" href="#!">
                                         Profile
                                     </a>
-
-
                                 </li>
-
 
                                 <li>
                                     <a class="dropdown-item" href="#!">
-
-                                        Settings
+                                        Wish list
                                     </a>
                                 </li>
-
+                                <li th:if="${user.role.name() == 'ADMIN'}">
+                                    <a class="dropdown-item" href="/admin/dashboard">
+                                        Admin Dashboard
+                                    </a>
+                                </li>
                             </ul>
                             <div class="border-top px-5 py-3">
-
-                                <a href="#">Log Out</a>
+                                <a href="/logout">Log Out</a>
                             </div>
-
-
                         </div>
 
                     </li>
@@ -203,7 +199,7 @@
             <ul class="navbar-nav flex-column" id="sideNavbar">
 
                 <li class="nav-item ">
-                    <a class="nav-link  active " href="../dashboard/index.html">
+                    <a class="nav-link  active " href="/admin/dashboard">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-house"></i></span>
                             <span class="nav-link-text">Dashboard</span>
@@ -258,26 +254,17 @@
                 </li>
 
                 <li class="nav-item ">
-                    <a class="nav-link " href="../dashboard/vendor-grid.html">
+                    <a class="nav-link " th:href="@{/admin/brands/all}">
                         <div class="d-flex align-items-center">
-                            <span class="nav-link-icon"> <i class="bi bi-shop"></i></span>
-                            <span class="nav-link-text">Sellers / Vendors</span>
+                            <span class="nav-link-icon"> <i class="bi bi-grid-1x2"></i></span>
+                            <span class="nav-link-text">Brands</span>
                         </div>
                     </a>
-                </li>
-                <li class="nav-item ">
+                </li> <li class="nav-item ">
                     <a class="nav-link " th:href="@{/user-manager}">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-people"></i></span>
                             <span class="nav-link-text">Customers</span>
-                        </div>
-                    </a>
-                </li>
-                <li class="nav-item ">
-                    <a class="nav-link " href="../dashboard/reviews.html">
-                        <div class="d-flex align-items-center">
-                            <span class="nav-link-icon"> <i class="bi bi-star"></i></span>
-                            <span class="nav-link-text">Reviews</span>
                         </div>
                     </a>
                 </li>
@@ -290,77 +277,77 @@
                     </a>
                 </li>
                 <!-- Nav item -->
-                <li class="nav-item">
-                    <a class="nav-link  collapsed " href="#"
-                       data-bs-toggle="collapse" data-bs-target="#navMenuLevelFirst" aria-expanded="false"
-                       aria-controls="navMenuLevelFirst">
-                        <span class="nav-link-icon"><i class=" bi bi-arrow-90deg-down"></i></span>
-                        <span class="nav-link-text">Menu Level</span>
-                    </a>
-                    <div id="navMenuLevelFirst" class="collapse "
-                         data-bs-parent="#sideNavbar">
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link " href="#"
-                                   data-bs-toggle="collapse" data-bs-target="#navMenuLevelSecond1"
-                                   aria-expanded="false"
-                                   aria-controls="navMenuLevelSecond1">
-                                    Two Level
-                                </a>
-                                <div id="navMenuLevelSecond1" class="collapse" data-bs-parent="#navMenuLevel">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link "
-                                               href="#">NavItem 1</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link "
-                                               href="#">NavItem 2</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link  collapsed  " href="#"
-                                   data-bs-toggle="collapse" data-bs-target="#navMenuLevelThreeOne1"
-                                   aria-expanded="false"
-                                   aria-controls="navMenuLevelThreeOne1">
-                                    Three Level
-                                </a>
-                                <div id="navMenuLevelThreeOne1"
-                                     class="collapse "
-                                     data-bs-parent="#navMenuLevel">
-                                    <ul class="nav flex-column">
-                                        <li class="nav-item">
-                                            <a class="nav-link  collapsed "
-                                               href="#" data-bs-toggle="collapse"
-                                               data-bs-target="#navMenuLevelThreeTwo"
-                                               aria-expanded="false" aria-controls="navMenuLevelThreeTwo">
-                                                NavItem 1
-                                            </a>
-                                            <div id="navMenuLevelThreeTwo"
-                                                 class="collapse collapse "
-                                                 data-bs-parent="#navMenuLevelThree">
-                                                <ul class="nav flex-column">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link "
-                                                           href="#">
-                                                            NavChild Item 1
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link " href="#">Nav
-                                                Item 2</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
+<!--                <li class="nav-item">-->
+<!--                    <a class="nav-link  collapsed " href="#"-->
+<!--                       data-bs-toggle="collapse" data-bs-target="#navMenuLevelFirst" aria-expanded="false"-->
+<!--                       aria-controls="navMenuLevelFirst">-->
+<!--                        <span class="nav-link-icon"><i class=" bi bi-arrow-90deg-down"></i></span>-->
+<!--                        <span class="nav-link-text">Menu Level</span>-->
+<!--                    </a>-->
+<!--                    <div id="navMenuLevelFirst" class="collapse "-->
+<!--                         data-bs-parent="#sideNavbar">-->
+<!--                        <ul class="nav flex-column">-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link " href="#"-->
+<!--                                   data-bs-toggle="collapse" data-bs-target="#navMenuLevelSecond1"-->
+<!--                                   aria-expanded="false"-->
+<!--                                   aria-controls="navMenuLevelSecond1">-->
+<!--                                    Two Level-->
+<!--                                </a>-->
+<!--                                <div id="navMenuLevelSecond1" class="collapse" data-bs-parent="#navMenuLevel">-->
+<!--                                    <ul class="nav flex-column">-->
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link "-->
+<!--                                               href="#">NavItem 1</a>-->
+<!--                                        </li>-->
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link "-->
+<!--                                               href="#">NavItem 2</a>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                            <li class="nav-item">-->
+<!--                                <a class="nav-link  collapsed  " href="#"-->
+<!--                                   data-bs-toggle="collapse" data-bs-target="#navMenuLevelThreeOne1"-->
+<!--                                   aria-expanded="false"-->
+<!--                                   aria-controls="navMenuLevelThreeOne1">-->
+<!--                                    Three Level-->
+<!--                                </a>-->
+<!--                                <div id="navMenuLevelThreeOne1"-->
+<!--                                     class="collapse "-->
+<!--                                     data-bs-parent="#navMenuLevel">-->
+<!--                                    <ul class="nav flex-column">-->
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link  collapsed "-->
+<!--                                               href="#" data-bs-toggle="collapse"-->
+<!--                                               data-bs-target="#navMenuLevelThreeTwo"-->
+<!--                                               aria-expanded="false" aria-controls="navMenuLevelThreeTwo">-->
+<!--                                                NavItem 1-->
+<!--                                            </a>-->
+<!--                                            <div id="navMenuLevelThreeTwo"-->
+<!--                                                 class="collapse collapse "-->
+<!--                                                 data-bs-parent="#navMenuLevelThree">-->
+<!--                                                <ul class="nav flex-column">-->
+<!--                                                    <li class="nav-item">-->
+<!--                                                        <a class="nav-link "-->
+<!--                                                           href="#">-->
+<!--                                                            NavChild Item 1-->
+<!--                                                        </a>-->
+<!--                                                    </li>-->
+<!--                                                </ul>-->
+<!--                                            </div>-->
+<!--                                        </li>-->
+<!--                                        <li class="nav-item">-->
+<!--                                            <a class="nav-link " href="#">Nav-->
+<!--                                                Item 2</a>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+<!--                </li>-->
 
 
             </ul>
@@ -380,7 +367,7 @@
         <div class="navbar-vertical-content flex-grow-1" data-simplebar="">
             <ul class="navbar-nav flex-column">
                 <li class="nav-item ">
-                    <a class="nav-link  active " href="../dashboard/index.html">
+                    <a class="nav-link  active " href="/admin/dashboard">
                         <div class="d-flex align-items-center">
                             <span class="nav-link-icon"> <i class="bi bi-house"></i></span>
                             <span>Dashboard</span>

@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.customer;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.services.NotificationService;
 import eco.mart.totalmart.services.ProductService;
@@ -13,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/detail")
-public class DetailController {
+public class DetailController extends BaseController {
 
     @Autowired
     ProductService productService;

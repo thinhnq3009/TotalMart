@@ -69,19 +69,21 @@
                     <div class="d-md-flex justify-content-between">
                         <div class="d-flex align-items-center mb-2 mb-md-0">
                             <h2 class="mb-0 me-3">Order ID: #<span th:text="${order.id}"></span></h2>
-                            <span th:if="${order.status == 'Pending'}" class="badge fs-6 bg-light-warning text-dark-warning"
-                                  th:text="${order.status}"></span>
-                            <span th:if="${order.status == 'Confirmed'}" class="badge fs-6 bg-light-info text-dark-info"
-                                  th:text="${order.status}"></span>
-                            <span th:if="${order.status == 'Cancelled'}" class="badge fs-6 bg-light-danger text-dark-danger"
-                                  th:text="${order.status}"></span>
-                            <span th:if="${order.status == 'Completed'}"
+                            <span th:if="${order.getStatusString() == 'Pending'}" class="badge fs-6 bg-light-warning text-dark-warning"
+                                  th:text="${order.getStatusString()}"></span>
+                            <span th:if="${order.getStatusString() == 'Confirmed'}" class="badge fs-6 bg-light-info text-dark-info"
+                                  th:text="${order.getStatusString()}"></span>
+                            <span th:if="${order.getStatusString() == 'Cancelled'}" class="badge fs-6 bg-light-danger text-dark-danger"
+                                  th:text="${order.getStatusString()}"></span>
+                            <span th:if="${order.getStatusString() == 'Delivering'}" class="badge fs-6 bg-light-secondary text-dark-secondary"
+                                  th:text="${order.getStatusString()}"></span>
+                            <span th:if="${order.getStatusString() == 'Completed'}"
                                   class="badge fs-6 bg-light-primary text-dark-primary" th:text="${order.status}"></span>
                         </div>
                         <!-- select option -->
-                        <div class="d-md-flex">
+                        <div class="d-md-flex" >
                             <!-- button -->
-                            <a href="#" class="btn btn-secondary">Download Invoice</a>
+                            <a th:href="|/order/confirm-received/${order.id}|" class="btn btn-info">Received</a>
                         </div>
                     </div>
                     <div class="mt-8">
@@ -174,7 +176,7 @@
                                     <td class="border-bottom-0 pb-0"></td>
                                     <td colspan="1" class="fw-medium text-dark ">
                                         <!-- text -->
-                                        Discount
+                                        Discount :
                                     </td>
                                     <td class="fw-medium text-dark ">
                                         -
@@ -186,7 +188,7 @@
                                     <td class="border-bottom-0 pb-0"></td>
                                     <td colspan="1" class="fw-medium text-dark ">
                                         <!-- text -->
-                                        Shipping Cost
+                                        Shipping Cost :
                                     </td>
                                     <td class="fw-medium text-dark " th:attr="data-money=${order.shippingFee}">
                                     </td>
@@ -197,9 +199,9 @@
                                     <td></td>
                                     <td colspan="1" class="fw-semi-bold text-dark ">
                                         <!-- text -->
-                                        Grand Total
+                                        Grand Total :
                                     </td>
-                                    <td class="fw-semi-bold text-dark " th:attr="data-money=${order.grandTotal}">
+                                    <td class="fw-semi-bold text-dark " th:attr="data-money=${order.finalTotal}">
                                     </td>
                                 </tr>
                                 </tbody>
@@ -211,13 +213,25 @@
                     <div class="row">
                         <div class="col-md-6 mb-4 mb-lg-0">
                             <h6>Payment Info</h6>
-                            <span>Cash on Delivery</span>
+                            <div class="w-100">
+                                <b class="w-50 d-inline-block">Payment method:</b> <span th:text="${order.paymentMethod.getName()}"></span>
+                            </div>
+                            <div class="w-100 mb-3">
+                                <b class="w-50 d-inline-block">Status:</b> <span
+                                    th:text="${order.getPaymentStatus()}"></span>
+                            </div>
+
+                            <div class="w-100" th:if="${!order.paid}">
+                                <b class="w-50 d-inline-block">Link pay:</b>
+                                <a th:href="@{|/order/pay/${order.id}|}" class="btn btn-outline-primary btn-sm">Click to pay</a>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <h5>Notes</h5>
-                            <textarea class="form-control mb-3" rows="3" placeholder="Write note for order"
+                            <textarea class="form-control mb-3" rows="2" readonly  placeholder="Write note for order"
                                       th:text="${order.note}"></textarea>
                         </div>
+
                     </div>
                 </div>
 
@@ -256,7 +270,7 @@
 <script src="/public/user/js/custom/required.js"></script>
 <script src="/public/user/js/custom/clickHandler.js"></script>
 <script src="/public/user/js/custom/money-formatter.js"></script>
-<script src="/public/user/js/custom/address.js"></script>
+<script src="/user/js/custom/checkout.js"></script>
 
 <!-- choose one -->
 <div th:replace="~{/user/fragments/notification :: full-container}"></div>

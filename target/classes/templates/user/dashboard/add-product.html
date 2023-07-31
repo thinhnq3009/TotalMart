@@ -133,8 +133,15 @@
                                             <label for="category" class="form-label">Product Category</label>
                                             <select id="category" class="form-select" th:field="*{category}">
                                                 <option
+                                                        th:if="${product.category != null}"
                                                         th:text="${product.category.name}"
                                                         th:value="${product.category.id}"></option>
+                                                <option
+                                                        th:if="${product.category == null}"
+                                                        th:each="category : ${categoryGroups.get(0).categories}"
+                                                        th:text="${category.name}"
+                                                        th:value="${category.id}"></option>
+
                                             </select>
                                         </div>
 

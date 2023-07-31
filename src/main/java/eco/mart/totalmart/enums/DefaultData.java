@@ -5,7 +5,7 @@ public enum DefaultData {
     CATEGORY_IMAGE("/public/user/images/icons/snacks.svg"),
     PRODUCT_IMAGE("/public/user/images/icons/snacks.svg");
 
-    private String value;
+    private final String value;
 
     DefaultData(String value) {
         this.value = value;

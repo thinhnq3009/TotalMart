@@ -60,7 +60,8 @@ public class Product {
     @Column(name = "initialQuantity", nullable = false)
     private int initialQuantity;
 
-    @Column(name = "sold", nullable = false)
+//    @Column(name = "sold", nullable = false)
+    @Transient
     private int sold;
 
     @Transient
@@ -106,12 +107,21 @@ public class Product {
     private List<Cart> ratings = new ArrayList<>();
 
     public int getInventory() {
-        return initialQuantity - sold;
+        return getInitialQuantity() - getSold();
+    }
+
+    public int getSold() {
+        return orderDetails.stream().mapToInt(OrderDetail::getQuantity).sum();
+    }
+
+    public boolean canSale(int sale) {
+        return getInitialQuantity() - getSold() >= sale;
     }
 
     public Long getIncome() {
         return salePrice - importPrice;
     }
+
 
     public Integer getDiscountPercent() {
         return (int) ((1 - (double) salePrice / basePrice) * 100);

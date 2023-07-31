@@ -1,6 +1,7 @@
 package eco.mart.totalmart.controller.customer;
 
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Cart;
 import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.List;
 
 @Controller
-public class HomeController {
+public class HomeController extends BaseController {
 //
     @Autowired
     NotificationService notificationService;

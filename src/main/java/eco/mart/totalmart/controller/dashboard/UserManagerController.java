@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.dashboard;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.services.CategoryGroupService;
 import eco.mart.totalmart.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/user-manager")
-public class UserManagerController {
+public class UserManagerController extends BaseController {
 
     @Autowired
     UserService userService;

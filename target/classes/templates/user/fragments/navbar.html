@@ -12,8 +12,8 @@
     <nav class="navbar navbar-expand-lg navbar-light navbar-default pt-0 pb-0">
         <div class="container px-0 px-md-3">
             <div class="dropdown me-3 d-none d-lg-block">
-                <button class="btn btn-primary px-6 " type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="btn btn-primary px-6 "
+                    href="/">
                         <span class="me-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
@@ -24,13 +24,13 @@
                                 <rect x="3" y="14" width="7" height="7"></rect>
                             </svg></span>
                     All Departments
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <!--/*@thymesVar id="categoryGroups" type=""*/-->
-                    <li th:each="item : ${categoryGroups}">
-                        <a class="dropdown-item" th:href="@{|${item.url}|}" th:text="${item.name}"></a>
-                    </li>
-                </ul>
+                </a>
+<!--                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">-->
+<!--                    &lt;!&ndash;/*@thymesVar id="categoryGroups" type=""*/&ndash;&gt;-->
+<!--                    <li th:each="item : ${categoryGroups}">-->
+<!--                        <a class="dropdown-item" th:href="@{|${item.url}|}" th:text="${item.name}"></a>-->
+<!--                    </li>-->
+<!--                </ul>-->
             </div>
             <div class="offcanvas offcanvas-start p-4 p-lg-0" id="navbar-default">
                 <div class="d-flex justify-content-between align-items-center mb-2 d-block d-lg-none">
@@ -42,8 +42,7 @@
                 </div>
                 <div class="d-block d-lg-none mb-2 pt-2">
                     <a class="btn btn-primary w-100 d-flex justify-content-center align-items-center"
-                       data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false"
-                       aria-controls="collapseExample">
+                      href="/">
                             <span class="me-2"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                                     stroke-width="1.5"

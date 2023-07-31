@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.dashboard;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.entities.Product;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("admin/recycle")
-public class RecycleBinController {
+public class RecycleBinController extends BaseController {
 
     @Autowired
     CategoryService categoryService;

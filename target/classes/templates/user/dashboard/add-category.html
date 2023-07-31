@@ -71,13 +71,15 @@
                     <!-- card -->
                     <div class="card mb-6 shadow border-0">
                         <!-- card body -->
-                        <form th:object="${category}" th:action="@{/admin/categories/new}" method="post" enctype="multipart/form-data">
+                        <form th:object="${category}" th:action="@{/admin/categories/new}" method="post"
+                              enctype="multipart/form-data">
                             <div class="card-body p-6 ">
                                 <h4 class="mb-5 h5">Category Image</h4>
                                 <div class="mb-4 d-flex">
                                     <div class="position-relative">
                                         <img class="image  icon-shape icon-xxxl bg-light rounded-4"
-                                             th:src="${category.poster == null ? '/public/user/images/icons/bakery.svg' : category.poster}" alt="Image">
+                                             th:src="${category.poster == null ? '/public/user/images/icons/bakery.svg' : category.poster}"
+                                             alt="Image">
 
                                         <div class="file-upload position-absolute end-0 top-0 mt-n2 me-n1">
                                             <input th:field="*{poster}" type="hidden">
@@ -178,8 +180,8 @@
 <!-- Modal -->
 <div class="modal fade" id="newGroupCategory" tabindex="-1" aria-labelledby="newGroupCategory" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-        <form>
+        <div class="modal-content">
+            <form>
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Create new group category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -202,8 +204,8 @@
                         Create
                     </button>
                 </div>
-        </form>
-            </div>
+            </form>
+        </div>
     </div>
 </div>
 <script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
@@ -219,6 +221,17 @@
 <script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="/public/user/js/custom/nonAccentVietnamese.js"></script>
 <script src="/public/user/js/custom/create-category.js"></script>
+<script src="/public/user/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+
+    })
+
+</script>
+
 
 </body>
 

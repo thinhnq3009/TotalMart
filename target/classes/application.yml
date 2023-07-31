@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://DESKTOP-HUSB0P6;databaseName=TotalMart
+    username: sa
+    password: 123
+  servlet:
+    multipart:
+      maxFileSize: 10MB
+      maxRequestSize: 100MB
+  devtools:
+    livereload:
+      enabled: true
+      port: 35729
+  jpa:
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: thinhnq3009@gmail.com
+    password: qxnbxrleoxpafpxg
+    properties:
+      mail:
+        smtp:
+          auth: true
+          enable: true
+          starttls:
+            enable: true
+            required: true

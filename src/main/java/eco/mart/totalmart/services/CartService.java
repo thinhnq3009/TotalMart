@@ -1,22 +1,14 @@
 package eco.mart.totalmart.services;
 
-import eco.mart.totalmart.dto.TempOrderDto;
 import eco.mart.totalmart.entities.Cart;
-import eco.mart.totalmart.entities.Order;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.repositories.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.naming.NoPermissionException;
-import javax.swing.text.html.Option;
-import java.security.Permission;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +49,9 @@ public class CartService {
 
     public List<Cart> getCartItems() {
         User user = userService.getUser();
+        if (user == null) {
+            return null;
+        }
         return cartRepository.findAllByUserId(user.getId());
     }
 
@@ -115,7 +110,7 @@ public class CartService {
         return cartRepository.findAllById(cartIds);
     }
 
-    public void deleteCarts(List<Long> cartIds) {
+    public void checkoutCarts(List<Long> cartIds) {
         cartRepository.deleteAllByIdIn(cartIds);
     }
 }

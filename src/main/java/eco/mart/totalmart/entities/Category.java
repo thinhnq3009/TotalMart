@@ -60,7 +60,7 @@ public class Category {
     }
 
     public String getUrl() {
-        return "%s/%s".formatted(getCategoryGroup().getId(),getId());
+        return "/%s/%s".formatted(getCategoryGroup().getId(),getId());
     }
 
     public int getProductCount() {

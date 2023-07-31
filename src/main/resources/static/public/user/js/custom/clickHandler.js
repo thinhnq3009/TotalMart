@@ -14,6 +14,7 @@ $.clickHandler = function (
         },
         getParams = () => {
         },
+        sendRequest = true,
         ...passProps
     }
 ) {
@@ -27,6 +28,9 @@ $.clickHandler = function (
         const params = getParams($(this));
 
         let id = $(this).attr(attrName);
+
+        if (sendRequest === false) return;
+
         $.ajax({
             url: url,
             type: method,
@@ -39,7 +43,7 @@ $.clickHandler = function (
                 success(data, element);
             },
             error: function (data) {
-                error(data, element);
+                error(data.responseJSON, element);
             },
             ...passProps
 

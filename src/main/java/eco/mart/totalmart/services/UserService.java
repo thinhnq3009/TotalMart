@@ -4,9 +4,9 @@ package eco.mart.totalmart.services;
 import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.repositories.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.exception.ConstraintViolationException;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,18 +14,20 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    UserRepository userRepository;
 
-    @Autowired
-    PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+
+
+    private final PasswordEncoder passwordEncoder;
 
     public List<User> findAll() {
         return userRepository.findAll();
@@ -73,22 +75,40 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUser() {
-        return userRepository.findByUsername(getUsername()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return userRepository.findByUsername(getUsername()).orElse(null);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
+        String typeUsername = username.contains("@") ? "email" : "username";
+
+
         return userRepository
                 .findByUsername(username)
                 .orElseGet(() ->
                         userRepository
                                 .findByEmail(username).
                                 orElseThrow(
-                                        () -> new UsernameNotFoundException("Username or email not found")
+                                        () -> new UsernameNotFoundException("Not found user with %s: %s".formatted(typeUsername, username))
                                 )
                 );
     }
 
 
+    public void save(User user) {
+        userRepository.save(user);
+    }
 
+    public User findByResetPasswordToken(String token) {
+        return userRepository.findByResetPasswordToken(token).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    public boolean validateToken(String token) {
+        return userRepository
+                .findByResetPasswordToken(token)
+                .map(
+                        user -> user.getResetPasswordTokenExpiryDate().after(new Date())
+                ).orElse(false);
+    }
 }

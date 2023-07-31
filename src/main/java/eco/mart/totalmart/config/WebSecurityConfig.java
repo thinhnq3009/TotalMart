@@ -4,17 +4,21 @@ import eco.mart.totalmart.auth.Role;
 import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.services.NotificationService;
 import eco.mart.totalmart.services.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class WebSecurityConfig {
 
     @Autowired
@@ -23,6 +27,7 @@ public class WebSecurityConfig {
     @Autowired
     UserService userService;
 
+    private final AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -33,20 +38,25 @@ public class WebSecurityConfig {
                         .requestMatchers(
                                 "/public/**",
                                 "/",
+                                "/home",
                                 "detail/**",
-                                "/account/register"
+                                "/account/**",
+                                "/reset-password/**",
+                                "/forgot-password",
+                                "/api/v1/**"
                         ).permitAll()
-                        .requestMatchers("/api/v1/**").permitAll()
-//                        .requestMatchers("/admin/**").hasAnyAuthority(ADMIN_READONLY.getValue())
+                        .requestMatchers(
+                                "/cart/**",
+                                "/checkout/**"
+                        ).hasAnyRole(Role.CUSTOMER.name(), Role.ADMIN.name())
+
                         .requestMatchers(
                                 "/admin/**",
-                                "/checkout/**",
-                                "/cart/**",
-                                "/profile/**"
-                        ).permitAll()
-                        .requestMatchers("/demo/**").hasRole(Role.CUSTOMER.name())
-                        .anyRequest().permitAll()
+                                "/user-manager"
+                        ).hasAnyRole(Role.ADMIN.name())
+                        .anyRequest().authenticated()
                 )
+                .authenticationProvider(authenticationProvider)
                 .formLogin(form -> form
                         .loginPage("/account/login")
                         .defaultSuccessUrl("/home", true)
@@ -63,7 +73,11 @@ public class WebSecurityConfig {
 
     private AuthenticationFailureHandler getCustomAuthenticationFailureHandler() {
         return (request, response, exception) -> {
-            notificationService.addError(exception.getClass().getName());
+            if (exception instanceof UsernameNotFoundException) {
+                notificationService.addError(exception.getMessage());
+            } else {
+                notificationService.addError("Password is incorrect");
+            }
             response.sendRedirect("/account/login");
         };
     }
@@ -71,10 +85,11 @@ public class WebSecurityConfig {
     private AuthenticationSuccessHandler getCustomAuthenticationSuccessHandler() {
         return (request, response, authentication) -> {
 
+            String redirect = request.getParameter("to");
             User user = (User) userService.loadUserByUsername(authentication.getName());
 
             notificationService.addInfo("Welcome back " + user.getFullname() + " !");
-            response.sendRedirect("/");
+            response.sendRedirect(redirect != null ? redirect : "/");
         };
     }
 

@@ -75,8 +75,23 @@
                     </div>
                 </div>
             </div>
+            <div
+                    th:if="${cartItems.size() == 0}"
+                    class="d-flex flex-column">
+                <div th:replace="~{/user/fragments/empty-box :: empty-box}">
+                </div>
+
+                <div class="text-center">
+                    <a class="btn btn-primary w-auto" href="/">
+                        <i class="bi bi-arrow-left"></i>
+                        Continue Shopping
+                    </a>
+                </div>
+            </div>
             <!-- row -->
-            <div class="row overflow-hidden">
+            <div
+                    th:if="${cartItems.size() > 0}"
+                    class="row overflow-hidden">
                 <div class="col-12">
 
                     <div class="py-3">
@@ -100,7 +115,10 @@
                                 </div>
                             </li>
                             <!-- list group -->
-                            <li th:each="item : ${cartItems}" class="list-group-item cart-item py-3 px-0">
+                            <li
+
+                                    th:each="item : ${cartItems}"
+                                    class="list-group-item cart-item py-3 px-0">
 
                                 <!-- row -->
                                 <div class="d-flex align-items-center">

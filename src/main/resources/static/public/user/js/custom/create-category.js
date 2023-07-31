@@ -119,4 +119,13 @@ $(document).ready(function () {
         btnSubmitSelector: "#categorySubmitButton",
         url: "/api/v1/categories/get"
     })
+
+    bindingSlug("#brandName", "#brandSlug");
+    checkSlug({
+        nameSelector: "#brandName",
+        slugSelector: "#brandSlug",
+        btnSubmitSelector: "#brandSubmitButton",
+        url: "/api/v1/brands/get"
+    })
+
 })

@@ -130,4 +130,8 @@ public class ProductService {
         return MyPage.of(page);
     }
 
+    public MyPage<Product> findAllByNameLike(String key , Pageable pageable) {
+        Page<Product> page = productRepository.findAllByNameLike( "%" + key + "%", pageable);
+        return MyPage.of(page);
+    }
 }

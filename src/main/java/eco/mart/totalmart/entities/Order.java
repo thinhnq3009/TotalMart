@@ -3,6 +3,7 @@ package eco.mart.totalmart.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import eco.mart.totalmart.enums.DiscountType;
 import eco.mart.totalmart.enums.OrderStatus;
+import eco.mart.totalmart.enums.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "\"Order\"", schema = "dbo")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -33,9 +35,6 @@ public class Order {
     @Transient
     private String username;
 
-    @Column(name = "paymentMethodId", nullable = false)
-    private Long paymentMethodId  = 1L;
-
     @ManyToOne
     @JoinColumn(name = "addressId", nullable = false)
     private Address address;
@@ -43,6 +42,9 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "voucherId")
     private Voucher voucher;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
 
     @Column(name = "timeCreated", nullable = false)
     private Timestamp timeCreated = Timestamp.from(Instant.now());
@@ -56,66 +58,137 @@ public class Order {
     @Column(name = "timeCanceled")
     private Timestamp timeCanceled;
 
+    @Column(name = "timeDelivery")
+    private Timestamp timeDelivery;  // Giao cho bên vận chuyển
+
 
     @Column(name = "shippingFee", nullable = false)
-    private Long shippingFee;
+    private Long shippingFee;   // Được tính từ địa chỉ giao hàng
 
     @Column(name = "note", nullable = false)
     private String note;
 
 
     @Transient
-    private String status ;
+    private OrderStatus status;
 
+    // Tiền giảm giá được tính qua Voucher
     @Transient
     private Long discount;
 
     @Transient
-    private Integer grandTotal;
+    private Long finalTotal;
 
-    public Integer getTotalBill() {
-        return orderDetails.stream().map(OrderDetail::getAmount).reduce(0, Integer::sum);
-    }
+    private String linkToPay;
 
-    public Long getGrandTotal() {
-        return getTotalBill() + shippingFee - getDiscount();
-    }
+    @Column(name = "isPaid", nullable = false)
+    @JsonIgnore
+    private boolean paid;
 
+    private Timestamp expiredPayTime;
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails = new ArrayList<>();
 
+    public boolean isExpiredPayLink() {
+        if (paymentMethod == PaymentMethod.COD) {
+            return false;
+        }
+        if (expiredPayTime == null) {
+            return false;
+        }
+        return expiredPayTime.before(new Timestamp(System.currentTimeMillis()));
+    }
+
+    public String getLinkToPay() {
+        if (paymentMethod == PaymentMethod.VN_PAY && !isExpiredPayLink()) {
+                    return linkToPay;
+        } else {
+            return "/";
+        }
+
+    }
+
+    // Tiền tiền hàng chưa tính ship và discount
+    public Integer getTotalBill() {
+        return orderDetails
+                .stream()
+                .map(OrderDetail::getAmount)
+                .reduce(0, Integer::sum);
+    }
+
+    // Tổng tiền phải trả
+    public Long getFinalTotal() {
+        return getTotalBill()
+                + getShippingFee()
+                - getDiscount();
+    }
+
+    // Chi phí bỏ ra của một đơn hàng
+    public Long getCost() {
+        return orderDetails
+                .stream()
+                .mapToLong(od -> od.getProduct().getImportPrice() * od.getQuantity())
+                .sum();
+    }
+
+//    public String getPaymentStatus() {
+//        if (paymentMethod == PaymentMethod.COD) {
+//            return getStatusString();
+//        } else if (paymentMethod == PaymentMethod.VN_PAY) {
+//            return isPaid()
+//                    ? "Paid"
+//                    : "Waiting for payment";
+//        } else {
+//            return "Undefined";
+//        }
+//    }
+
     public Long getDiscount() {
+
         if (voucher == null) {
             return 0L;
         }
+
+        if (voucher.getMinApply() > getTotalBill())
+            return 0L;
+
+        Long discount;
         if (voucher.getType() == DiscountType.PERCENTAGE) {
-            return voucher.getDiscount() * getTotalBill() / 100;
+            discount = voucher.getDiscount() * getTotalBill() / 100;
         } else {
-            return voucher.getDiscount();
+            discount = voucher.getDiscount();
         }
+
+        return discount > voucher.getMaxDiscount()
+                ? voucher.getMaxDiscount()
+                : discount;
     }
 
     public String getUsername() {
         return user.getUsername();
     }
 
-    public String getStatus() {
-        //    PENDING,
-        //    CONFIRMED,
-        //    COMPLETED,
-        //    CANCELLED
-        if (timeConfirmed != null) {
-            return "Confirmed";
-        } else if (timeCanceled != null) {
-            return "Cancelled";
-        } else if (timeComplete != null) {
-            return "Completed";
+    public OrderStatus getStatus() {
+        return status == null
+                ? OrderStatus.getStatus(this)
+                : status;
+    }
+
+    public String getPaymentStatus() {
+        if (paymentMethod == PaymentMethod.COD) {
+            return getStatusString();
+        } else if (paymentMethod == PaymentMethod.VN_PAY) {
+            return isPaid()
+                    ? "Paid"
+                    : "Waiting for payment";
         } else {
-            return "Pending";
+            return "Undefined";
         }
+    }
 
-
+    public String getStatusString() {
+        return getStatus().getName();
     }
 
 }

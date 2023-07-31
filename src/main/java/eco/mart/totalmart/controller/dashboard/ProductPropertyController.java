@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.dashboard;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.entities.Property;
 import eco.mart.totalmart.repositories.ProductRepository;
@@ -16,7 +17,7 @@ import java.util.Properties;
 
 @Controller
 @RequestMapping("/admin/properties")
-public class ProductPropertyController {
+public class ProductPropertyController extends BaseController {
 
     @Autowired
     PropertyService propertyService;

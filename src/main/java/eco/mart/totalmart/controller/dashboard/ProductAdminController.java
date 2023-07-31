@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.dashboard;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.*;
 import eco.mart.totalmart.module.MyPage;
 import eco.mart.totalmart.repositories.*;
@@ -22,7 +23,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/product")
-public class ProductAdminController {
+public class ProductAdminController extends BaseController {
 
     private final Logger logger = LoggerFactory.getLogger(ProductAdminController.class);
 
@@ -67,15 +68,15 @@ public class ProductAdminController {
             Model model,
             Integer page,
             Integer size,
-            Integer dayAgo
-
+            String key
     ) {
 
         Pageable pageable = PageRequest.of(page == null ? 0 : page, size == null ? 10 : size);
 
-        MyPage<Product> products = productService.findAll(pageable);
+        MyPage<Product> products = productService.findAllByNameLike(key == null ? "" : key, pageable);
 
         model.addAttribute("pageContent", products);
+        model.addAttribute("key", key == null ? "" : key);
 
         return "user/dashboard/products";
     }

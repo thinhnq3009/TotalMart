@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.customer;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.Product;
 import eco.mart.totalmart.module.MyPage;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.model.IModel;
 
 @Controller
-public class CategoryController {
+public class CategoryController extends BaseController {
 
     private final Logger logger = LoggerFactory.getLogger(CategoryController.class);
 

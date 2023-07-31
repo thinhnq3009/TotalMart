@@ -60,11 +60,26 @@
                     <!-- card -->
                     <div class="card h-100 card-lg">
                         <div class=" p-6 ">
-                            <div class="row justify-content-end">
+                            <div class="d-flex justify-content-start">
+                                <div class="input-group d-inline-flex w-auto" >
+                                    <label class="input-group-text" for="dayAgo">Status</label>
 
-                                <div class="col-lg-2 col-md-4 col-12">
                                     <!-- select -->
-                                    <select class="form-select">
+                                    <select id="status" class="form-select">
+                                        <option th:selected="${status == null}" value="">All</option>
+                                        <option
+                                                th:each="item : ${statuses}"
+                                                th:selected="${item == status}"
+                                                th:value="${item.name()}"
+                                                th:text="${item.getName()}"
+                                        ></option>
+                                    </select>
+                                </div>
+                                <div class="ms-3 input-group d-inline-flex w-auto" >
+                                    <label class="input-group-text" for="dayAgo">Date</label>
+
+                                    <!-- select -->
+                                    <select id="dayAgo" class="form-select">
                                         <option th:selected="${dayAgo == 1}" value="1">Today</option>
                                         <option th:selected="${dayAgo == 7}" value="7">7 day ago</option>
                                         <option th:selected="${dayAgo == 0}" value="0">14 day ago</option>
@@ -90,7 +105,7 @@
                                         </th>
                                         <th>Id</th>
                                         <th>Customer</th>
-                                        <th>Date & TIme</th>
+                                        <th>Date & Time</th>
                                         <th>Payment</th>
                                         <th>Status</th>
                                         <th>Amount</th>
@@ -103,22 +118,34 @@
                                         <!--/*@thymesVar id="order" type="eco.mart.totalmart.entities.Order"*/-->
                                         <td>
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" th:attr="data-order-id=${order.id}">
+                                                <input class="form-check-input" type="checkbox"
+                                                       th:attr="data-order-id=${order.id}">
                                             </div>
                                         </td>
-                                        <td><a href="#" class="text-reset">#<span th:text="${order.id}"></span> </a></td>
+                                        <td><a target="_blank" th:href="@{|/order/${order.id}|}"
+                                               class="text-reset">#<span th:text="${order.id}"></span> </a></td>
                                         <td th:text="${order.user.fullname}"></td>
-
                                         <td th:text="${#dates.format(order.timeCreated, 'HH:mm - dd/MM/yyyy')}"></td>
-                                        <td>COD</td>
-
+                                        <td th:text="${order.paymentMethod.getSortName()}"></td>
                                         <td>
-                                            <span th:if="${order.status == 'Pending'}" class="badge bg-light-warning text-dark-warning" th:text="${order.status}"></span>
-                                            <span th:if="${order.status == 'Confirmed'}" class="badge bg-light-info text-dark-info" th:text="${order.status}"></span>
-                                            <span th:if="${order.status == 'Cancelled'}" class="badge bg-light-danger text-dark-danger" th:text="${order.status}"></span>
-                                            <span th:if="${order.status == 'Completed'}" class="badge bg-light-primary text-dark-primary" th:text="${order.status}"></span>
+                                            <span th:if="${order.getStatusString() == 'Pending'}"
+                                                  class="badge bg-light-warning text-dark-warning"
+                                                  th:text="${order.getStatusString()}"></span>
+                                            <span th:if="${order.getStatusString() == 'Confirmed'}"
+                                                  class="badge bg-light-info text-dark-info"
+                                                  th:text="${order.getStatusString()}"></span>
+                                            <span
+                                                    th:if="${order.getStatusString() == 'Delivering'}"
+                                                    class="badge bg-light-secondary text-dark-secondary"
+                                                    th:text="${order.getStatusString()}"></span>
+                                            <span th:if="${order.getStatusString() == 'Canceled'}"
+                                                  class="badge bg-light-danger text-dark-danger"
+                                                  th:text="${order.getStatusString()}"></span>
+                                            <span th:if="${order.getStatusString() == 'Completed'}"
+                                                  class="badge bg-light-primary text-dark-primary"
+                                                  th:text="${order.getStatusString()}"></span>
                                         </td>
-                                        <td th:attr="data-money=${order.grandTotal}"> $12.99</td>
+                                        <td th:attr="data-money=${order.finalTotal}"> $12.99</td>
 
                                         <td>
                                             <div class="dropdown">
@@ -127,17 +154,31 @@
                                                     <i class="feather-icon icon-more-vertical fs-5"></i>
                                                 </a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a class="dropdown-item" target="_blank" th:href="@{|/order/${order.id}|}"><i
-                                                            class="bi bi-arrows-angle-expand me-3 "></i>More</a>
+                                                    <li>
+                                                        <a class="dropdown-item" target="_blank"
+                                                           th:href="@{|/order/${order.id}|}"><i
+                                                                class="bi bi-arrows-angle-expand me-3 "></i>More</a>
                                                     </li>
                                                     <li
-                                                            th:if="${order.status == 'Pending'}"
-                                                    ><a class="dropdown-item" href="#"><i
-                                                            class="bi bi-check-circle me-3"></i>Confirm</a></li>
+                                                            th:if="${order.getStatusString() == 'Pending'}"
+                                                    ><button
+                                                            th:attr="data-order-confirm-id=${order.id}"
+                                                            class="dropdown-item" ><i
+                                                            class="bi bi-check-circle me-3"></i>Confirm</button>
+                                                    </li>
                                                     <li
-                                                            th:if="${order.status == 'Confirmed' || order.status == 'Pending'}"
-                                                    ><a class="dropdown-item" href="#"><i
-                                                            class="bi bi-x-circle me-3 "></i>Cancel</a>
+                                                            th:if="${order.getStatusString() == 'Confirmed'}"
+                                                    ><button
+                                                            th:attr="data-order-delivering-id=${order.id}"
+                                                            class="dropdown-item" ><i
+                                                            class="bi bi-send-check me-3"></i>Delivering</button>
+                                                    </li>
+                                                    <li
+                                                            th:if="${order.getStatusString() != 'Canceled'}"
+                                                    ><button
+                                                            th:attr="data-order-cancel-id=${order.id}"
+                                                            class="dropdown-item" ><i
+                                                            class="bi bi-x-circle me-3 "></i>Cancel</button>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -164,11 +205,13 @@
 <script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
 <script src="/public/user/js/custom/required.js"></script>
-
+<script src="/public/user/js/custom/clickHandler.js"></script>
+<div th:replace="~{/user/fragments/notification :: full-container}"></div>
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 <script src="/public/user/js/custom/money-formatter.js"></script>
 <script src="/public/user/js/custom/pagination.js"></script>
+<script src="/public/user/js/custom/order.js"></script>
 
 </body>
 

@@ -2,9 +2,14 @@
 
 $(document).ready(function () {
 
-    // Handel category group change
-    $("#categoryGroup").change(function () {
-        const categoryId = $(this).val();
+    const getCategories = function () {
+        let categoryId;
+        try {
+            categoryId = $(this).val();
+        } catch (e) {
+            categoryId = $("#categoryGroup > option:nth-child(1)").val();
+        }
+
         $.ajax({
             dataType: "json",
             success: function (response) {
@@ -20,7 +25,13 @@ $(document).ready(function () {
             type: "GET",
             url: `/api/v1/categories/group/get/${categoryId}`
         })
-    })
+    }
+
+    getCategories();
+
+    // Handel category group change
+    $("#categoryGroup").change(getCategories);
+
 
     // Handel upload image with DropzoneJS
     // Huỷ bỏ dropzone mặc định
@@ -64,7 +75,7 @@ $(document).ready(function () {
                 console.log(currentValue.filter(value => value !== file.url));
                 input.val(JSON.stringify(currentValue.filter(value => value !== file.url)));
             }
-    
+
             $.ajax({
                 url: '/api/v1/images/delete',
                 method: 'DELETE',
@@ -75,8 +86,6 @@ $(document).ready(function () {
                     notificer.addSuccess("Delete image success");
                 }
             })
-
-
 
 
         });

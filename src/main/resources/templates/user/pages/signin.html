@@ -25,18 +25,7 @@
 </head>
 <body>
 <!-- navigation -->
-<div class="border-bottom shadow-sm">
-    <nav class="navbar navbar-light py-2">
-        <div class="container justify-content-center justify-content-lg-between">
-            <a class="navbar-brand" href="../index.html">
-                <img src="/public/user/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
-            </a>
-            <span class="navbar-text">
-        Already have an account? <a href="/signin.html">Sign in</a>
-      </span>
-        </div>
-    </nav>
-</div>
+<header th:replace="~{/user/fragments/header :: mini-header}"></header>
 <main>
     <!-- section -->
     <section class="my-lg-14 my-8">
@@ -55,7 +44,7 @@
                         </h1>
                         <p>Welcome back to FreshCart! Enter your email to get started.</p>
                     </div>
-                    <form method="post" th:action="@{/account/login}">
+                    <form id="loginForm" method="post" autocomplete="off" th:action="@{/account/login}">
                         <div class="row g-3">
                             <!-- row -->
                             <div class="col-12 form-floating">
@@ -63,12 +52,14 @@
                                 <input type="text" name="username" class="form-control" id="loginUsername"
                                        placeholder="Email" required>
                                 <label for="loginUsername">Username</label>
+                                <small></small>
                             </div>
                             <div class="col-12 form-floating">
                                 <!-- input -->
                                 <input type="password" name="password" class="form-control" id="loginPassword"
                                        placeholder="Password" required>
                                 <label for="loginPassword">Password</label>
+                                <small></small>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <!-- form check -->
@@ -79,7 +70,7 @@
                                 </label>
                                 </div>
                                 <div> Forgot password?
-                                    <a href="assword.html">Reset It</a>
+                                    <a href="/forgot-password">Reset It</a>
                                 </div>
                             </div>
                             <!-- btn -->
@@ -116,10 +107,66 @@
 <script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
-<footer th:replace="~{/user/fragments/notification :: full-container}"></footer>
+<script src="/public/user/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#loginForm').validate({
+            // Thiết lập các quy tắc validation
+            rules: {
+                username: {
+                    required: true,
+                    minlength: 6
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                }
+            },
+            // Thiết lập thông báo lỗi
+            messages: {
+                username: {
+                    required: "Please enter username",
+                    minlength: "Username must be at least 6 characters long"
+                },
+                password: {
+                    required: 'Please enter password',
+                    minlength: 'Password must be at least 6 characters long'
+                }
+            },
+            // Xử lý hiển thị thông báo lỗi
+            errorPlacement: function (error, element) {
+                console.log(element ,error)
+                $(element)
+                    .parent()
+                    .find('small')
+                    .addClass('text-danger')
+                    .text(error.text());
+            },
+
+            success: function(label, element) {
+                $(element)
+                    .parent()
+                    .find('small')
+                    .removeClass('text-danger')
+                    .text('');
+            }
+
+
+        });
+
+        // Gắn sự kiện blur cho tất cả các input
+        $('#loginForm input').blur(function () {
+            $(this).valid();
+        });
+    });
+</script>
 
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 <!-- choose one -->
+
+
+<footer th:replace="~{/user/fragments/notification :: full-container}"></footer>
 </body>
 </html>

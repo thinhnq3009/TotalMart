@@ -1,11 +1,13 @@
 package eco.mart.totalmart.module;
 
-import lombok.Getter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.NonNull;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.function.Predicate;
 
 public class MyPage<T> extends PageImpl<T> {
 
@@ -36,7 +38,7 @@ public class MyPage<T> extends PageImpl<T> {
     }
 
     public int getPrev() {
-        return  getNumber() - 1;
+        return getNumber() - 1;
     }
 
     public int getNext() {
@@ -50,4 +52,15 @@ public class MyPage<T> extends PageImpl<T> {
     public int getLastIndex() {
         return getNumber() * getSize() + getNumberOfElements() - 1;
     }
+
+    public MyPage<T> filterAndClone( Predicate<? super T> filter) {
+        Objects.requireNonNull(filter, "filter must not be null");
+        List<T> ts = getContent()
+                .stream()
+                .filter(filter)
+                .toList();
+        return MyPage.of(ts, getPageable(), ts.size());
+    }
+
+
 }

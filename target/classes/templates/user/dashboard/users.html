@@ -106,10 +106,10 @@
                               <img th:src="${user.avatar}" alt=""
                                 class="avatar avatar-md rounded-circle">
                               <div class="ms-2 d-flex flex-column align-items-start justify-content-start">
-                                <a class="text-inherit" th:text="${user.fullname}">FULLNAME</a>
+                                <a class="text-inherit" th:text="${user.fullname}"></a>
                                 <span class="badge rounded-pill text-capitalize"
-                                      th:classappend="${user.role == T(eco.mart.totalmart.auth.Role).ADMIN ? 'bg-danger' : ' '}
-                                      + ${user.role == T(eco.mart.totalmart.auth.Role).CUSTOMER ? 'bg-primary' : ' '} "
+                                      th:classappend="${user.role.name() == 'ADMIN' ? 'bg-danger' : ' '}
+                                      + ${user.role.name() == 'CUSTOMER' ? 'bg-primary' : ' '} "
 
                                       th:text="${(user.role.toString().toLowerCase())}"></span>
                               </div>

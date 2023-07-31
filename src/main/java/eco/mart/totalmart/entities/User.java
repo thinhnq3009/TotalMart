@@ -52,10 +52,13 @@ public class User implements UserDetails {
     private String phone;
 
     @Column(name = "resetPasswordToken")
-    private Long resetPasswordToken;
+    private String resetPasswordToken;
+
+    @Column(name = "resetPasswordTokenExpiryDate")
+    private Timestamp resetPasswordTokenExpiryDate;
 
     @Column(name = "accessToken")
-    private Long accessToken;
+    private String accessToken;
 
     @Column(name = "isActive", nullable = false)
     private Boolean isActive = false;
@@ -70,7 +73,7 @@ public class User implements UserDetails {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role = Role.CUSTOMER;
+    private Role role = Role.ADMIN;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
@@ -81,6 +84,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Cart> reviews = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Cart> carts = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Address> addresses = new ArrayList<>();
@@ -110,6 +116,16 @@ public class User implements UserDetails {
         return avatar == null ? "/public/user/images/avatar/default-avatar.png" : avatar;
     }
 
+    public void generateResetPasswordToken() {
+        this.resetPasswordToken = java.util.UUID.randomUUID().toString();
+        this.resetPasswordTokenExpiryDate = new Timestamp(System.currentTimeMillis() + 1000 * 60 *15);
+    }
+
+    public void clearResetPasswordToken() {
+        this.resetPasswordToken = null;
+        this.resetPasswordTokenExpiryDate = null;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return role.getAuthorities();
@@ -133,5 +149,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public boolean isAdmin() {
+        return getRole() == Role.ADMIN;
     }
 }

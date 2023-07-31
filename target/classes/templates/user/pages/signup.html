@@ -25,19 +25,8 @@
     <link rel="stylesheet" href="/public/admin/css/notification.css">
 </head>
 <body>
-<!-- navigation -->
-<div class="border-bottom shadow-sm">
-    <nav class="navbar navbar-light py-2">
-        <div class="container justify-content-center justify-content-lg-between">
-            <a class="navbar-brand" href="../index.html">
-                <img src="/public/user/images/logo/freshcart-logo.svg" alt="" class="d-inline-block align-text-top">
-            </a>
-            <span class="navbar-text">
-        Already have an account? <a href="tml">Sign in</a>
-      </span>
-        </div>
-    </nav>
-</div>
+<header th:replace="~{/user/fragments/header :: mini-header}"></header>
+
 <main>
     <!-- section -->
     <section class="my-lg-14 my-8">
@@ -52,11 +41,11 @@
                 <!-- col -->
                 <div class="col-12 col-md-7 offset-lg-1 col-lg-4 order-lg-2 order-1">
                     <div class="mb-lg-9 mb-5">
-                        <h1 class="mb-1 h2 fw-bold">Get Start Shopping</h1>
-                        <p>Welcome to FreshCart! Enter your email to get started.</p>
+                        <h1 class="mb-1 h2 fw-bold">Welcome to FreshCart!</h1>
+                        <p>Register to shopping! Enter your email to get started.</p>
                     </div>
                     <!-- form -->
-                    <form th:object="${user}" method="post">
+                    <form id="registerForm" th:object="${user}"  method="post">
                         <!-- col -->
                         <div class="form-floating mb-3">
                             <!-- input -->
@@ -64,6 +53,7 @@
                                    placeholder="Fullname" aria-label="Fullname"
                                    required>
                             <label for="fullname">Fullname</label>
+                            <small></small>
                         </div>
                         <div class="form-floating mb-3">
                             <!-- input -->
@@ -71,6 +61,7 @@
                                    placeholder="Username" aria-label="Username"
                                    required>
                             <label for="fullname">Username</label>
+                            <small></small>
                         </div>
                         <div class="form-floating mb-3">
                             <!-- input -->
@@ -78,6 +69,7 @@
                                    placeholder="Email" aria-label="Email"
                                    required>
                             <label for="fullname">Email</label>
+                            <small></small>
                         </div>
                         <div class="form-floating mb-3">
                             <!-- input -->
@@ -85,15 +77,16 @@
                                    placeholder="Password" aria-label="Password"
                                    required>
                             <label for="password">Password</label>
+                            <small></small>
                         </div>
-<!--                        <div class="form-floating mb-3">-->
-<!--                            &lt;!&ndash; input &ndash;&gt;-->
-<!--                            <input id="confirmPassword" name="password" type="text" class="form-control"-->
-<!--                                   placeholder="Confirm Password" aria-label="Confirm Password"-->
-<!--                                   required>-->
-<!--                            <label for="confirmPassword">Confirm Password</label>-->
-<!--                        </div>-->
-                        <!-- btn -->
+                        <div class="form-floating mb-3">
+                            <!-- input -->
+                            <input id="confirmPassword" name="confirmPassword" type="text" class="form-control"
+                                   placeholder="Confirm Password" aria-label="Confirm Password"
+                                   required>
+                            <label for="confirmPassword">Confirm Password</label>
+                            <small></small>
+                        </div>
                         <div class="col-12 d-grid mb-3">
                             <button type="submit" class="btn btn-primary">Register</button>
                         </div>
@@ -158,7 +151,95 @@
 <script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
 <script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
 <script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
+<script src="/public/user/libs/jquery-validation/dist/jquery.validate.min.js"></script>
 <script th:replace="~{/user/fragments/notification :: js}"></script>
+
+
+<script>
+    $(document).ready(function () {
+        $('#registerForm').validate({
+            // Thiết lập các quy tắc validation
+            rules: {
+                fullname: {
+                    required: true,
+                    minlength: 6
+                },
+                username: {
+                    required: true,
+                    minlength: 6
+                },
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 6
+                },
+                phone: {
+                    required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                    number: true
+                },
+                confirmPassword: {
+                    required: true,
+                    equalTo: '#password'
+                }
+            },
+            // Thiết lập thông báo lỗi
+            messages: {
+                fullname: {
+                    required: "Please enter fullname",
+                    minlength: "Fullname must be at least 6 characters long"
+                },
+                username: {
+                    required: "Please enter username",
+                    minlength: "Username must be at least 6 characters long"
+                },
+                email: {
+                    required: "Please enter email",
+                    email: "Please enter a valid email address"
+                },
+                phone: {
+                    required: "Please enter phone",
+                    minlength: "Phone must be at least 10 characters long",
+                    maxlength: "Phone must be at least 10 characters long",
+                    number: "Please enter a valid phone number"
+                },
+                password: {
+                    required: 'Please enter password',
+                    minlength: 'Password must be at least 6 characters long'
+                }
+            },
+            // Xử lý hiển thị thông báo lỗi
+            errorPlacement: function (error, element) {
+                $(element)
+                    .parent()
+                    .find('small')
+                    .addClass('text-danger')
+                    .text(error.text());
+            },
+
+            success: function (label, element) {
+                $(element)
+                    .parent()
+                    .find('small')
+                    .removeClass('text-danger')
+                    .text('');
+            }
+
+
+        });
+
+        // Gắn sự kiện blur cho tất cả các input
+        $('input').blur(function () {
+            $(this).valid();
+        });
+    });
+</script>
+
+
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 <!-- choose one -->

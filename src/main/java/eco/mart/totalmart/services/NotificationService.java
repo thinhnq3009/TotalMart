@@ -87,6 +87,7 @@ public class NotificationService {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.writeValueAsString(noticers);
         } catch (JsonProcessingException e) {
+            e.printStackTrace();
             return "[]";
         }
 

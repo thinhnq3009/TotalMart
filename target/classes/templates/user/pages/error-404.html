@@ -12,14 +12,6 @@
   <meta content="Codescandy" name="author">
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-M8S4MT3EYG"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-M8S4MT3EYG');
-  </script>
 
   <!-- Favicon icon-->
   <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
@@ -54,9 +46,9 @@
             <!-- content -->
             <div class="col-md-6">
               <div class=" mb-6 mb-lg-0">
-                <h1>Something’s wrong here...</h1>
-                <p class="mb-8">We can’t find the page you’re looking for.<br>
-                  Check out our help center or head back to home.</p>
+                <h1 th:text="${title == null ? 'Something’s wrong here...' : title}"></h1>
+                <p class="mb-8"
+                   th:text="${message == null ? 'We can’t find the page you’re looking for. Check out our help center or head back to home.' : message}"></p>
                 <!-- btn -->
                 <a href="#" class="btn btn-dark">Help Center <i class="feather-icon icon-arrow-right"></i></a>
                 <!-- btn -->
@@ -84,12 +76,11 @@
 
 
 <!-- Javascript-->
-<div th:replace="~{/admin/fragments/notification :: container}"></div>
 <!-- Libs JS -->
 <script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
 <script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
-<script th:replace="~{/admin/fragments/notification :: js}"></script>
+<script th:replace="~{/user/fragments/notification :: full-container}"></script>
 <!-- Theme JS -->
 <script src="/public/user/js/theme.min.js"></script>
 

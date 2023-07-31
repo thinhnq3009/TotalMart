@@ -1,5 +1,6 @@
 package eco.mart.totalmart.controller.dashboard;
 
+import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.Category;
 import eco.mart.totalmart.entities.CategoryGroup;
 import eco.mart.totalmart.services.CategoryGroupService;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/categories")
-public class CategoryDashboardController {
+public class CategoryDashboardController extends BaseController {
 
     private final Logger logger = org.slf4j.LoggerFactory.getLogger(CategoryDashboardController.class);
 

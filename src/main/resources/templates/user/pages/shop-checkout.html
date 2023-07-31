@@ -250,6 +250,44 @@
                             <div class="accordion-item py-4">
 
                                 <a href="#" class="text-inherit h5" data-bs-toggle="collapse"
+                                   data-bs-target="#flush-collapseTwo" aria-expanded="false"
+                                   aria-controls="flush-collapseTwo">
+                                    <i class="feather-icon icon-credit-card me-2 text-muted"></i>
+                                    Payment method
+                                    <!-- collapse --> </a>
+                                <div id="flush-collapseTwo" class="accordion-collapse collapse show"
+                                     data-bs-parent="#accordionFlushExample">
+
+                                    <div class="mt-5">
+                                        <div class="row justify-content-center">
+                                            <div
+
+                                                    th:each="item : ${paymentMethods}"
+                                                    class="col-lg-6 col-12">
+                                                <div class="card h-100"
+                                                     th:attr="data-payment-method-name=${item.name()}">
+                                                    <div class="card-body d-flex justify-content-start align-items-center">
+                                                        <img class="me-3"
+                                                             width="50"
+                                                             th:src="${item.image}" alt="Payment">
+                                                        <div>
+                                                            <h5 class="title" th:text="${item.name}">
+
+                                                            </h5>
+                                                            <span th:text="${item.description}"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- accordion item -->
+                            <div class="accordion-item py-4">
+
+                                <a href="#" class="text-inherit h5" data-bs-toggle="collapse"
                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
                                    aria-controls="flush-collapseThree">
                                     <i class="feather-icon icon-shopping-bag me-2 text-muted"></i>Delivery instructions
@@ -267,7 +305,8 @@
                                                data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo"
                                                aria-expanded="false"
                                                aria-controls="flush-collapseTwo">Back to cart</a>
-                                            <button class="btn btn-primary ms-2" id="completeOrder">Complete Order</button>
+                                            <button class="btn btn-primary ms-2" id="completeOrder">Complete Order
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -406,7 +445,7 @@
 <script src="/public/user/js/custom/required.js"></script>
 <script src="/public/user/js/custom/clickHandler.js"></script>
 <script src="/public/user/js/custom/money-formatter.js"></script>
-<script src="/public/user/js/custom/address.js"></script>
+<script src="/public/user/js/custom/checkout.js"></script>
 
 <!-- choose one -->
 <div th:replace="~{/user/fragments/notification :: full-container}"></div>

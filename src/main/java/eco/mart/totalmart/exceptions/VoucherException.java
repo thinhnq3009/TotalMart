@@ -1,6 +1,6 @@
 package eco.mart.totalmart.exceptions;
 
-public class VoucherException extends Exception {
+public class VoucherException extends RuntimeException {
     public VoucherException() {
     }
 
