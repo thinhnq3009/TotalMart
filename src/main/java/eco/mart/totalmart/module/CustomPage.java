@@ -59,7 +59,7 @@ public class MyPage<T> extends PageImpl<T> {
                 .stream()
                 .filter(filter)
                 .toList();
-        return MyPage.of(ts, getPageable(), ts.size());
+        return MyPage.of(ts);
     }
 
 
