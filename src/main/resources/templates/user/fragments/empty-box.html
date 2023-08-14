@@ -11,5 +11,19 @@
         <h5>There's nothing here</h5>
     </div>
 </div>
+
+<th:block th:fragment="condition-empty-box">
+    <!--/*@thymesVar id="isShow" type="java.lang.Boolean"*/-->
+    <!--/*@thymesVar id="emptyMessage" type="java.lang.String"*/-->
+    <div th:if="${isShow == true}" class="row justify-content-center mb-5">
+        <div class="text-center">
+            <img src="/public/user/images/svg-graphics/empty-box.svg" alt="Empty box" width="200px">
+            <h5>There's nothing here</h5>
+        </div>
+    </div>
+</th:block>
+
+
+
 </body>
 </html>

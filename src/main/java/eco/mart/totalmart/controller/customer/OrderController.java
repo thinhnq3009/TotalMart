@@ -5,12 +5,15 @@ import eco.mart.totalmart.entities.Order;
 import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.enums.OrderStatus;
 import eco.mart.totalmart.enums.PaymentMethod;
+import eco.mart.totalmart.module.CustomPage;
 import eco.mart.totalmart.services.NotificationService;
 import eco.mart.totalmart.services.OrderService;
 import eco.mart.totalmart.services.UserService;
 import eco.mart.totalmart.services.VnpService;
 import eco.mart.totalmart.vnpay.VNPayGenerator;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,7 +46,7 @@ public class OrderController extends BaseController {
 
         Optional<Order> order = orderService.findById(id);
 
-        User user = userService.getUser();
+        User user = userService.getUserLoggedIn();
 
         if (order.isPresent()) {
             if (order.get().getUser().getId().equals(user.getId())
@@ -101,7 +104,7 @@ public class OrderController extends BaseController {
             @PathVariable("id") Long id
     ) {
         Optional<Order> orderOpt = orderService.findById(id);
-        User user = userService.getUser();
+        User user = userService.getUserLoggedIn();
         if (orderOpt.isEmpty()) {
             notificationService.addError("Order not found");
             return "redirect:/order/" + id;
@@ -124,4 +127,36 @@ public class OrderController extends BaseController {
         }
         return "redirect:/order/" + id;
     }
+
+
+    @GetMapping("/all")
+    public String getAllUserOrder(
+            Model model,
+            Integer page,
+            Integer size,
+            String status
+    ) {
+
+        page = page == null ? 0 : page;
+        size = size == null ? 10 : size;
+
+        OrderStatus orderStatus;
+        try {
+            orderStatus = OrderStatus.valueOf(status);
+        } catch (Exception e) {
+            orderStatus = null;
+        }
+
+        Pageable pageable = PageRequest.of(page, size);
+
+
+        CustomPage<Order> orders = orderService.getOrderByUserLoggedIn(pageable, orderStatus);
+
+        model.addAttribute("pageContent", orders);
+        model.addAttribute("statusList", OrderStatus.values());
+        model.addAttribute("status", status);
+
+        return "user/pages/account-orders";
+    }
+
 }

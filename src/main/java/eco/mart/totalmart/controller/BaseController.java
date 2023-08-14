@@ -7,7 +7,6 @@ import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
@@ -54,7 +53,7 @@ public class BaseController {
 
     @ModelAttribute("user")
     User getUser() {
-        return userService.getUser() ;
+        return userService.getUserLoggedIn() ;
     }
 
 }

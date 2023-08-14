@@ -6,12 +6,12 @@
 </head>
 <body>
 
-<!--/*@thymesVar id="pageContent" type="eco.mart.totalmart.module.MyPage"*/-->
-<div th:fragment="pagination" class="border-top d-md-flex justify-content-between align-items-center p-6">
+<!--/*@thymesVar id="pageContent" type="eco.mart.totalmart.module.CustomPage"*/-->
+<div th:fragment="footer-table" class="border-top d-md-flex justify-content-between align-items-center p-6">
     <span>Showing
-        <span th:text="${pageContent.firstIndex + 1}"></span>
+        <span th:text="${pageContent.number * pageContent.size + 1}"></span>
         to
-        <span th:text="${pageContent.lastIndex + 1}"></span>
+        <span th:text="${pageContent.number * pageContent.size + pageContent.content.size()}"></span>
         of
         <span th:text="${pageContent.totalElements}"></span>
         entries</span>
@@ -19,7 +19,7 @@
     <div class="input-group w-auto">
         <div class="input-group mb-3">
             <label class="input-group-text" for="paginationSize">Show</label>
-            <select class="form-select" id="paginationSize">
+            <select class="form-select" id="paginationSize" pagination pagination-size>
                 <option th:selected="${pageContent.size == 5}" value="5">5</option>
                 <option th:selected="${pageContent.size == 10}" value="10">10</option>
                 <option th:selected="${pageContent.size == 20}" value="20">20</option>
@@ -29,16 +29,51 @@
         </div>
     </div>
 
-    <nav class="mt-2 mt-md-0">
+    <nav th:fragment="pagination" class="mt-2 mt-md-0 justify-content-center">
         <ul class="pagination mb-0">
-            <li class="page-item"><a class="page-link" page-first="0">First</a></li>
-            <li class="page-item"><a class="page-link" th:attr="page-index=${pageContent.prev}">2</a></li>
-            <li class="page-item"><a class="page-link active" th:attr="page-index=${pageContent.number}">2</a></li>
-            <li class="page-item"><a class="page-link" th:attr="page-index=${pageContent.next}">2</a></li>
-            <li class="page-item"><a class="page-link" th:attr="page-last=${pageContent.totalPages - 1}">Last</a></li>
+            <li class="page-item">
+                <button class="page-link" pagination pagination-page="0">
+                    First
+                </button>
+            </li>
+            <li class="page-item">
+                <button
+                        pagination
+                        class="page-link"
+                        th:if="${pageContent.hasPrevious()}"
+                        th:text="${pageContent.number }"
+                        th:attr="pagination-page=${pageContent.number - 1}">
+                </button>
+            </li>
+            <li class="page-item">
+                <button
+                        pagination
+                        class="page-link active"
+                        th:text="${pageContent.number + 1}"
+                        th:attr="pagination-page=${pageContent.number}">
+                    2
+                </button>
+            </li>
+            <li class="page-item">
+                <button
+                        pagination
+                        class="page-link"
+                        th:if="${pageContent.hasNext}"
+                        th:text="${pageContent.number + 2}"
+                        th:attr="pagination-page=${pageContent.number + 1}">
+                    2
+                </button>
+            </li>
+            <li class="page-item">
+                <button
+                        pagination
+                        class="page-link"
+                        th:attr="pagination-page=${pageContent.totalPages - 1}">
+                    Last
+                </button>
+            </li>
         </ul>
     </nav>
-
 </div>
 
 </body>

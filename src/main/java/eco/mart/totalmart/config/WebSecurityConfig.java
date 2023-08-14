@@ -4,6 +4,7 @@ import eco.mart.totalmart.auth.Role;
 import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.services.NotificationService;
 import eco.mart.totalmart.services.UserService;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +28,8 @@ public class WebSecurityConfig {
     @Autowired
     UserService userService;
 
-    private final AuthenticationProvider authenticationProvider;
+    @Autowired
+    AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -39,15 +41,18 @@ public class WebSecurityConfig {
                                 "/public/**",
                                 "/",
                                 "/home",
-                                "detail/**",
+                                "/detail/**",
                                 "/account/**",
                                 "/reset-password/**",
                                 "/forgot-password",
-                                "/api/v1/**"
+                                "/api/v1/**",
+                                "/search/**",
+                                "/show"
                         ).permitAll()
                         .requestMatchers(
                                 "/cart/**",
-                                "/checkout/**"
+                                "/checkout/**",
+                                "/order/all"
                         ).hasAnyRole(Role.CUSTOMER.name(), Role.ADMIN.name())
 
                         .requestMatchers(

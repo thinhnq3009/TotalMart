@@ -42,26 +42,26 @@ public class AuthenticateController {
         return "user/pages/signup";
     }
 
-    @PostMapping("/login")
-    String login(User user, Model model, HttpServletRequest request) {
-
-        logger.warn("user: " + user.getUsername());
-
-
-        try {
-            User userLogin = userService.login(user);
-            notificationService.addInfo("Đăng nhập thành công");
-            request.getSession().setAttribute("userLogin", userLogin);
-            notificationService.render(model);
-        } catch ( Exception e) {
-            logger.error(e.getMessage());
-            notificationService.addError(e.getMessage());
-            notificationService.render(model);
-            return "user/pages/signin";
-        }
-
-        return "direct:/";
-    }
+//    @PostMapping("/login")
+//    String login(User user, Model model, HttpServletRequest request) {
+//
+//        logger.warn("user: " + user.getUsername());
+//
+//
+//        try {
+//            User userLogin = userService.login(user);
+//            notificationService.addInfo("Đăng nhập thành công");
+//            request.getSession().setAttribute("userLogin", userLogin);
+//            notificationService.render(model);
+//        } catch ( Exception e) {
+//            logger.error(e.getMessage());
+//            notificationService.addError(e.getMessage());
+//            notificationService.render(model);
+//            return "user/pages/signin";
+//        }
+//
+//        return "direct:/";
+//    }
 
     @PostMapping("/register")
     String register(User user, Model model) {

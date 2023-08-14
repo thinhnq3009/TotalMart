@@ -12,11 +12,8 @@ public enum Permission {
     USER_READWRITE("USER_READWRITE");
 
 
-
-
-
     @Getter
-  private  final String value;
+    private final String value;
 
 
 }

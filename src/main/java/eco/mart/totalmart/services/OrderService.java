@@ -4,15 +4,15 @@ import eco.mart.totalmart.entities.*;
 import eco.mart.totalmart.enums.OrderStatus;
 import eco.mart.totalmart.enums.PaymentMethod;
 import eco.mart.totalmart.exceptions.VoucherException;
-import eco.mart.totalmart.module.MyPage;
+import eco.mart.totalmart.module.CustomPage;
 import eco.mart.totalmart.repositories.OrderRepository;
 import eco.mart.totalmart.vnpay.VNPayGenerator;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,7 @@ public class OrderService {
     VnpService payService;
 
     public boolean authenticUser(Order order) {
-        User user = userService.getUser();
+        User user = userService.getUserLoggedIn();
         return order.getUser().getId().equals(user.getId());
     }
 
@@ -56,7 +56,7 @@ public class OrderService {
                                        String note,
                                        String paymentMethod) throws VoucherException {
         try {
-            User user = userService.getUser();
+            User user = userService.getUserLoggedIn();
 
             PaymentMethod paymentMethodEnum;
 
@@ -124,7 +124,7 @@ public class OrderService {
         return orderRepository.findById(id);
     }
 
-    public MyPage<Order> findOrder(Pageable pageable, Integer dayAgo, OrderStatus status) {
+    public CustomPage<Order> findOrder(Pageable pageable, Integer dayAgo, OrderStatus status, Sort sort) {
 
         Calendar calendar;
         Date start;
@@ -142,14 +142,16 @@ public class OrderService {
 
         start = calendar.getTime();
 
-        Page<Order> page = orderRepository.findAllOrderByTimeCreatedBetween(start, end, pageable);
-
-        MyPage<Order> myPage = MyPage.of(page);
-
-        return myPage
-                .filterAndClone(
+        List<Order> orders = orderRepository
+                .findAllOrderByTimeCreatedBetween(start, end, sort)
+                .stream()
+                .filter(
                         order -> status == null || order.getStatus() == status
-                );
+                )
+                .toList();
+
+        return CustomPage.of(orders, pageable);
+
     }
 
     public List<Order> getOrderInMonth(int month, int year) {
@@ -177,7 +179,12 @@ public class OrderService {
             endCalendar.set(Calendar.YEAR, year);
         }
 
-        return orderRepository.findAllByTimeCreatedBetween(startCalendar.getTime(), endCalendar.getTime());
+        return orderRepository
+                .findAllByTimeCreatedBetween(startCalendar.getTime(), endCalendar.getTime())
+                .stream()
+                .filter(
+                        order -> order.getStatus() == OrderStatus.COMPLETED
+                ).toList();
 
     }
 
@@ -259,5 +266,21 @@ public class OrderService {
         }
 
 
+    }
+
+    public CustomPage<Order> getOrderByUserLoggedIn(Pageable pageable, OrderStatus status) {
+
+        List<Order> page = orderRepository
+                .findAllByUserOrderByTimeCreatedDesc(
+                        userService.getUserLoggedIn(),
+                        pageable.getSort()
+
+                ).stream()
+                .filter(
+                        order -> status == null || order.getStatus() == status
+                ).toList();
+
+
+        return CustomPage.of(page, pageable);
     }
 }

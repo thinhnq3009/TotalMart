@@ -33,16 +33,8 @@ public class CategoryDashboardController extends BaseController {
     }
 
 
-    /**
-     *
-     * @param s number of page
-     * @param q number of row
-     * @return
-     */
     @GetMapping("/show")
     public String showCategoryInTable(
-            @RequestParam(required = false) Integer s,
-            @RequestParam(required = false) Integer q,
             Model model
     ) {
 
@@ -52,7 +44,8 @@ public class CategoryDashboardController extends BaseController {
     }
 
     @GetMapping("/new")
-    String getAllCategoriesBrands(Model model) {
+    String getFromCreateNewCategory(Model model) {
+        model.addAttribute("status", "Create");
         model.addAttribute("category", new Category());
         return "user/dashboard/add-category";
     }
@@ -66,6 +59,7 @@ public class CategoryDashboardController extends BaseController {
         Optional<Category> categoryOptional = categoryService.findById(id);
 
         if (categoryOptional.isPresent()) {
+            model.addAttribute("status", "Update");
             model.addAttribute("category", categoryOptional.get());
             return "user/dashboard/add-category";
         }
@@ -76,10 +70,13 @@ public class CategoryDashboardController extends BaseController {
     @PostMapping("/new")
     String addNewCategory(
             Category category,
+            String oldId,
             @RequestParam(required = false, value = "imgPoster") MultipartFile imgPoster
     ) {
 
-        Optional<Category> categoryOptional = categoryService.save(category, imgPoster);
+        logger.warn(oldId);
+
+        Optional<Category> categoryOptional = categoryService.upsert(category, imgPoster);
 
         if (categoryOptional.isPresent()) {
             return "redirect:/admin/categories/show";

@@ -73,7 +73,7 @@ public class User implements UserDetails {
 
     @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role = Role.ADMIN;
+    private Role role = Role.CUSTOMER;
 
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();

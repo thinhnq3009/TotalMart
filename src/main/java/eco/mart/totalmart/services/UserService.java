@@ -74,7 +74,7 @@ public class UserService implements UserDetailsService {
         return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
-    public User getUser() {
+    public User getUserLoggedIn() {
         return userRepository.findByUsername(getUsername()).orElse(null);
     }
 

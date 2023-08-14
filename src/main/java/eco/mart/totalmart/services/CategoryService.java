@@ -43,7 +43,7 @@ public class CategoryService {
         return categoryRepository.findByIdOrName(id, name);
     }
 
-    public Optional<Category> save(Category category, MultipartFile imgPoster) {
+    public Optional<Category> upsert(Category category, MultipartFile imgPoster) {
 
         logger.info("Category: " + category.getId());
 

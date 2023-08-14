@@ -3,38 +3,33 @@ package eco.mart.totalmart.module;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.lang.NonNull;
 
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class MyPage<T> extends PageImpl<T> {
+public class CustomPage<T> extends PageImpl<T> {
 
     private int next;
     private int prev;
+
     private int firstIndex;
     private int lastIndex;
 
 
-    public MyPage(List<T> content, Pageable pageable, long total) {
-        super(content, pageable, total);
-    }
 
-    public MyPage(List<T> content) {
+
+    public CustomPage(List<T> content) {
         super(content);
     }
 
-    public static <T> MyPage<T> of(List<T> content, Pageable pageable, long total) {
-        return new MyPage<>(content, pageable, total);
+    public CustomPage(List<T> content, Pageable pageable, long total) {
+        super(content, pageable, total);
     }
 
-    public static <T> MyPage<T> of(List<T> content) {
-        return new MyPage<>(content);
-    }
 
-    public static <T> MyPage<T> of(Page<T> page) {
-        return new MyPage<>(page.getContent(), page.getPageable(), page.getTotalElements());
+    public boolean hasPrev() {
+        return getNumber() > 0;
     }
 
     public int getPrev() {
@@ -50,17 +45,36 @@ public class MyPage<T> extends PageImpl<T> {
     }
 
     public int getLastIndex() {
-        return getNumber() * getSize() + getNumberOfElements() - 1;
+        if (getTotalElements() == 0)
+            return 0;
+        return getNumberOfElements()/getSize() ;
     }
 
-    public MyPage<T> filterAndClone( Predicate<? super T> filter) {
+    public CustomPage<T> filterAndClone(Predicate<? super T> filter) {
         Objects.requireNonNull(filter, "filter must not be null");
         List<T> ts = getContent()
                 .stream()
                 .filter(filter)
                 .toList();
-        return MyPage.of(ts);
+        return CustomPage.of(ts);
     }
 
+
+
+
+    // Static methods
+    public static <T> CustomPage<T> of(List<T> content) {
+        return new CustomPage<>(content);
+    }
+
+    public static <T> CustomPage<T> of(List<T> content, Pageable pageable) {
+        int total = content.size();
+        int first = (int)pageable.getOffset();
+        int last = Math.min(first + pageable.getPageSize(), total);
+        if (first > last) {
+            return new CustomPage<>(List.of(), pageable, 0);
+        }
+        return new CustomPage<>(content.subList(first,last), pageable,  content.size());
+    }
 
 }

@@ -25,7 +25,7 @@ public class ApiUsingForTest {
                 .builder()
                 .action("getUser")
                 .status("success")
-                .data(userService.getUser())
+                .data(userService.getUserLoggedIn())
                 .build()
                 .toResponseEntity();
     }

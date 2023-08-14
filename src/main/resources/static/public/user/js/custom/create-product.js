@@ -40,7 +40,7 @@ $(document).ready(function () {
 
         dropzone.options.maxFiles = 10;
         dropzone.options.maxFilesize = 10;
-        dropzone.options.acceptedFiles = ".jpeg,.jpg,.png,.gif";
+        dropzone.options.acceptedFiles = ".jpeg,.jpg,.png,.gif,.webp";
         dropzone.options.addRemoveLinks = true;
         dropzone.options.dictRemoveFile = "Xóa";
         dropzone.options.hiddenInputContainer = "#preview-image-dropzone";

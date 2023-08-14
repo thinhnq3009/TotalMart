@@ -25,7 +25,7 @@ public class CartService {
 
     public Cart addProductToCart(Product product, Integer quantity) throws UsernameNotFoundException {
 
-        User user = userService.getUser();
+        User user = userService.getUserLoggedIn();
         Cart cart;
         Optional<Cart> cartOtn = cartRepository.findByUserIdAndProductId(user.getId(), product.getId());
 
@@ -48,7 +48,7 @@ public class CartService {
 
 
     public List<Cart> getCartItems() {
-        User user = userService.getUser();
+        User user = userService.getUserLoggedIn();
         if (user == null) {
             return null;
         }
@@ -60,7 +60,7 @@ public class CartService {
 
 
         if (cartOtn.isPresent()) {
-            if (!userService.getUser().equals(cartOtn.get().getUser())) {
+            if (!userService.getUserLoggedIn().equals(cartOtn.get().getUser())) {
                 throw new NoPermissionException("You are not allowed to update this cart");
             }
             Cart cart = cartOtn.get();
@@ -73,7 +73,7 @@ public class CartService {
 
     boolean checkUserPermission(Long id) {
         Optional<Cart> cartOtn = cartRepository.findById(id);
-        return cartOtn.filter(cart -> userService.getUser().equals(cart.getUser())).isPresent();
+        return cartOtn.filter(cart -> userService.getUserLoggedIn().equals(cart.getUser())).isPresent();
 
     }
 
@@ -99,7 +99,7 @@ public class CartService {
      * @return
      */
     public List<Cart> findAllByUserIdAndIdIn(List<Long> cartIds) {
-        return cartRepository.findAllByUserIdAndIdIn(userService.getUser().getId(), cartIds);
+        return cartRepository.findAllByUserIdAndIdIn(userService.getUserLoggedIn().getId(), cartIds);
     }
 
     public List<Cart> findByIdIn(List<Long> cartId) {

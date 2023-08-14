@@ -2,7 +2,7 @@ package eco.mart.totalmart.controller.dashboard;
 
 import eco.mart.totalmart.controller.BaseController;
 import eco.mart.totalmart.entities.*;
-import eco.mart.totalmart.module.MyPage;
+import eco.mart.totalmart.module.CustomPage;
 import eco.mart.totalmart.repositories.*;
 import eco.mart.totalmart.services.CategoryGroupService;
 import eco.mart.totalmart.services.NotificationService;
@@ -10,7 +10,6 @@ import eco.mart.totalmart.services.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -34,9 +33,9 @@ public class ProductAdminController extends BaseController {
     @Autowired
     CategoryRepository categoryRepository;
 
-
     @Autowired
     PropertyRepository propertyRepository;
+
     @Autowired
     ProductService productService;
 
@@ -73,7 +72,7 @@ public class ProductAdminController extends BaseController {
 
         Pageable pageable = PageRequest.of(page == null ? 0 : page, size == null ? 10 : size);
 
-        MyPage<Product> products = productService.findAllByNameLike(key == null ? "" : key, pageable);
+        CustomPage<Product> products = productService.findAllByNameLike(key == null ? "" : key, pageable);
 
         model.addAttribute("pageContent", products);
         model.addAttribute("key", key == null ? "" : key);

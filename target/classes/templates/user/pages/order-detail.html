@@ -83,7 +83,9 @@
                         <!-- select option -->
                         <div class="d-md-flex" >
                             <!-- button -->
-                            <a th:href="|/order/confirm-received/${order.id}|" class="btn btn-info">Received</a>
+                            <a
+                                    th:if="${order.getStatusString() == 'Delivering'}"
+                                    th:href="|/order/confirm-received/${order.id}|" class="btn btn-info">Received</a>
                         </div>
                     </div>
                     <div class="mt-8">
@@ -91,11 +93,24 @@
                             <!-- address -->
                             <div class="col-lg-4 col-md-4 col-12">
                                 <div class="mb-6">
-                                    <h6>Customer Details</h6>
-                                    <p class="mb-1 lh-lg">
-                                        <span th:text="${order.user.username}"></span><br>
-                                        <span th:text="${order.user.email}"></span> <br>
-                                        <span th:text="${order.user.phone}"></span></p>
+                                    <h6>Payment Info</h6>
+                                    <div class="w-100">
+                                        <b class="w-50 d-inline-block">Payment method:</b> <span th:text="${order.paymentMethod.getName()}"></span>
+                                    </div>
+                                    <div class="w-100 mb-3">
+                                        <b class="w-50 d-inline-block">Status:</b> <span
+                                            th:text="${order.getPaymentStatus()}"></span>
+                                    </div>
+
+                                    <div class="w-100" th:if="${!order.paid}">
+                                        <b class="w-50 d-inline-block">Link pay:</b>
+                                        <a th:href="@{|/order/pay/${order.id}|}" class="btn btn-outline-primary btn-sm">Click to pay</a>
+                                    </div>
+<!--                                    <h6>Customer Details</h6>-->
+<!--                                    <p class="mb-1 lh-lg">-->
+<!--                                        <span th:text="${order.user.username}"></span><br>-->
+<!--                                        <span th:text="${order.user.email}"></span> <br>-->
+<!--                                        <span th:text="${order.user.phone}"></span></p>-->
                                     <!--                    <a href="#">View Profile</a>-->
                                 </div>
                             </div>
@@ -114,11 +129,11 @@
                             <div class="col-lg-4 col-md-4 col-12">
                                 <div class="mb-6">
                                     <h6>Order Details</h6>
-                                    <p class="mb-1 lh-lg">Order ID: <span class="ms-2 text-dark"
+                                    <p class="mb-1 lh-lg"> ID: <span class="ms-2 text-dark"
                                                                           th:text="${order.id}"></span><br>
-                                        Order Date: <span class="ms-2 text-dark"
+                                         Date: <span class="ms-2 text-dark"
                                                           th:text="${#dates.format(order.timeCreated, 'dd-MM-yyyy')}"></span><br>
-                                        Order Total: <span class="ms-2 text-dark"
+                                         Total: <span class="ms-2 text-dark"
                                                            th:attr="data-money=${order.totalBill}"></span></p>
                                 </div>
                             </div>

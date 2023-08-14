@@ -22,7 +22,7 @@ public class AddressService {
     }
 
     public Optional<Address> save(Address address) {
-        address.setUser(userService.getUser());
+        address.setUser(userService.getUserLoggedIn());
         return Optional.of(addressRepository.save(address));
     }
 

@@ -16,7 +16,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByIsDeletedFalse();
 
     @Query("select p from Product p where p.category.id = ?1")
-    Page<Product> findAllByCategory(String categoryId, Pageable pageable);
+    List<Product> findAllByCategory(String categoryId);
 
-    Page<Product> findAllByNameLike(String key, Pageable pageable);
+    List<Product> findAllByNameLike(String key);
+
+    @Query("select p from Product p where p.brand = ?1")
+    List<Product> findAllByBrand(String brand, Pageable pageable);
 }

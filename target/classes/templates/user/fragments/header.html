@@ -97,12 +97,15 @@
                     </div>
                 </div>
                 <div class="col-xxl-6 col-lg-5 d-none d-lg-block  flex-grow-1">
-                    <form action="#">
+                    <form action="/search" method="get" autocomplete="off">
                         <div class="input-group ">
-                            <input class="form-control rounded-3" type="search" value="Search for products"
-                                   id="searchInput">
+                            <input
+                                    th:value="${keyword == null ? '' : keyword}"
+                                    class="form-control rounded-3" type="text" name="keyword"
+                                    placeholder="Search for products"
+                                    id="searchInput">
                             <span class="input-group-append">
-                                    <button class="btn bg-white border border-start-0 ms-n10" type="button">
+                                    <button class="btn bg-white border border-start-0 ms-n10" type="submit">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                              viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                              stroke-linecap="round" stroke-linejoin="round"
@@ -152,12 +155,12 @@
 
                                 <ul class="list-unstyled px-2 py-3">
                                     <li>
-                                        <a class="dropdown-item" href="#!">
-                                            Home
+                                        <a class="dropdown-item" href="/order/all">
+                                            My Orders
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#!">
+                                        <a class="dropdown-item" href="/profile">
                                             Profile
                                         </a>
                                     </li>
@@ -173,8 +176,8 @@
                                         </a>
                                     </li>
                                 </ul>
-                                <div class="border-top px-5 py-3">
-                                    <a href="/logout">Log Out</a>
+                                <div class="border-top ">
+                                    <a class="d-block px-5 py-3" href="/logout">Log Out</a>
                                 </div>
                             </div>
 

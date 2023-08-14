@@ -2,9 +2,11 @@ package eco.mart.totalmart.controller.rest;
 
 import eco.mart.totalmart.entities.Cart;
 import eco.mart.totalmart.entities.Product;
+import eco.mart.totalmart.entities.User;
 import eco.mart.totalmart.module.ResponseObject;
 import eco.mart.totalmart.services.CartService;
 import eco.mart.totalmart.services.ProductService;
+import eco.mart.totalmart.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +26,8 @@ public class CartRestController {
     @Autowired
     CartService cartService;
 
+    @Autowired
+    UserService userService;
 
     @PostMapping("/add")
     ResponseEntity<ResponseObject> addProductToCart(
@@ -38,22 +42,33 @@ public class CartRestController {
                 .status("error")
                 .build();
 
+        // Check login
+        if (userService.getUserLoggedIn() == null) {
+             return responseObject
+                    .message("Please login to add to cart")
+                    .toResponseEntity(HttpStatus.NOT_FOUND);
+        }
+
+        // Check product id
         Optional<Product> product = productService.findById(productId);
 
         if (product.isEmpty())
             return responseObject.message("Product not found").toResponseEntity(HttpStatus.NOT_FOUND);
 
+
+        // Adding product to cart
         try {
             cartService.addProductToCart(product.get(), quantity);
             return responseObject
                     .toBuilder()
                     .message("Product added to cart")
-                    .data(product.get())
                     .status("success")
                     .build()
                     .toResponseEntity(HttpStatus.OK);
         } catch (UsernameNotFoundException e) {
-            return responseObject.message("Please login to add to cart").toResponseEntity(HttpStatus.NOT_FOUND);
+            return responseObject
+                    .message("Please login to add to cart")
+                    .toResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
@@ -74,7 +89,6 @@ public class CartRestController {
                     .map((cart) -> responseObject
                             .toBuilder()
                             .message("Cart updated")
-                            .data(cart)
                             .status("success")
                             .build()
                             .toResponseEntity(HttpStatus.OK))

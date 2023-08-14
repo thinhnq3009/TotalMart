@@ -26,7 +26,6 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @ManyToOne
     @JoinColumn(name = "userId", nullable = false)
     @JsonIgnore

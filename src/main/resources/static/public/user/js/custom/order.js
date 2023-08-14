@@ -1,16 +1,44 @@
 $(document).ready(function () {
-    $("#dayAgo").change(function () {
-        const value = $("#dayAgo").val();
-        const url = new URL(window.location.href);
-        url.searchParams.set('dayAgo', value);
-        location.href = url.href;
-    });
-    $("#status").change(function () {
-        const value = $("#status").val();
-        const url = new URL(window.location.href);
-        url.searchParams.set('status', value);
-        location.href = url.href;
-    });
+    // $("#dayAgo").change(function () {
+    //     const value = $("#dayAgo").val();
+    //     const url = new URL(window.location.href);
+    //     url.searchParams.set('dayAgo', value);
+    //     location.href = url.href;
+    // });
+    // $("#status").change(function () {
+    //     const value = $("#status").val();
+    //     const url = new URL(window.location.href);
+    //     url.searchParams.set('status', value);
+    //     location.href = url.href;
+    // });
+
+    $.updateUrl({
+        elementSelector: "#dayAgo",
+        getParams: (element) => {
+            return [{
+                name: 'dayAgo',
+                value: element.val()
+            }, {
+                name: 'page',
+                value: 0
+            }]
+        },
+        eventName: 'change'
+    })
+
+    $.updateUrl({
+        elementSelector: "#status",
+        getParams: (element) => {
+            return [{
+                name: 'status',
+                value: element.val()
+            }, {
+                name: 'page',
+                value: 0
+            }]
+        },
+        eventName: 'change'
+    })
 
     $.clickHandler({
         tagSelector: "button",

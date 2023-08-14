@@ -4,26 +4,20 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eco.mart.totalmart.entities.Image;
 import eco.mart.totalmart.entities.Product;
-import eco.mart.totalmart.handler.UploadHandler;
-import eco.mart.totalmart.module.MyPage;
+import eco.mart.totalmart.module.CustomPage;
 import eco.mart.totalmart.repositories.ImageRepository;
 import eco.mart.totalmart.repositories.ProductRepository;
 import jakarta.servlet.ServletContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -119,19 +113,24 @@ public class ProductService {
         return product;
     }
 
-    public MyPage<Product> findAll(Pageable pageable) {
-        Page<Product> page = productRepository.findAll(pageable);
-        return MyPage.of(page);
+    public CustomPage<Product> findAll(Pageable pageable) {
+        List<Product> page = productRepository.findAll();
+        return CustomPage.of(page, pageable);
 
     }
 
-    public MyPage<Product> findByCategory(String categoryId, Pageable pageable) {
-        Page<Product> page = productRepository.findAllByCategory(categoryId, pageable);
-        return MyPage.of(page);
+    public CustomPage<Product> findByCategory(String categoryId, Pageable pageable) {
+        List<Product> page = productRepository.findAllByCategory(categoryId);
+        return CustomPage.of(page, pageable);
     }
 
-    public MyPage<Product> findAllByNameLike(String key , Pageable pageable) {
-        Page<Product> page = productRepository.findAllByNameLike( "%" + key + "%", pageable);
-        return MyPage.of(page);
+    public CustomPage<Product> findAllByNameLike(String key , Pageable pageable) {
+        List<Product> page = productRepository.findAllByNameLike( "%" + key + "%");
+        return CustomPage.of(page, pageable);
+    }
+
+    public CustomPage<Product> findByBrand(String brand, Pageable pageable) {
+        List<Product> page = productRepository.findAllByBrand(brand, pageable);
+        return CustomPage.of(page, pageable);
     }
 }

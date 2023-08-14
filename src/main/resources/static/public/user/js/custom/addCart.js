@@ -34,12 +34,10 @@ $(document).ready(function () {
             notificer.addSuccess(message);
         },
         error: function (error) {
-            error.responseJSON = error.responseJSON || {};
+            error.responseJSON = error.responseJSON || error;
             console.log(error);
             const message = error.responseJSON.message;
             notificer.addError(message);
         }
     })
-
-
 })

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>FreshCart - eCommerce HTML Template</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+          content="FreshCart is a beautiful eCommerce HTML template specially designed for multipurpose shops & online stores selling products. Most Loved by Developers to build a store website easily.">
+    <meta content="Codescandy" name="author"/>
+
+
+    <!-- Favicon icon-->
+    <link rel="shortcut icon" type="image/x-icon" href="/public/user/images/favicon/favicon.ico">
+
+
+    <!-- Libs CSS -->
+    <link href="/public/user/libs/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/feather-webfont/dist/feather-icons.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick.css" rel="stylesheet"/>
+    <link href="/public/user/libs/slick-carousel/slick/slick-theme.css" rel="stylesheet"/>
+    <link href="/public/user/libs/simplebar/dist/simplebar.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/nouislider/dist/nouislider.min.css" rel="stylesheet">
+    <link href="/public/user/libs/tiny-slider/dist/tiny-slider.css" rel="stylesheet">
+    <link href="/public/user/libs/dropzone/dist/min/dropzone.min.css" rel="stylesheet"/>
+    <link href="/public/user/libs/prismjs/themes/prism-okaidia.min.css" rel="stylesheet">
+
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="/public/user/css/theme.min.css">
+</head>
+
+<body>
+
+<!-- navigation -->
+
+<!-- navigation -->
+<header th:replace="~{/user/fragments/header :: large-header}"></header>
+<nav th:replace="~{/user/fragments/navbar :: navbar}"></nav>
+
+
+<main>
+    <div class=" mt-8 mb-lg-14 mb-8">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row gx-10">
+                <!-- col -->
+                <section class="col-lg-12 col-md-12">
+                    <!-- list icon -->
+                    <div class="d-lg-flex justify-content-between align-items-center">
+                        <div class="mb-3 mb-lg-0">
+                            <p class="mb-0"><span class="text-dark">24 </span> Products found </p>
+                        </div>
+
+                        <!-- icon -->
+                        <div class="">
+
+
+                            <div class="d-flex">
+                                <!-- select option -->
+                                <div class="input-group me-3">
+                                    <label class="input-group-text">Show</label>
+                                    <select class="form-select">
+                                        <option selected>50</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <!-- select option -->
+                                    <label class="input-group-text">Sort by:</label>
+                                    <select class="form-select">
+                                        <option
+                                                th:each="item : ${filters}"
+                                                th:text="${item.value}"
+                                                th:value="${item.name()}"></option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- row -->
+                    <div class="row g-4 row-cols-xl-6 row-cols-lg-4 row-cols-2 row-cols-md-3 mt-2 mb-3">
+
+                        <div class="w-100"
+                             th:with="isShow=${pageContent.totalElements == 0}, emptyMessage='Product not found'">
+                            <div th:replace="~{/user/fragments/empty-box :: condition-empty-box}"></div>
+                        </div>
+
+                        <!-- col -->
+                        <div th:each="item : ${pageContent}" class="col">
+                            <!-- card -->
+                            <div class="card card-product h-100">
+                                <div class="card-body d-flex flex-column justify-content-between">
+
+                                    <!-- badge -->
+                                    <div>
+                                        <div class="text-center position-relative ">
+                                            <div class=" position-absolute top-0 start-0">
+                                                <span class="badge bg-danger">Sale</span>
+                                            </div>
+                                            <a href="shop-single.html">
+                                                <img
+                                                        th:src="@{${item.poster}}"
+                                                        th:alt="${item.name}"
+                                                        class="w-100 mb-2"
+                                                ></a>
+                                            <!-- action btn -->
+                                        </div>
+                                        <!-- heading -->
+                                        <div class="text-small mb-1">
+                                            <a th:href="${item.category.getUrl()}"
+                                               class="text-decoration-none text-muted">
+                                                <small th:text="${item.category.name}"></small>
+                                            </a>
+                                        </div>
+                                        <h2 class="fs-6">
+                                            <a
+                                                    th:text="${item.name}"
+                                                    th:href="@{/detail/{id}(id=${item.id})}"
+                                                    class="text-inherit text-decoration-none"></a>
+                                        </h2>
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <!-- rating -->
+                                            <small class="text-warning"> <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-fill"></i>
+                                                <i class="bi bi-star-half"></i></small> <span class="text-muted small">4.5(149)</span>
+                                        </div>
+                                        <!-- price -->
+                                        <div class="d-flex justify-content-between align-items-center mt-3">
+                                            <div>
+                                                <span class="text-dark" th:attr="data-money=${item.basePrice}"></span>
+                                                <span
+                                                        th:attr="data-money=${item.basePrice}"
+                                                        class="text-decoration-line-through text-muted"></span>
+                                            </div>
+                                            <!-- btn -->
+                                            <div>
+                                                <button
+                                                        th:attr="btn-add-cart=${item.id}"
+                                                        class="btn btn-primary btn-sm">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                         viewBox="0 0 24 24" fill="none"
+                                                         stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                                         stroke-linejoin="round"
+                                                         class="feather feather-plus">
+                                                        <line x1="12" y1="5" x2="12" y2="19"></line>
+                                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                    </svg>
+                                                    Add
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- col -->
+
+                    </div>
+                    <div th:replace="~{/user/fragments/dashboard/footer-table :: pagination}"></div>
+                </section>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<footer th:replace="~{/user/fragments/footer :: footer}"></footer>
+
+<!-- Javascript-->
+<!-- Libs JS -->
+<script src="/public/user/libs/jquery/dist/jquery.min.js"></script>
+<script src="/public/user/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/public/user/libs/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="/public/user/libs/slick-carousel/slick/slick.min.js"></script>
+<script src="/public/user/libs/simplebar/dist/simplebar.min.js"></script>
+<script src="/public/user/libs/nouislider/dist/nouislider.min.js"></script>
+<script src="/public/user/libs/wnumb/wNumb.min.js"></script>
+<script src="/public/user/libs/rater-js/index.js"></script>
+<script src="/public/user/libs/prismjs/prism.js"></script>
+<script src="/public/user/libs/prismjs/components/prism-scss.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/toolbar/prism-toolbar.min.js"></script>
+<script src="/public/user/libs/prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+<script src="/public/user/libs/tiny-slider/dist/min/tiny-slider.js"></script>
+<script src="/public/user/libs/dropzone/dist/min/dropzone.min.js"></script>
+<script src="/public/user/libs/flatpickr/dist/flatpickr.min.js"></script>
+<script src="/public/user/libs/inputmask/dist/jquery.inputmask.min.js"></script>
+<div th:replace="~{/user/fragments/notification :: full-container}"></div>
+<!-- Theme JS -->
+<script src="/public/user/js/theme.min.js"></script>
+<script src="/public/user/js/custom/required.js"></script>
+<script src="/public/user/js/custom/clickHandler.js"></script>
+<script src="/public/user/js/custom/money-formatter.js"></script>
+<script src="/public/user/js/custom/addCart.js"></script>
+<script src="/public/user/js/custom/pagination.js"></script>
+
+<!-- choose one -->
+
+
+</body>
+
+</html>

@@ -82,7 +82,7 @@
                                     <select id="dayAgo" class="form-select">
                                         <option th:selected="${dayAgo == 1}" value="1">Today</option>
                                         <option th:selected="${dayAgo == 7}" value="7">7 day ago</option>
-                                        <option th:selected="${dayAgo == 0}" value="0">14 day ago</option>
+                                        <option th:selected="${dayAgo == 14}" value="14">14 day ago</option>
                                         <option th:selected="${dayAgo == 30}" value="30">30 day ago</option>
                                         <option th:selected="${dayAgo == 9999}" value="9999">All orders</option>
                                     </select>
@@ -188,7 +188,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div th:replace="~{/user/fragments/dashboard/footer-table :: pagination}"></div>
+                        <div th:replace="~{/user/fragments/dashboard/footer-table :: footer-table}"></div>
                     </div>
 
                 </div>
